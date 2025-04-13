@@ -11,7 +11,7 @@
         <img src="source/images/istockphoto-1267153161-612x612.jpg" class="voting-img">
     </div>
     <div class="main">
-        <div class="login hidden">
+        <div class="login">
             <h1>welcome officers</h1>
             <form class="login-form">
                 <label for="username" class="Name">Name</label>
@@ -23,7 +23,52 @@
             </form>
         </div>
         <div class="signup">
-
+            <div class="signup-heading">
+                <h1>Signup</h1>
+            </div>
+            <form class="signup-form">
+              <div class="container">
+                <div class="heading-container">
+                    <p class="signup-heading">full Name</p>
+                </div>
+                <div class="detail-container line "> 
+                <label for="first name"class ="signup-details">First Name</label>
+                <input type="text" class="signup-input" name="First name">
+                <label for="last name"class ="signup-details">Last Name</label>
+                <input type="text" class="signup-input" name="Last name">
+                </div>   
+            </div>
+            <div class="container">
+                <div class="heading-container">
+                    <p class="signup-heading">Personel details</p>
+                </div>
+                <div class="detail-container line"> 
+                <label><input type="radio" name="gender" value="male"> Male</label>    
+                <label><input type="radio" name="gender" value="female"> Female</label>
+                <label><input type="radio" name="gender" value="other"> Other</label>
+                <label for="dob"class ="signup-details">Date Of Birth</label>
+                <input type="date" id="dob" class="signup-input" name="Last name">
+                <label for="home-distict" class="home-distict">home-distict</label>
+                <select name="home-distict" id="home-distict" class="signup-input">
+                <option value="" disabled selected>Select your gender</option>
+                <option value="male">surajpur</option>
+                <option value="female">ambikapur</option>
+                <option value="other">Other</option>
+                </select>
+                </div> 
+            </div>
+            <div class="container">
+                <div class="heading-container">
+                    <p class="signup-heading">full Name</p>
+                </div>
+                <div class="detail-container line "> 
+                <label for="first name"class ="signup-details">First Name</label>
+                <input type="text" class="signup-input" name="First name">
+                <label for="last name"class ="signup-details">Last Name</label>
+                <input type="text" class="signup-input" name="Last name">
+                </div>   
+            </div>
+        </form>
         </div>
     </div>
     <script src="edms.js"></script>
