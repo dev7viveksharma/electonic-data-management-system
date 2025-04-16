@@ -1,6 +1,6 @@
 body {
     background: #0d475e;
-    background: linear-gradient(140deg, rgba(13, 71, 94, 1) 0%, rgba(38, 181, 181, 1) 69%, rgba(41, 77, 77, 1) 100%);
+    background: linear-gradient(140deg, #FF671F, rgb(255, 255, 255) 50%,#046A38 100%);
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -30,8 +30,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-left: 1px solid rgba(0, 0, 0, 0.5);
-    border-right: 1px solid rgba(0, 0, 0, 0.5);
     position: relative;
 }
 
@@ -60,9 +58,8 @@ body {
     -ms-overflow-style: none;  
     flex-direction: column; /* Stack heading and form vertically */
     align-items: center;     /* Center horizontally */
-    background:white;
-    border-left: 0.5px solid rgba(0,0,0,0.5);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    background:#ffff;
+    box-shadow: 5px 14px 16px rgba(0, 0, 0, 1);
     height: 100%;
     width: 100%;
     z-index: 2;
@@ -144,7 +141,7 @@ body {
 .signup .signup-bar{
     display: flex;
     position: sticky;
-    background-color:whitesmoke;
+    background-color: #ffffff;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -166,7 +163,10 @@ body {
 }
 
 .arrow i{
+    height: 2rem;
+    width: 2rem;
     font-size: 2rem;
+    color: black;
 }
 
 .signup .main_heading h1{
@@ -190,9 +190,16 @@ body {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    background-color:whitesmoke;
     width: 100%;
     padding:1rem 0rem 1rem 0rem ;
+}
+
+.detail-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 20px;
+    padding: 0 1rem;
+    align-items: center;
 }
 
 .signup-heading {
@@ -213,18 +220,36 @@ body {
 
 }
 
-.signup-details{
+.signup-details {
     font-weight: 600;
-    padding-left:0.5rem ;
-    padding: 0rem 0.5rem 0rem 0.5rem;
+    font-size: 0.95rem;
+    padding: 0.1rem 0.5rem;
 }
 
-.signup-input{
-    height: 1.2rem;
-    width: 10rem;
-    padding:0.2rem 0.2rem 0.2rem 0.2rem ;
-    border:1px solid rgba(0,0,0,0.5);
+.signup-input,
+.signup-selection {
+    height: 1.8rem;
+    width: 100%;
+    max-width: 250px; /* Keeps inputs from getting too wide */
+    padding: 0.2rem 0.4rem;
+    font-size: 0.95rem;
+    border: 1px solid rgba(0,0,0,0.5);
     border-radius: 0.3rem;
+    box-sizing: border-box;
+}
+
+.emp_photo {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+.signup-image{
+    border: 1px solid black;
+    height:8rem;
+    width:6rem;
+
 }
 
 .gender p{
@@ -234,23 +259,22 @@ body {
     padding: 0rem 0.5rem 0rem 0.5rem;
 }
 
-.detail-container{
-    display: flex;
-    flex-wrap: wrap;
-    overflow: auto;
-}
-
 
 .signup-form .signup_btn{
-
     height: 3rem;
     width: 10rem;
+    margin-top: 1.5rem;
+    align-self: center;
     background-color: #007BFF;
     color: white;
     font-size: 1.2rem;
     font-weight: 500;
     border: 0.1rem solid black;
     border-radius: 1rem;
+}
+
+.s-margin{
+    margin:0.5rem;
 }
 .hidden{
     display: none;
