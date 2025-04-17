@@ -4,336 +4,362 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>welcome to EDM System</title>
-    <link rel="stylesheet" href="h *ttps://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style/edms.css">
 </head>
-<body>
-    <div class="img-container ">
-        <img src="source/images/edms image.png" class="voting-img">
-    </div>
-    <div class="main">
-        <div class="login hidden">
-            <h1>welcome officers</h1>
+<body >
+    <div class="l_main ">
+        <div class="img">
+            <img src="./source/images/edms image.png" alt="EDMS Illustration" class="image">
+        </div>
+        <div class="login">
+            <h1>Welcome Officers</h1>
             <form class="login-form">
                 <label for="username" class="Name">Name</label>
-                <input type="text" id="username" name="username" placeholder="enter your Name"class="login-input">
-                <label for="password" class="password" >password</label>
-                <input type="password" id="password" name="password" placeholder="enter your Password" class="login-input">
-                <button type="submit" class="login-btn">log-in</button>
+                <input type="text" id="username" name="username" placeholder="Enter your Name" class="login-input">
+                
+                <label for="emp_code" class="empcode">Employee code</label>
+                <input type="number" id="emp-code" name="ecode" placeholder="Enter your code" class="login-input">  
+                <label for="password" class="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your Password" class="login-input">
+                
+                <button type="submit" class="login-btn  js_login_btn">Log In</button>
                 <p>Don't have an account? <span id="showSignup" class="toggle">Create New Account</span></p>
             </form>
         </div>
-        <div class="signup">
-            <div class="signup-bar">
-                <div class="arrow">
-                    <i class="fa-regular fa-circle-left"></i>
-                </div>
-                <div class="main_heading">
-                    <h1>Signup</h1>
-                </div>
-            </div>
-            
-            <form class="signup-form">
+    </div>
 
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Personel details</p>
-                </div>
-                <div class="detail-container line "> 
-                <div class="Name s-margin">
-                    <label for="first name"class ="signup-details">First Name</label>
-                    <input type="text" class="signup-input" name="First name">
-                    <label for="last name"class ="signup-details">Last Name</label>
-                    <input type="text" class="signup-input" name="Last name">
-                </div>
 
-                <div class="Emp_photo">
-                    <label for="Photo"class ="signup-details">image</label>
-                    <input type="file" class="signup-image" id="Date_Basic_pay" name="Date_Basic_pay" accept="image/*">
+
+    <div class="signup_screen hidden"> 
+
+        <div class="img-container">
+            <img src="./source/images/edms image.png" alt="" class="s-img" >
+        </div>
+        
+        <div class="main">
+            <div class="signup">
+                <div class="signup-bar">
+                    <div class="arrow">
+                        <i class="fa-solid fa-arrow-left  js_back"></i>
+                    </div>
+                    <div class="main_heading">
+                        <h1>Signup</h1>
+                    </div>
                 </div>
                 
-                <div class="pass s-margin">
-                    <label for="password"class ="signup-details">Password</label>
-                    <input type="password" class="signup-input" name="password">
-                    <label for="c_password"class ="signup-details">Confirm Password</label>
-                    <input type="password" class="signup-input" name="c_password">
-                </div>
-
-                <div class="m_number s-margin">
-                    <label for="mobile"class ="signup-details">Mobile Number</label>
-                    <input type="number" class="signup-input" id="mobile" name="mobile_number">
-                </div> 
-
-
-                <div class="dob s-margin">
-                    <label for="dob"class ="signup-details">Date Of Birth</label>
-                    <input type="date" id="dob" class="signup-input" name="date_of_birth">
-                </div>
-
-                <div class="home-district-page s-margin">
-                    <label for="home-district" class="signup-details">home-distict</label>
-                    <select name="home-district" id="home-district" class="signup-selection">
-                        <option value="" disabled selected>Select your gender</option>
-                        <option value="surajpur">surajpur</option>
-                        <option value="ambikapur">ambikapur</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-
-                <div class="gender s-margin">
-                    <p>select your gender</p>
-                    <label class ="signup-details"><input type="radio" name="gender" value="male"> Male</label>    
-                    <label class ="signup-details"><input type="radio" name="gender" value="female"> Female</label>
-                    <label class ="signup-details"><input type="radio" name="gender" value="other"> Other</label>
-                </div>
-            </div> 
-            </div>
-            
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Disability Details</p>
-                </div>
-                <div class="detail-container line ">                 
-                <div class="disabled s-margin">
-                    <p>Differently-abled/Disabled</p>
-                    <label for="first name"class ="signup-details"><input type="radio" name="disabled" value="yes">yes</label>
-                    <label for="disablility"class ="signup-details"><input type="radio" name="disabled" value="no">no</label>
-                </div>
-
-                <div class="disability s-margin">
-                    <label for="type-of-disabilities" class="signup-details">Type of disability</label>
-                    <input type="text" id="type-of-disabilities" class="signup-input" name="types-of-disability">
-                    <label for="percentage-of-disability" class="signup-details">Percentage of Disability</label>
-                    <input type="number" id="percentage-of-disability" class="signup-input" name="percentage-of-disability">
-                </div>
-
-                <div class="certificate s-margin">
-                    <p>Disability Certificate</p>
-                    <label for="myFile">Upload a file:</label>
-                    <input type="file" id="myFile" name="myFile">
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Job Information</p>
-                </div>
-                <div class="detail-container line "> 
-                    <div class="job-data s-margin">
-                        <label for="Designation" class="signup-details">Designation</label>
-                        <select name="Designation" id="Designation" class="signup-selection">
-                            <option value="" disabled selected>Select your Designation</option>
-                            <option value="surajpur">surajpur</option>
-                            <option value="ambikapur">ambikapur</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div> 
-
-                    <div class="Service s-margin">
-                        <label for="Type-of-service" class="signup-details">Type Of Service</label>
-                        <select name="Type-of-service" id="Type-of-service" class="signup-selection">
-                            <option value="" disabled selected>Select your service Type</option>
-                            <option value="surajpur">surajpur</option>
-                            <option value="ambikapur">ambikapur</option>
-                            <option value="other">Other</option>
-                        </select>
+                <form class="signup-form">
+    
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Personel details</p>
                     </div>
-
-                    <div class="class s-margin">
-                        <label for="Class" class="signup-details">category/class</label>
-                        <select name="class" id="Class" class="signup-selection">
-                            <option value="" disabled selected>Select your class</option>
-                            <option value="first class">first class</option>
-                            <option value="second class">second class</option>
-                            <option value="third class">third class</option>
-                            <option value="fourth class">fourth class</option>
-                        </select>
+                    <div class="detail-container line ">
+    
+                    <div class="Name s-margin">
+    
+                        <div class="form-group">
+                            <label for="first name"class ="signup-details">First Name</label>
+                            <input type="text" class="signup-input" name="First name">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="last name"class ="signup-details">Last Name</label>
+                            <input type="text" class="signup-input" name="Last name">
+                        </div>
+                    </div>
+    
+                    <div class="Emp_photo">
+                        <label for="empUpload" class="upload-box">
+                          <i class="fas fa-cloud-upload-alt"></i>
+                        </label>
+                        <input type="file" id="empUpload" accept="image/*">
+                      </div>
+    
+    
+                    <div class="pass s-margin">
+                        <label for="password"class ="signup-details">Password</label>
+                        <input type="password" class="signup-input" name="password">
+                        <label for="c_password"class ="signup-details">Confirm Password</label>
+                        <input type="password" class="signup-input" name="c_password">
+                    </div>
+    
+                    <div class="m_number s-margin">
+                        <label for="mobile"class ="signup-details">Mobile Number</label>
+                        <input type="number" class="signup-input" id="mobile" name="mobile_number" placeholder="+91">
                     </div> 
     
-                    <div class="job-payment-scale s-margin">
-                        <label for="Pay-Scale" class="signup-details">Pay Scale</label>
-                        <input type="number" id="Pay-Scale" class="signup-input" name="Pay-Scale" min="10000" max="100000">
+    
+                    <div class="dob s-margin">
+                        <label for="dob"class ="signup-details">Date Of Birth</label>
+                        <input type="date" id="dob" class="signup-input" name="date_of_birth">
                     </div>
-
-                    <div class="supervisory s-margin">
-                        <label for="executive" class="signup-details">Gazetted/Executive/Supervisory</label>
-                        <input type="text" id="executive" class="signup-input" name="Gazetted/Executive/Supervisory">
-                    </div>
- 
-                   <div class="department s-margin">
-                       <label for="organization" class="signup-details">Department/Organization</label>
-                       <select name="organization" id="organization" class="signup-selection">
-                            <option value="" disabled selected>Select your department</option>
-                            <option value="first class">first class</option>
-                            <option value="second class">second class</option>
-                            <option value="third class">third class</option>
-                            <option value="fourth class">fourth class</option>
-                       </select>
-                    </div>
-
-                    <div class="office s-margin">
-                        <label for="office" class="signup-details">office</label>
-                        <select name="office" id="office" class="signup-selection">
-                            <option value="" disabled selected>Select your office</option>
-                            <option value="first class">first class</option>
-                            <option value="second class">second class</option>
-                            <option value="third class">third class</option>
-                            <option value="fourth class">fourth class</option>
+    
+                    <div class="home-district-page s-margin">
+                        <label for="home-district" class="signup-details">home-distict</label>
+                        <select name="home-district" id="home-district" class="signup-selection">
+                            <option value="" disabled selected>Select your gender</option>
+                            <option value="surajpur">surajpur</option>
+                            <option value="ambikapur">ambikapur</option>
+                            <option value="other">Other</option>
                         </select>
                     </div>
-
-                    <div class="Goverment s-margin">
-                        <label for="govern" class="signup-details">Goverment</label>
-                        <select name="govern" id="govern" class="signup-selection">
-                            <option value="" disabled selected>Select your Goverment</option>
-                            <option value="state">state</option>
-                            <option value="central">central</option>
-                            <option value="distict">district</option>
-                       </select>
+    
+                    <div class="gender s-margin">
+                        <p class="p-heading">select your gender</p>
+                        <label class ="signup-details"><input type="radio" name="gender" value="male" class="gender-radio"> Male</label>    
+                        <label class ="signup-details"><input type="radio" name="gender" value="female" class="gender-radio"> Female</label>
+                        <label class ="signup-details"><input type="radio" name="gender" value="other" class="gender-radio"> Other</label>
+                    </div>            
+                </div> 
+                </div>
+                
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Disability Details</p>
                     </div>
-
-                    <div class="treasury-code s-margin">
-                        <label for="Treasury-Employee-Code" class="signup-details">Treasury Employee Code</label>
-                        <input type="number" id="Treasury-Employee-Code" class="signup-input" name="Treasury-Employee-Code">
+                    <div class="detail-container line ">                 
+                    <div class="disabled s-margin">
+                        <p class="p-heading">Differently-abled/Disabled</p>
+                        <label for="first name"class ="signup-details"><input type="radio" name="disabled" value="yes">yes</label>
+                        <label for="disablility"class ="signup-details"><input type="radio" name="disabled" value="no">no</label>
                     </div>
-
-                    <div class="emp-status s-margin">
-                        <label for="Employee-status" class="signup-details">Employee status</label>
-                        <select name="Employee-status" id="Employee-status" class="signup-selection">
-                            <option value="" disabled selected>Select your Current Status</option>
-                            <option value="state">state</option>
-                            <option value="central">central</option>
-                            <option value="distict">district</option>
-                        </select>
+    
+                    <div class="disability s-margin">
+                        <label for="type-of-disabilities" class="signup-details">Type of disability</label>
+                        <input type="text" id="type-of-disabilities" class="signup-input" name="types-of-disability">
+                        <label for="percentage-of-disability" class="signup-details">Percentage of Disability</label>
+                        <input type="number" id="percentage-of-disability" class="signup-input" name="percentage-of-disability">
                     </div>
-
-                    <div class="DOR s-margin">
-                        <label for="Retirement-Date" class="signup-details">Date of Retirement</label>
-                        <input type="date" id="Retirement-Date" class="signup-input" name="Date-of-Retirement">
+    
+                    <div class="certificate s-margin">
+                        <p class="p-heading">Disability Certificate</p>
+                        <label for="myFile">Upload a file:</label>
+                        <input type="file" id="myFile" name="myFile" accept=".pdf">
                     </div>
-            </div>
-
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Election Duty Experience</p>
                 </div>
-                <div class="detail-container line "> 
-                    <div class="exp-voting-duties s-margin">
-                        <p>Experience in Voting Duties</p>
-                        <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="disabled" value="yes">yes</label>
-                        <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="disabled" value="no">no</label>
+    
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Job Information</p>
                     </div>
-                <div class="exp-counting-duties s-margin">
-                    <p>Experience in Counting Duties</p>
-                    <label for="exp_counting_duties"class ="signup-details"><input type="radio" name="disabled" value="yes">yes</label>
-                    <label for="exp_counting_duties"class ="signup-details"><input type="radio" name="disabled" value="no">no</label>
+                    <div class="detail-container line "> 
+                        <div class="job-data s-margin">
+                            <label for="Designation" class="signup-details">Designation</label>
+                            <select name="Designation" id="Designation" class="signup-selection">
+                                <option value="" disabled selected>Select your Designation</option>
+                                <option value="surajpur">surajpur</option>
+                                <option value="ambikapur">ambikapur</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div> 
+    
+                        <div class="Service s-margin">
+                            <label for="Type-of-service" class="signup-details">Type Of Service</label>
+                            <select name="Type-of-service" id="Type-of-service" class="signup-selection">
+                                <option value="" disabled selected>Select your service Type</option>
+                                <option value="surajpur">surajpur</option>
+                                <option value="ambikapur">ambikapur</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+    
+                        <div class="class s-margin">
+                            <label for="Class" class="signup-details">category/class</label>
+                            <select name="class" id="Class" class="signup-selection">
+                                <option value="" disabled selected>Select your class</option>
+                                <option value="first class">first class</option>
+                                <option value="second class">second class</option>
+                                <option value="third class">third class</option>
+                                <option value="fourth class">fourth class</option>
+                            </select>
+                        </div> 
+        
+                        <div class="job-payment-scale s-margin">
+                            <label for="Pay-Scale" class="signup-details">Pay Scale</label>
+                            <input type="number" id="Pay-Scale" class="signup-input" name="Pay-Scale" min="10000" max="100000">
+                        </div>
+    
+                        <div class="supervisory s-margin">
+                            <label for="executive" class="signup-details">Gazetted/Executive/Supervisory</label>
+                            <input type="text" id="executive" class="signup-input" name="Gazetted/Executive/Supervisory">
+                        </div>
+     
+                       <div class="department s-margin">
+                           <label for="organization" class="signup-details">Department/Organization</label>
+                           <select name="organization" id="organization" class="signup-selection">
+                                <option value="" disabled selected>Select your department</option>
+                                <option value="first class">first class</option>
+                                <option value="second class">second class</option>
+                                <option value="third class">third class</option>
+                                <option value="fourth class">fourth class</option>
+                           </select>
+                        </div>
+    
+                        <div class="office s-margin">
+                            <label for="office" class="signup-details">office</label>
+                            <select name="office" id="office" class="signup-selection">
+                                <option value="" disabled selected>Select your office</option>
+                                <option value="first class">first class</option>
+                                <option value="second class">second class</option>
+                                <option value="third class">third class</option>
+                                <option value="fourth class">fourth class</option>
+                            </select>
+                        </div>
+    
+                        <div class="Goverment s-margin">
+                            <label for="govern" class="signup-details">Goverment</label>
+                            <select name="govern" id="govern" class="signup-selection">
+                                <option value="" disabled selected>Select your Goverment</option>
+                                <option value="state">state</option>
+                                <option value="central">central</option>
+                                <option value="distict">district</option>
+                           </select>
+                        </div>
+    
+                        <div class="treasury-code s-margin">
+                            <label for="Treasury-Employee-Code" class="signup-details">Treasury Employee Code</label>
+                            <input type="number" id="Treasury-Employee-Code" class="signup-input" name="Treasury-Employee-Code">
+                        </div>
+    
+                        <div class="emp-status s-margin">
+                            <label for="Employee-status" class="signup-details">Employee status</label>
+                            <select name="Employee-status" id="Employee-status" class="signup-selection">
+                                <option value="" disabled selected>Select your Current Status</option>
+                                <option value="state">state</option>
+                                <option value="central">central</option>
+                                <option value="distict">district</option>
+                            </select>
+                        </div>
+    
+                        <div class="DOR s-margin">
+                            <label for="Retirement-Date" class="signup-details">Date of Retirement</label>
+                            <input type="date" id="Retirement-Date" class="signup-input" name="Date-of-Retirement">
+                        </div>
                 </div>
-                <div class="other_work s-margin">
-                    <p>Experience in Other Election-Related Work</p>
-                    <label for="exp_other"class ="signup-details"><input type="radio" name="disabled" value="yes">yes</label>
-                    <label for="exp_other"class ="signup-details"><input type="radio" name="disabled" value="no">no</label>
+    
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Election Duty Experience</p>
+                    </div>
+                    <div class="detail-container line "> 
+                        <div class="exp-voting-duties s-margin">
+                            <p class="p-heading">Experience in Voting Duties</p>
+                            <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="disabled" value="yes">yes</label>
+                            <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="disabled" value="no">no</label>
+                        </div>
+                    <div class="exp-counting-duties s-margin">
+                        <p class="p-heading">Experience in Counting Duties</p>
+                        <label for="exp_counting_duties"class ="signup-details"><input type="radio" name="disabled" value="yes">yes</label>
+                        <label for="exp_counting_duties"class ="signup-details"><input type="radio" name="disabled" value="no">no</label>
+                    </div>
+                    <div class="other_work s-margin">
+                        <p class="p-heading">Experience in Other Election-Related Work</p>
+                        <label for="exp_other"class ="signup-details"><input type="radio" name="disabled" value="yes">yes</label>
+                        <label for="exp_other"class ="signup-details"><input type="radio" name="disabled" value="no">no</label>
+                    </div>
+                    </div>   
                 </div>
-                </div>   
-            </div>
-
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Voter Information</p>
+    
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Voter Information</p>
+                    </div>
+                    <div class="detail-container line "> 
+                    <div class="Voter_Name s-margin">
+                        <label for="voter_list_name"class ="signup-details">Name Present in Chhattisgarh Voter List</label>
+                        <input type="text"  id="voter_list_name" class="signup-input" name="voter_list_name">
+                    </div>
+                    <div class="voter_list_assembly s-margin">
+                        <label for="list_assembly"class ="signup-details">Voter List Assembly</label>
+                        <input type="number" id="list_assembly" class="signup-input" name="list_assembly">
+                    </div>
+                    <div class="voter_part_number s-margin">
+                        <label for="part_number" class="signup-details">Voter Part Number</label>
+                        <input type="number" id="part_number" class="signup-input" name="part_number">
+                    </div>
+                    <div class="voter_serial_number s-margin">
+                        <label for="serial_number" class="signup-details">Voter Serial Number</label>
+                        <input type="number" name="serial_number" id="serial_number" class="signup-input">
+                    </div>
+                    <div class="Epic s-margin">
+                        <label for="voter_id" class="signup-details">EPIC (Voter ID) Number</label>
+                        <input type="text" name="voter_id" id="voter_id" class="signup-input">
+                    </div>
+                    </div>   
                 </div>
-                <div class="detail-container line "> 
-                <div class="Voter_Name s-margin">
-                    <label for="voter_list_name"class ="signup-details">Name Present in Chhattisgarh Voter List</label>
-                    <input type="text"  id="voter_list_name" class="signup-input" name="voter_list_name">
+    
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Location</p>
+                    </div>
+                    <div class="detail-container line "> 
+                    <div class="Assembly_Constituency_of_Residence s-margin">
+                        <label for="Residence"class ="signup-details">Assembly Constituency of Residence</label>
+                        <input type="number" class="signup-input" id="Residence" name="Residence">
+                    </div>
+                    <div class="Assembly_Constituency_of_Workplace s-margin">
+                        <label for="Workplace"class ="signup-details">Assembly Constituency of Workplace</label>
+                        <input type="number" class="signup-input" id="Workplace" name="Workplace">
+                    </div>
+                    </div>   
                 </div>
-                <div class="voter_list_assembly s-margin">
-                    <label for="list_assembly"class ="signup-details">Voter List Assembly</label>
-                    <input type="number" id="list_assembly" class="signup-input" name="list_assembly">
+    
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Salary Details</p>
+                    </div>
+                    <div class="detail-container line "> 
+                    <div class="Current_Basic_Pay s-margin">
+                        <label for="Basic_pay"class ="signup-details">Current Basic pay</label>
+                        <input type="number" class="signup-input" id="Basic_pay" name="Basic_pay">
+                    </div>
+                    <div class="Date_of_Current_Basic_Pay s-margin">
+                        <label for="Date_Basic_pay"class ="signup-details">Date of Current Basic Pay</label>
+                        <input type="date" class="signup-input" id="Date_Basic_pay" name="Date_Basic_pay">
+                   </div>
+                   </div>
                 </div>
-                <div class="voter_part_number s-margin">
-                    <label for="part_number" class="signup-details">Voter Part Number</label>
-                    <input type="number" id="part_number" class="signup-input" name="part_number">
+    
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Bank Details</p>
+                    </div>
+                    <div class="detail-container line "> 
+                    <div class="Bank s-margin">
+                        <label for="B_name"class ="signup-details">Bank Name</label>
+                        <input type="text" class="signup-input" id="B_name" name="B_name">
+                    </div>
+                    <div class="Account_Number s-margin">
+                        <label for="AccountNo"class ="signup-details">Account Number</label>
+                        <input type="number" class="signup-input" id="AccountNo" name="AccountNo">
+                    </div>
+                    <div class="Branch_code s-margin">
+                        <label for="Bcode" class="signup-details">Branch Code</label>
+                        <input type="number" class="signup-input" id="Bcode" name="Bcode">
+                    </div>
+                    <div class="ifsc_code s-margin">
+                        <label for="ifsc" class="signup-details">IFSC Code</label>
+                        <input type="text" class="signup-input" id="ifsc" name="ifsc">
+                    </div>
+                    </div>
                 </div>
-                <div class="voter_serial_number s-margin">
-                    <label for="serial_number" class="signup-details">Voter Serial Number</label>
-                    <input type="number" name="serial_number" id="serial_number" class="signup-input">
+    
+                <div class="container">
+                    <div class="heading-container">
+                        <p class="signup-heading">Remark</p>
+                    </div>
+                    <div class="detail-container line "> 
+                    <div class="remarks s-margin">
+                        <label for="message">Your Message(optional):</label><br>
+                        <textarea id="message" name="message" rows="10" cols="30">remarks</textarea>
+                    </div>
+                   </div>
                 </div>
-                <div class="Epic s-margin">
-                    <label for="voter_id" class="signup-details">EPIC (Voter ID) Number</label>
-                    <input type="text" name="voter_id" id="voter_id" class="signup-input">
-                </div>
-                </div>   
-            </div>
-
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Location</p>
-                </div>
-                <div class="detail-container line "> 
-                <div class="Assembly_Constituency_of_Residence s-margin">
-                    <label for="Residence"class ="signup-details">Assembly Constituency of Residence</label>
-                    <input type="number" class="signup-input" id="Residence" name="Residence">
-                </div>
-                <div class="Assembly_Constituency_of_Workplace s-margin">
-                    <label for="Workplace"class ="signup-details">Assembly Constituency of Workplace</label>
-                    <input type="number" class="signup-input" id="Workplace" name="Workplace">
-                </div>
-                </div>   
-            </div>
-
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Salary Details</p>
-                </div>
-                <div class="detail-container line "> 
-                <div class="Current_Basic_Pay s-margin">
-                    <label for="Basic_pay"class ="signup-details">Current Basic pay</label>
-                    <input type="number" class="signup-input" id="Basic_pay" name="Basic_pay">
-                </div>
-                <div class="Date_of_Current_Basic_Pay s-margin">
-                    <label for="Date_Basic_pay"class ="signup-details">Date of Current Basic Pay</label>
-                    <input type="date" class="signup-input" id="Date_Basic_pay" name="Date_Basic_pay">
-               </div>
-               </div>
-            </div>
-
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Bank Details</p>
-                </div>
-                <div class="detail-container line "> 
-                <div class="Bank s-margin">
-                    <label for="B_name"class ="signup-details">Bank Name</label>
-                    <input type="text" class="signup-input" id="B_name" name="B_name">
-                </div>
-                <div class="Account_Number s-margin">
-                    <label for="AccountNo"class ="signup-details">Account Number</label>
-                    <input type="number" class="signup-input" id="AccountNo" name="AccountNo">
-                </div>
-                <div class="Branch_code s-margin">
-                    <label for="Bcode" class="signup-details">Branch Code</label>
-                    <input type="number" class="signup-input" id="Bcode" name="Bcode">
-                </div>
-                <div class="ifsc_code s-margin">
-                    <label for="ifsc" class="signup-details">IFSC Code</label>
-                    <input type="text" class="signup-input" id="ifsc" name="ifsc">
-                </div>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="heading-container">
-                    <p class="signup-heading">Remark</p>
-                </div>
-                <div class="detail-container line "> 
-                <div class="remarks s-margin">
-                    <label for="message">Your Message(optional):</label><br>
-                    <textarea id="message" name="message" rows="10" cols="30">remarks</textarea>
-                </div>
-               </div>
-            </div>
-            <button type="submit" class="signup_btn">submit</button>
-        </form>
-      </div>
+                <button type="submit" class="signup_btn">submit</button>
+            </form>
+          </div> 
+        </div>
     </div>
     <script src="edms.js"></script>
 </body>

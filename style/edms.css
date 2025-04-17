@@ -5,26 +5,17 @@ body {
     padding: 0;
     height: 100vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
 }
 
-/* Left side image container */
-.img-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.body-s{
+    justify-content: none;
+    align-items: none;
 }
-
-.img-container .voting-img {
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-    border-radius: 1rem;
-}
-
-/* Right side main panel */
 .main {
-    width: 50%;
+    width: 40%;
     height: 100vh;
     background-color: white;
     display: flex;
@@ -33,22 +24,66 @@ body {
     position: relative;
 }
 
-
-
-
-.login{
-    height: 70%;
-    width: 60%;
-    background: linear-gradient(to bottom,#ece9e6, #f5f5f5);
-    border-radius: 10%;
-    position: absolute;
+.img-container {
+    width: 60%;         /* Left part */
     display: flex;
-    z-index:1;
-    border: 0.5px solid rgba(0,0,0,0.5);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
+
+.s-img {
+    max-width: 40rem;
+    height: 30rem;
+    object-fit:fill;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+}
+
+
+.l_main {
+    height: 500px;
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.img {
+    width: 60%;
+    height: 100%;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit:fill;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+
+.login {
+    width: 40%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: white;
+}
+
+.signup_screen {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; /* Full height for layout */
+}
+
 
 .signup {
     display: flex;
@@ -71,11 +106,11 @@ body {
 
 
 .login h1{
-    display:flex;
-    position: absolute;
-    font-size: 3rem;
-    top: 0;
-    margin-top:2rem;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-left:1.6rem ;
+    margin-top:0 ;
 }
 
 .login-form{
@@ -84,10 +119,10 @@ body {
     align-items: center;
 }
 
-.login-form .Name , .login-form .password{
+.login-form .Name , .login-form .password , .login-form .empcode{
     font-size:1.5rem;
     font-weight: 700;
-    text-align: center;
+    text-align: left;
     margin-top: 1rem;
 }
 
@@ -103,19 +138,30 @@ body {
     justify-content:center ;
 }
 
+.login-input:hover{
+    border: 0.5px solid #007BFF;
+    cursor: pointer;
+}
+
 .login-form .login-btn{
     display: flex;
+    background-color: #007BFF;
     flex-direction: column;
     margin-top: 4rem;
-    height: 3rem;
-    width: 60%;
+    height: 2.5rem;
+    width: 50%;
     color: white;
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
     font-weight: 500;
-    border: 0.1rem solid black;
-    border-radius: 1.5rem;
+    border: none;
+    border-radius: 1.2rem;
+}
+
+.login-btn:hover{
+    cursor: pointer;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5); ;
 }
 
 .login-form p{
@@ -125,7 +171,7 @@ body {
 }
 
 .login-form p , .toggle{
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
 }
 
@@ -146,6 +192,7 @@ body {
     align-items: center;
     width: 100%;
     height:7rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     top: 0;
     z-index: 10;
 }
@@ -164,7 +211,7 @@ body {
 
 .arrow i{
     height: 2rem;
-    width: 2rem;
+    width: 3rem;
     font-size: 2rem;
     color: black;
 }
@@ -216,11 +263,12 @@ body {
     padding-top: 1rem;
 }
 
-.signup-form{
-
+.personal-division{
+    display: flex;
+    flex-direction: row;
 }
 
-.signup-details {
+.signup-details ,.p-heading{
     font-weight: 600;
     font-size: 0.95rem;
     padding: 0.1rem 0.5rem;
@@ -238,13 +286,58 @@ body {
     box-sizing: border-box;
 }
 
-.emp_photo {
+/* Wrap the whole thing */
+.Emp_photo {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    position: relative;
+  }
+  
+  /* Hide default input */
+  .Emp_photo input[type="file"] {
+    display: none;
+  }
+  
+  /* Upload box */
+  .upload-box {
+    height: 8rem;
+    width: 6rem;
+    border: 2px dashed #aaa;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #777;
+    cursor: pointer;
+    transition: border 0.3s, color 0.3s;
+    position: relative;
+  }
+  
+  /* ✅ Show feedback if file is selected */
+  .Emp_photo:has(input[type="file"]:not(:placeholder-shown)) .upload-box {
+    border-color: green;
+    color: green;
+  }
+  
+  /* Optional: Add a checkmark or glow effect after upload */
+  .Emp_photo:has(input[type="file"]:not(:placeholder-shown)) .upload-box::after {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-}
+    bottom: 0.3rem;
+    right: 0.4rem;
+    font-size: 1.5rem;
+    color: green;
+  }
+
+    /* Hover style */
+.upload-box:hover {
+    border-color: #007BFF;
+    color: #007BFF;
+  }
+      
+  
 .signup-image{
     border: 1px solid black;
     height:8rem;
@@ -276,6 +369,18 @@ body {
 .s-margin{
     margin:0.5rem;
 }
+
+.signup-input:hover,.signup-selection:hover{
+    border: 0.5px solid #007BFF;
+    cursor: pointer;
+}
+
+ .arrow i:hover{
+    height: 2rem;
+    width: 3rem;
+    color: #007BFF
+}
+
 .hidden{
     display: none;
 }
