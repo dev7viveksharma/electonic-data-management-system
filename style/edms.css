@@ -111,6 +111,7 @@ body {
     justify-content: center;
     margin-left:1.6rem ;
     margin-top:0 ;
+    margin-bottom:0 ;
 }
 
 .login-form{
@@ -123,7 +124,7 @@ body {
     font-size:1.5rem;
     font-weight: 700;
     text-align: left;
-    margin-top: 1rem;
+    
 }
 
 .login-form .login-input{
@@ -243,7 +244,7 @@ body {
 
 .detail-container {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 1fr 1fr;
     gap: 15px 20px;
     padding: 0 1rem;
     align-items: center;
@@ -367,7 +368,7 @@ body {
 }
 
 .s-margin{
-    margin:0.5rem;
+    margin:0.5rem 2.5rem 0.5rem 0.5rem;
 }
 
 .signup-input:hover,.signup-selection:hover{
