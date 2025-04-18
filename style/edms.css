@@ -10,7 +10,7 @@ body {
     flex-direction: row;
 }
 
-.body-s{
+.body_s{
     justify-content: none;
     align-items: none;
 }
@@ -243,7 +243,7 @@ body {
 
 .detail-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.2fr;
     gap: 15px 20px;
     padding: 0 1rem;
     align-items: center;
@@ -379,6 +379,37 @@ body {
     height: 2rem;
     width: 3rem;
     color: #007BFF
+}
+@media screen and (max-width: 768px) {
+    .main {
+        width: 80%;
+    }
+    .signup {
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .signup_screen {
+        flex-direction: column; /* Stack elements vertically on smaller screens */
+    }
+    .main {
+        width: 100%;
+        height: auto;
+    }
+    .img-container {
+        width: 100%;
+        height: auto;
+    }
+    .login, .signup {
+        width: 100%;
+        padding: 1rem;
+    }
+    .signup-form {
+        width: 100%;
+        padding: 1rem;
+    }
 }
 
 .hidden{
