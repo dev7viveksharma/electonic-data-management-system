@@ -70,11 +70,12 @@ body {
 
 .login {
     width: 40%;
+    height: 100%;
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: center;      /* Already good */
+    align-items: center;          /* Center horizontally */
     background-color: white;
 }
 
@@ -105,13 +106,8 @@ body {
 }
 
 
-.login h1{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    margin-left:1.6rem ;
-    margin-top:0 ;
-    margin-bottom:0 ;
+.login h1 {
+    margin-left: 0;  /* Center the heading */
 }
 
 .login-form{
