@@ -165,4 +165,78 @@ class LOGIN {
     }
 }
 
+class SIGNUP{
+    constructor(){
+        this.firstName = document.querySelector(".js_signup_first_name");
+        this.lastName = document.querySelector(".js_signup_last_name");
+        this.signupPassword = document.querySelector(".js_password");
+        this.signupCpassword = document.querySelector(".js_c_password");
+        this.signupBtn = document.querySelector(".signup_btn");
+        this.eye = document.querySelectorAll(".toggle-eye");
+
+
+        this.init();
+    }
+
+    init(){
+        this.eye.forEach(eye =>{
+            eye.addEventListener("click",()=>this.togglepassword(eye));
+        });
+
+        this.signupPassword.addEventListener("input",(event)=>this.validateSignupPassword(event));
+        
+    }
+
+    togglepassword(icon){
+        const input = icon.closest("span").previousElementSibling;
+        if(input.type === "password"){
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+    validateSignupPassword() {
+        let input = this.signupPassword.value;
+        const conditions = [
+            { test: input.length >= 8, message: "at least 8 characters long" },
+            { test: /[A-Z]/.test(input), message: "at least 1 uppercase letter [A-Z]" },
+            { test: /[a-z]/.test(input), message: "at least 1 lowercase letter [a-z]" },
+            { test: /[0-9]/.test(input), message: "at least 1 number [0-9]" },
+            { test: /[!@#$%^&*?]/.test(input), message: "at least 1 special character [!@#$%^&*?]" }
+        ];
+    
+        const existingError = document.querySelector("#signupError");
+        if (existingError) existingError.remove(); // Remove old error before adding a new one
+    
+        // No need to show any error if the input is empty when the user leaves the field
+        if (input === "") {
+            return;
+        }
+
+        const container = document.querySelector(".errorp")
+        const failedCondition = conditions.find(cond => !cond.test);
+        if (failedCondition,container) {
+            // If there's a failed condition, display the error message
+            const error = document.createElement("p");
+            error.id = "signupError";
+            error.textContent = failedCondition.message;
+            error.style.color = "red";
+            error.style.margin = "0";
+            error.style.fontSize = "0.8rem";
+            container.insertAdjacentElement("afterend", error);
+        }
+        
+        this.signupPassword.addEventListener("blur",() => {
+        const existingError = document.querySelector("#signupError");
+        if (existingError) existingError.remove();  // Remove error message when input loses focus
+       });
+    }    
+}
+
 new LOGIN();
+new SIGNUP();
