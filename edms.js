@@ -173,6 +173,8 @@ class SIGNUP{
         this.signupCpassword = document.querySelector(".js_c_password");
         this.signupBtn = document.querySelector(".signup_btn");
         this.eye = document.querySelectorAll(".toggle-eye");
+        this.mobileNum = document.querySelector(".mobile_number");
+        this.dob = document.querySelector(".js_dob");
 
 
         this.init();
@@ -184,6 +186,11 @@ class SIGNUP{
         });
 
         this.signupPassword.addEventListener("input",(event)=>this.validateSignupPassword(event));
+        this.signupCpassword.addEventListener("input",(event)=>this.comparepassword(event.target));
+        this.signupCpassword.addEventListener("blur", (event) =>this.comparepassword(event.target));
+        this.mobileNum.addEventListener("blur",(event)=>this.correctMobileNumber(event.target));
+        this.agelimit(dob);
+
         
     }
 
@@ -235,7 +242,87 @@ class SIGNUP{
         const existingError = document.querySelector("#signupError");
         if (existingError) existingError.remove();  // Remove error message when input loses focus
        });
-    }    
+    }
+    
+    comparepassword(confirmpass) {
+        let cpass = confirmpass.value;
+        let value = this.signupPassword.value;
+    
+        const existingMessage = document.querySelector("#compareError");
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+    
+        const compare = document.querySelector(".compare");
+        const message = document.createElement("span");
+        message.id = "compareError";
+        message.style.margin = "0";
+        message.style.fontSize = "0.8rem";
+    
+        if (value !== cpass) {
+            message.innerText = "Passwords do not match";
+            message.style.color = "red";
+        } else {
+            message.innerText = "Passwords match ✓";
+            message.style.color = "green";
+        }
+    
+        compare.insertAdjacentElement("afterend", message);
+    }
+
+    correctMobileNumber(num){
+        const number = num.value;
+        const exist = document.querySelector("#numberLength");
+        if(exist){
+            exist.remove();
+        }
+        const message = document.createElement("p");
+        message.id = "numberLength";
+        message.style.margin = "0";
+        message.style.fontSize = "0.8rem";
+        if(number.length !== 10){
+            message.innerText = "mobile Number is not valid";
+            message.style.color = "red";
+        }else{
+            message.innerText = "valid number ✓";
+            message.style.color = "green"
+        }
+        this.mobileNum.insertAdjacentElement("afterend",message);
+    }
+    
+    agelimit(age){
+        const today = new Date();
+        const CurrentDate = today.getFullYear();
+    
+        const minYear = CurrentDate - 62; // oldest allowed
+        const maxYear = CurrentDate - 18; // youngest allowed
+    
+        age.min = `${minYear}-01-01`; // Minimum DOB: Jan 1, 60 years ago
+        age.max = `${maxYear}-12-31`; // Maximum DOB: Dec 31, 18 years ago
+
+        this.dob.addEventListener("change",()=>{
+            const selectedage = this.dob.value;
+            const selectedyear = new Date(selectedage).getFullYear();
+
+            const oldError = document.querySelector("#error");
+            if(oldError) oldError.remove();
+
+            const m = document.createElement("p");
+            m.id = "error";
+            m.style.margin = "0";
+            m.style.fontSize = "0.8rem";            
+            const container = document.querySelector(".js_dob");
+            if(selectedyear > maxYear || selectedyear < minYear ){
+                m.innerText = "sorry , your age is not valid";
+                m.style.color = "red";
+            }else{
+                m.innerText ="age is valid ✓";
+                m.style.color ="green";
+            }
+            container.insertAdjacentElement("afterend",m);
+        });
+    }
+    
 }
 
 new LOGIN();
