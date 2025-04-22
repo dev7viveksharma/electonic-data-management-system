@@ -137,9 +137,12 @@
                     <div class="disability s-margin">
                         <label for="type-of-disabilities" class="signup-details">Type of disability</label>
                         <input type="text" id="type-of-disabilities" class="signup-input" name="types-of-disability">
-                        <label for="percentage-of-disability" class="signup-details">Percentage of Disability</label>
-                        <input type="number" id="percentage-of-disability" class="signup-input" name="percentage-of-disability">
                     </div>
+                    <div class="percentage_of_diability s-margin">
+                        <label for="percentage-of-disability" class="signup-details">Percentage of Disability</label>
+                        <input type="number" id="percentage-of-disability" class="signup-input js_percentageDisability" name="percentage-of-disability" min="1" max="100">
+                    </div>
+                        
     
                     <div class="certificate s-margin">
                         <p class="p-heading">Disability Certificate</p>
@@ -186,7 +189,7 @@
         
                         <div class="job-payment-scale s-margin">
                             <label for="Pay-Scale" class="signup-details">Pay Scale</label>
-                            <input type="number" id="Pay-Scale" class="signup-input" name="Pay-Scale" min="10000" max="100000">
+                            <input type="number" id="Pay-Scale" class="signup-input js_pay_scale" name="Pay-Scale" min="10000" max="100000">
                         </div>
     
                         <div class="supervisory s-margin">
@@ -243,8 +246,9 @@
     
                         <div class="DOR s-margin">
                             <label for="Retirement-Date" class="signup-details">Date of Retirement</label>
-                            <input type="date" id="Retirement-Date" class="signup-input" name="Date-of-Retirement">
+                            <input type="date" id="Retirement-Date" class="signup-input js_retirement_date" name="Date-of-Retirement" >
                         </div>
+                    </div>
                 </div>
     
                 <div class="container">

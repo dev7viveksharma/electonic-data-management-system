@@ -175,7 +175,9 @@ class SIGNUP{
         this.eye = document.querySelectorAll(".toggle-eye");
         this.mobileNum = document.querySelector(".mobile_number");
         this.dob = document.querySelector(".js_dob");
-
+        this.percentage_of_disability = document.querySelector(".js_percentageDisability");
+        this.pay_scale = document.querySelector(".js_pay_scale");
+        this.dor = document.querySelector(".js_retirement_date");
 
         this.init();
     }
@@ -189,7 +191,10 @@ class SIGNUP{
         this.signupCpassword.addEventListener("input",(event)=>this.comparepassword(event.target));
         this.signupCpassword.addEventListener("blur", (event) =>this.comparepassword(event.target));
         this.mobileNum.addEventListener("blur",(event)=>this.correctMobileNumber(event.target));
+        this.percentage_of_disability.addEventListener("input",(event)=>this.disabilitypercentagelimit(event.target));
+        this.pay_scale.addEventListener("input",(event)=>this.paylimit(event.target));
         this.agelimit(dob);
+        this.dorlimit(this.dor);
 
         
     }
@@ -221,7 +226,7 @@ class SIGNUP{
         if (existingError) existingError.remove(); // Remove old error before adding a new one
     
         // No need to show any error if the input is empty when the user leaves the field
-        if (input === "") {
+        if (input === ""){
             return;
         }
 
@@ -303,6 +308,8 @@ class SIGNUP{
         this.dob.addEventListener("change",()=>{
             const selectedage = this.dob.value;
             const selectedyear = new Date(selectedage).getFullYear();
+            const selectedmonth = new Date(selectedage).getMonth();
+            const selectedday = new Date(selectedage).getDate()
 
             const oldError = document.querySelector("#error");
             if(oldError) oldError.remove();
@@ -312,7 +319,7 @@ class SIGNUP{
             m.style.margin = "0";
             m.style.fontSize = "0.8rem";            
             const container = document.querySelector(".js_dob");
-            if(selectedyear > maxYear || selectedyear < minYear ){
+            if(selectedyear > maxYear || selectedday >31 || selectedmonth > 11 || selectedyear < minYear || selectedday < 1 || selectedmonth < 0){
                 m.innerText = "sorry , your age is not valid";
                 m.style.color = "red";
             }else{
@@ -322,6 +329,86 @@ class SIGNUP{
             container.insertAdjacentElement("afterend",m);
         });
     }
+
+    disabilitypercentagelimit(percentage){
+        const value = percentage.value;
+        const existing = document.querySelector("#errorpercentage");
+        if(existing)existing.remove(); 
+        const message = document.createElement("span");
+        message.id = "errorpercentage";
+        message.style.margin = 0;
+        message.style.fontSize = "0.8rem";
+
+        if(value == ""){
+            message.remove();
+        }else if(value <1 || value > 100){
+            message.innerText = "percentage(%) is not valid ";
+            message.style.color = "red";   
+        }else{
+             message.remove();
+        }
+        percentage.insertAdjacentElement("afterend",message);
+    }
+
+
+    paylimit(pay){
+        const salary = pay.value;
+        const existing = document.querySelector("#errorAmount");
+        if(existing)existing.remove(); 
+        const message = document.createElement("span");
+        message.id = "errorAmount";
+        message.style.display = "flex";
+        message.style.margin = 0;
+        message.style.fontSize = "0.8rem";
+
+        if(salary === ""){
+            message.remove();
+        }else if(salary < 10000 || salary > 100000){
+            message.innerText = "not a valid salary";
+            message.style.color = "red";
+        }else{
+            message.remove();
+        }
+        pay.insertAdjacentElement("afterend", message);
+    }
+
+    dorlimit(period){
+        const today = new Date();
+        const CurrentDate = today.getFullYear();
+    
+        const minYear = CurrentDate; // oldest allowed
+        const maxYear = CurrentDate + 62; // youngest allowed
+    
+        period.min = `${minYear}-01-01`;
+        period.max = `${maxYear}-12-31`; 
+
+        this.dor.addEventListener("change",()=>{
+            const selectedage = period.value;
+            const selectedyear = new Date(selectedage).getFullYear();
+            const selectedmonth = new Date(selectedage).getMonth();
+            const selectedday = new Date(selectedage).getDate()
+
+            const oldError = document.querySelector("#error");
+            if(oldError) oldError.remove();
+
+            const m = document.createElement("p");
+            m.id = "error";
+            m.style.margin = "0";
+            m.style.fontSize = "0.8rem";
+
+            if(period.value === ""){
+                m.remove();
+            }else if(selectedyear > maxYear || selectedday >31 || selectedmonth > 11 || selectedyear < minYear || selectedday < 1 || selectedmonth < 0){
+                m.innerText = "Retirement date is not Valid";
+                m.style.color = "red";
+            }else{
+                m.innerText ="date is valid ✓";
+                m.style.color ="green";
+            }
+            period.insertAdjacentElement("afterend",m);
+        });
+    }
+
     
 }
 

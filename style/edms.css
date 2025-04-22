@@ -14,15 +14,6 @@ body {
     justify-content: none;
     align-items: none;
 }
-.main {
-    width: 40%;
-    height: 100vh;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
 
 .img-container {
     width: 60%;         /* Left part */
@@ -78,33 +69,6 @@ body {
     align-items: center;          /* Center horizontally */
     background-color: white;
 }
-
-.signup_screen {
-    display: flex;
-    flex-direction: row;
-    height: 100vh; /* Full height for layout */
-}
-
-
-.signup {
-    display: flex;
-    right:0;
-    overflow: auto;
-    scrollbar-width: none;   
-    -ms-overflow-style: none;  
-    flex-direction: column; /* Stack heading and form vertically */
-    align-items: center;     /* Center horizontally */
-    background:#ffff;
-    box-shadow: 5px 14px 16px rgba(0, 0, 0, 1);
-    height: 100%;
-    width: 100%;
-    z-index: 2;
-}
-
-.signup::-webkit-scrollbar{
-    display:none;
-}
-
 
 .login h1 {
     margin-left: 0;  /* Center the heading */
@@ -180,6 +144,46 @@ body {
     cursor: pointer;
     opacity: 0.7;
 }
+
+.signup_screen {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh; /* Full height for layout */
+}
+
+.main {
+    width: 100vh;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+
+.signup {
+    display: flex;
+    right:0;
+    overflow: auto;
+    scrollbar-width: none;   
+    -ms-overflow-style: none;  
+    flex-direction: column; /* Stack heading and form vertically */
+    align-items: center;     /* Center horizontally */
+    background:#ffff;
+    box-shadow: 5px 14px 16px rgba(0, 0, 0, 1);
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+}
+
+.signup::-webkit-scrollbar{
+    display:none;
+}
+
+
+
 
 .signup .signup-bar{
     display: flex;
@@ -279,6 +283,7 @@ body {
     max-width: 250px; /* Keeps inputs from getting too wide */
     padding: 0.2rem 0.4rem;
     font-size: 0.95rem;
+    margin-right: 0;
     border: 1px solid rgba(0,0,0,0.5);
     border-radius: 0.3rem;
     box-sizing: border-box;
