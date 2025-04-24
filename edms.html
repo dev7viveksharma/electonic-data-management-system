@@ -4,54 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>welcome to EDM System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="style/edms.css">
 </head>
 <body>
-    <div class="l_main">
+    <div class="main">
         <div class="img">
-            <img src="./source/images/edms image.png" alt="EDMS Illustration" class="image">
+            <img src="./source/images/edms image.png" alt="EDMS Illustration" class="image hidden">
+            <img src="./source/images/head officer.png" class="head-officer">
         </div>
         <div class="login hidden">
             <h1>Welcome Officers</h1>
             <form class="login-form">
-                <label for="UserId" class="User-Id">Admin-Id or Gmail</label>
+                <div class="login-id-email">
+                    <label for="UserId" class="Login-details">Admin-Id or Gmail</label>
                 <input type="text" id="UserId" name="ecode" placeholder="Enter your id or email" class="login-input js_emp_code">
-                <label for="password" class="password">Password</label>
+                </div>
+                <div class="login-password">
+                    <label for="password" class="Login-details">Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter your Password" class="login-input  js_login_password">
+                </div>
                 <button type="submit" class="login-btn  js_login_btn">Log In</button>
                 <p>Don't have an account? <span id="showSignup" class="toggle">Create New Account</span></p>
             </form>
         </div>
-        <div class="Admin_signup">
-            <form  class="Admin-Signup-form" action="">
-                <div class="Signup-welcome">
-                    <h1>signup</h1>
+        <div class="Admin_signup">               
+            <div class="Signup-welcome">
+                <div class="back-btn">
                 </div>
+                    <h1>Create An Account</h1>
+                    <p>Join us Today To Empower Democracy</p>
+                </div>
+            <form  class="Admin-Signup-form" action="">
                 <div class="userId">
-                    <label for="Userid" class="user"> User-Id</label>
+                    <label for="Userid" class="Admin-details"> User-Id</label>
                     <input type="text" id="Userid" class="login-input" placeholder="enter user-id">
                 </div>
                 <div class="Email_Address">
-                    <label for="Userid" class="user"> User-Id</label>
-                    <input type="text" id="Userid" class="login-input" placeholder="enter user-id">
+                    <label for="AdminEmail" class="Admin-details">Email Address</label>
+                    <input type="email" id="AdminEmail" class="login-input" placeholder="enter your valid Email">
                 </div>
                 <div class="Designation">
-                    <label for="Userid" class="user"> User-Id</label>
-                    <input type="text" id="Userid" class="login-input" placeholder="enter user-id">
+                    <label for="AdminDesignation" class="Admin-details">Designation</label>
+                    <input type="text" id="AdminDesignation" class="login-input" placeholder="enter your Designation">
                 </div>
                 <div class="AdminPassword">
-                    <label for="Userid" class="user"> User-Id</label>
-                    <input type="text" id="Userid" class="login-input" placeholder="enter user-id">
+                    <label for="adminPassword" class="Admin-details"> Password</label>
+                    <input type="password" id="adminPassword" class="login-input" placeholder="Enter A Password">
                 </div>
                 <div class="C-Password">
-                    <label for="Userid" class="user"> User-Id</label>
-                    <input type="text" id="Userid" class="login-input" placeholder="enter user-id">
+                    <label for="ConfirmPassword" class="Admin-details"> Confirm Password</label>
+                    <input type="password" id="ConfirmPassword" class="login-input" placeholder="Confirm Your Password">
                 </div>
                 <button class="signup-btn">Signup</button>
             </form>
         </div>
     </div>
-<script src="edms.js"></script>
+<script src=""></script>
 </body>
 </html>
