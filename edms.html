@@ -17,11 +17,11 @@
             <h1>Welcome Officers</h1>
             <form class="login-form">
                 <div class="login-id-email">
-                    <label for="UserId" class="Login-details">Admin-Id or Gmail</label>
+                <label for="UserId" class="Login-details">Admin-Id or Gmail</label>
                 <input type="text" id="UserId" name="ecode" placeholder="Enter your id or email" class="login-input js_emp_code">
                 </div>
                 <div class="login-password">
-                    <label for="password" class="Login-details">Password</label>
+                <label for="password" class="Login-details">Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter your Password" class="login-input  js_login_password">
                 </div>
                 <button type="submit" class="login-btn  js_login_btn">Log In</button>
@@ -30,11 +30,16 @@
         </div>
         <div class="Admin_signup">               
             <div class="Signup-welcome">
+                <div class="admin-welcome">
                 <div class="back-btn">
+                    <img src="./source/images/arrow.png" class="back">
                 </div>
+                <div class="welcome">
                     <h1>Create An Account</h1>
                     <p>Join us Today To Empower Democracy</p>
                 </div>
+                </div>   
+            </div>
             <form  class="Admin-Signup-form" action="">
                 <div class="userId">
                     <label for="Userid" class="Admin-details"> User-Id</label>
@@ -44,20 +49,67 @@
                     <label for="AdminEmail" class="Admin-details">Email Address</label>
                     <input type="email" id="AdminEmail" class="login-input" placeholder="enter your valid Email">
                 </div>
+                <div class="Admin-mobileNo">
+                    <label for="AdminEmail" class="Admin-details">Mobile No.</label>
+                    <input type="number" id="AdminEmail" class="login-input" placeholder="+91">
+                </div>
                 <div class="Designation">
                     <label for="AdminDesignation" class="Admin-details">Designation</label>
-                    <input type="text" id="AdminDesignation" class="login-input" placeholder="enter your Designation">
+                    <select name="Admindesignation" id="AdminDesignation" class="login-input">
+                    <option value="" disabled selected>select your Designation</option>
+                    <option value="Designation 1" >Designation 1</option>
+                    <option value="Designation 2" >Designation 2</option>
+                    <option value="Designation 3" >Designation 3</option>
+                    <option value="Designation 4" >Designation 4</option>
+                    <option value="Designation 5" >Designation 5</option>
+                    <option value="Designation 6" >Designation 6</option>
+                    <option value="Designation 7" >Designation 7</option>
+                    <option value="Designation 8" >Designation 8</option>
+                    <option value="Designation 9" >Designation 9</option>
+                    <option value="Designation 10" >Designation 10</option>
+                    <option value="Designation 11" >Designation 11</option>
+                    <option value="Designation 12" >Designation 12</option>
+                    <option value="Designation 13" >Designation 13</option>
+                    <option value="Designation 14" >Designation 14</option>
+                    <option value="Designation 15" >Designation 15</option>
+                    <option value="Designation 16" >Designation 16</option>
+                    <option value="Designation 17" >Designation 17</option>
+                    <option value="Designation 18" >Designation 18</option>
+                    <option value="Designation 19" >Designation 19</option>
+                    <option value="Designation 20" >Designation 20</option>
+                    <option value="Designation 21" >Designation 21</option>
+                    <option value="Designation 22" >Designation 22</option>
+                    <option value="Designation 23" >Designation 23</option>
+                    <option value="Designation 24" >Designation 24</option>
+                    <option value="Designation 25" >Designation 25</option>
+                    <option value="Designation 26" >Designation 26</option>
+                    <option value="Designation 27" >Designation 27</option>
+                    <option value="Designation 28" >Designation 28</option>
+                    <option value="Designation 29" >Designation 29</option>
+                    <option value="Designation 30" >Designation 30</option>
+                    </select>
                 </div>
                 <div class="AdminPassword">
                     <label for="adminPassword" class="Admin-details"> Password</label>
+                    <div class="password-container">
                     <input type="password" id="adminPassword" class="login-input" placeholder="Enter A Password">
+                    <span class="toggle-password" >
+                        <i class="fa-regular fa-eye toggle-eye"></i>
+                      </span>
+                   </div>
                 </div>
                 <div class="C-Password">
                     <label for="ConfirmPassword" class="Admin-details"> Confirm Password</label>
+                    <div class="password-container">
                     <input type="password" id="ConfirmPassword" class="login-input" placeholder="Confirm Your Password">
+                    <span class="toggle-password" >
+                        <i class="fa-regular fa-eye toggle-eye"></i>
+                      </span>
+                    </div>
                 </div>
                 <button class="signup-btn">Signup</button>
             </form>
+            <p class="AlreadyAccount">Already have an account ?<span>Sign in</span></p>
         </div>
     </div>
 <script src=""></script>
