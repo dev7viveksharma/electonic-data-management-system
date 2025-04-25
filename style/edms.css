@@ -269,12 +269,7 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield; /* For Firefox */
-}
-
-  /* Hide by default */
-  .hidden {
+.hidden {
     display: none;
   }
   
