@@ -10,25 +10,25 @@
 <body>
     <div class="main">
         <div class="img">
-            <img src="./source/images/edms image.png" alt="EDMS Illustration" class="image hidden">
-            <img src="./source/images/head officer.png" class="head-officer">
+            <img src="./source/images/edms image.png" alt="EDMS Illustration" class="image">
+            <img src="./source/images/head officer.png" class="head-officer js_head hidden">
         </div>
-        <div class="login hidden">
+        <div class="login">
             <h1>Welcome Officers</h1>
             <form class="login-form">
-                <div class="login-id-email">
-                <label for="UserId" class="Login-details">Admin-Id or Gmail</label>
-                <input type="text" id="UserId" name="ecode" placeholder="Enter your id or email" class="login-input js_emp_code">
+                <div class="login-id-email margin">
+                <label for="Username" class="Login-details">Mobile or Gmail</label>
+                <input type="text" id="Username" name="FullName" placeholder="Enter your Name or email" class="login-input js_name_code">
                 </div>
-                <div class="login-password">
-                <label for="password" class="Login-details">Password</label>
+                <div class="login-password margin">
+                <label for="password" class="Login-details m">Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter your Password" class="login-input  js_login_password">
                 </div>
                 <button type="submit" class="login-btn  js_login_btn">Log In</button>
-                <p>Don't have an account? <span id="showSignup" class="toggle">Create New Account</span></p>
             </form>
+            <p>Don't have an account? <span id="showSignup" class="toggle">Create New Account</span></p>
         </div>
-        <div class="Admin_signup">               
+        <div class="Admin_signup hidden ">               
             <div class="Signup-welcome">
                 <div class="admin-welcome">
                 <div class="back-btn">
@@ -41,13 +41,13 @@
                 </div>   
             </div>
             <form  class="Admin-Signup-form" action="">
-                <div class="userId">
-                    <label for="Userid" class="Admin-details"> User-Id</label>
-                    <input type="text" id="Userid" class="login-input" placeholder="enter user-id">
+                <div class="Username">
+                    <label for="name" class="Admin-details"> Full Name</label>
+                    <input type="text" id="name" class="login-input" placeholder="Enter Full Name">
                 </div>
                 <div class="Email_Address">
                     <label for="AdminEmail" class="Admin-details">Email Address</label>
-                    <input type="email" id="AdminEmail" class="login-input" placeholder="enter your valid Email">
+                    <input type="email" id="AdminEmail" class="login-input" placeholder="Enter Your Valid Email">
                 </div>
                 <div class="Admin-mobileNo">
                     <label for="AdminEmail" class="Admin-details">Mobile No.</label>
@@ -56,7 +56,7 @@
                 <div class="Designation">
                     <label for="AdminDesignation" class="Admin-details">Designation</label>
                     <select name="Admindesignation" id="AdminDesignation" class="login-input">
-                    <option value="" disabled selected>select your Designation</option>
+                    <option value="" disabled selected>Select Your Designation</option>
                     <option value="Designation 1" >Designation 1</option>
                     <option value="Designation 2" >Designation 2</option>
                     <option value="Designation 3" >Designation 3</option>
@@ -112,6 +112,6 @@
             <p class="AlreadyAccount">Already have an account ?<span>Sign in</span></p>
         </div>
     </div>
-<script src=""></script>
+<script src="edms.js"></script>
 </body>
 </html>
