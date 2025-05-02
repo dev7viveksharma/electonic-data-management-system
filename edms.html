@@ -13,7 +13,7 @@
             <img src="./source/images/edms image.png" alt="EDMS Illustration" class="image">
             <img src="./source/images/head officer.png" class="head-officer js_head hidden">
         </div>
-        <div class="login">
+        <div class="login hidden">
             <h1>Welcome Officers</h1>
             <form class="login-form">
                 <div class="login-id-email margin">
@@ -28,7 +28,7 @@
             </form>
             <p>Don't have an account? <span id="showSignup" class="toggle">Create New Account</span></p>
         </div>
-        <div class="Admin_signup hidden ">               
+        <div class="Admin_signup ">               
             <div class="Signup-welcome">
                 <div class="admin-welcome">
                 <div class="back-btn">
@@ -43,19 +43,19 @@
             <form  class="Admin-Signup-form" action="">
                 <div class="Username">
                     <label for="name" class="Admin-details"> Full Name</label>
-                    <input type="text" id="name" class="login-input" placeholder="Enter Full Name">
+                    <input type="text" id="name" class="login-input" placeholder="Enter Full Name" required>
                 </div>
                 <div class="Email_Address">
                     <label for="AdminEmail" class="Admin-details">Email Address</label>
-                    <input type="email" id="AdminEmail" class="login-input" placeholder="Enter Your Valid Email">
+                    <input type="email" id="AdminEmail" class="login-input js_signup_email" placeholder="Enter Your Valid Email" required>
                 </div>
                 <div class="Admin-mobileNo">
                     <label for="AdminEmail" class="Admin-details">Mobile No.</label>
-                    <input type="number" id="AdminEmail" class="login-input" placeholder="+91">
+                    <input type="number" id="AdminMobileNo" class="login-input js_signup_mobile" placeholder="+91" required>
                 </div>
                 <div class="Designation">
                     <label for="AdminDesignation" class="Admin-details">Designation</label>
-                    <select name="Admindesignation" id="AdminDesignation" class="login-input">
+                    <select name="Admindesignation" id="AdminDesignation" class="login-input" required>
                     <option value="" disabled selected>Select Your Designation</option>
                     <option value="Designation 1" >Designation 1</option>
                     <option value="Designation 2" >Designation 2</option>
@@ -92,7 +92,7 @@
                 <div class="AdminPassword">
                     <label for="adminPassword" class="Admin-details"> Password</label>
                     <div class="password-container">
-                    <input type="password" id="adminPassword" class="login-input" placeholder="Enter A Password">
+                    <input type="password" id="adminPassword" class="login-input" placeholder="Enter A Password" required>
                     <span class="toggle-password" >
                         <i class="fa-regular fa-eye toggle-eye"></i>
                       </span>
@@ -101,13 +101,13 @@
                 <div class="C-Password">
                     <label for="ConfirmPassword" class="Admin-details"> Confirm Password</label>
                     <div class="password-container">
-                    <input type="password" id="ConfirmPassword" class="login-input" placeholder="Confirm Your Password">
+                    <input type="password" id="ConfirmPassword" class="login-input" placeholder="Confirm Your Password" required>
                     <span class="toggle-password" >
                         <i class="fa-regular fa-eye toggle-eye"></i>
                       </span>
                     </div>
                 </div>
-                <button class="signup-btn">Signup</button>
+                <button class="signup-btn js_signupbtn">Signup</button>
             </form>
             <p class="AlreadyAccount">Already have an account ?<span>Sign in</span></p>
         </div>

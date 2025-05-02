@@ -30,7 +30,6 @@ errorlogin(message){
     error.style.margin = "0";
     error.style.marginTop = "5px";
     error.style.fontSize = "0.8rem";
-
     this.login_password.insertAdjacentElement("afterend", error);
 }
 
