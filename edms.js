@@ -32,18 +32,26 @@ class LOGIN {
 class SIGNUP{
     constructor(){
     this.login = document.querySelector(".login");
+    this.username = document.querySelector(".js_signup_username");
     this.signup = document.querySelector(".Admin_signup");
     this.backbtn = document.querySelector(".back");
     this.email = document.querySelector(".js_signup_email"); 
     this.image = document.querySelector(".img");
     this.headImage = document.querySelector(".js_head");
     this.electiveImage = document.querySelector(".image");
-    this.mobileNum = document.querySelector(".js_signup_mobile")
+    this.mobileNum = document.querySelector(".js_signup_mobile");
+    this.password = document.querySelector(".js_signup_password");
+    this.confirmpassword = document.querySelector(".js_signup_ConfirmPassword");
+    this.signupbtn = document.querySelector(".js_signupbtn");
     this.init()
     }
     init(){
         this.backbtn.addEventListener("click", (event) => this.backtologin(event));
         this.email.addEventListener("blur",(event) => this.checkemail(event));
+        this.mobileNum.addEventListener("input",(event)=> this.checkmobilenumber(event));
+        this.password.addEventListener("input",(event)=>this.checkpassword(event));
+        this.confirmpassword.addEventListener("blur",(event)=>this.checkpasswordifference(event));
+        this.signupbtn.addEventListener("click",(event)=>this.checksignupform(event));
     }
 
     backtologin(){
@@ -58,7 +66,6 @@ class SIGNUP{
     checkemail(){
         const gmail = document.querySelector(".Email_Address");
         const existing = document.querySelector("#error");
-        const signupbtn = document.querySelector(".js_signupbtn");
         if(existing){
             existing.remove();
         }
@@ -72,14 +79,111 @@ class SIGNUP{
                 message.textContent = "Invalid Email Address";
                 message.style.margin = "0";
                 message.style.fontSize = "0.8rem";
-                signupbtn.addEventListener("click",(event)=>{
+                this.signupbtn.addEventListener("click",(event)=>{
                     event.preventDefault()
                     this.email.scrollIntoView({ behavior: "smooth", block: "center" });
-                })
+                });
 
             }
         gmail.insertAdjacentElement("afterend", message);
     }
+
+    checkmobilenumber(){
+        const existing = document.querySelector("#merror");
+        if(existing){
+            existing.remove();
+        }
+        const message = document.createElement("span");
+        const container = document.querySelector(".Admin_mobileNo")
+        let condition = this.mobileNum.value;
+        message.id = "merror"
+        if(this.mobileNum.value === ""){
+            message.remove();
+        }else if(condition.length !== 10){
+            message.textContent = "Invalid Mobile Number";
+            message.style.color = "red";
+            message.style.margin = "0";
+            message.style.fontSize = "0.8rem";
+            this.signupbtn.addEventListener("click",(event)=>{
+                event.preventDefault()
+                this.email.scrollIntoView({ behavior: "smooth", block: "center" });
+            });
+        }
+        container.insertAdjacentElement("afterend",message);
+    }
+
+    checkpassword(){
+        const password = this.password.value;
+        const conditions = [
+            { test: /[A-Z]/.test(password), message: "atleast 1 Uppercase letter [A-Z]" },
+            { test: /[a-z]/.test(password), message: "atleast 1 Lowercase letter [a-z]" },
+            { test: /[0-9]/.test(password), message: "atleast 1 NUMBER [0-9]" },
+            { test: /[!@#$%^&*?]/.test(password), message: "atleast 1 Special Character [!@#$%^&*?]" },
+            { test: password.length >= 8, message: "atleast 8 character long" }
+        ];
+        const container = document.querySelector(".AdminPassword");
+        const exist = document.querySelector("#loginError");
+        if (exist) {
+            exist.remove();
+        }
+        const failed = conditions.find(condition =>!condition.test);
+        const error = document.createElement("span");
+        error.id = "loginError";
+        if(password === ""){
+            error.remove();
+        }else if (failed){
+                error.textContent = failed.message;
+                error.style.color = "red";
+                error.style.margin = "0";
+                error.style.fontSize = "0.8rem";
+                container.insertAdjacentElement("afterend", error);
+                this.signupbtn.addEventListener("click",(event)=>{
+                event.preventDefault()
+                this.email.scrollIntoView({ behavior: "smooth", block: "bottom" });
+            });
+        }
+    }
+
+    checkpasswordifference(){
+        const real_password = this.password.value;
+        const confirmpass = this.confirmpassword.value;
+        const excist = document.querySelector("#Cpasserror");
+        if(excist){
+            excist.remove();
+        }
+        const message = document.createElement("span");
+        message.id = "Cpasserror";
+
+        if(this.confirmpassword === ""){
+            message.remove();
+        }else if(confirmpass !== real_password){
+          const container = document.querySelector(".C_Password");
+          message.textContent = "Entered Password Is Not Same";
+          message.style.color = "red";
+          message.style.fontSize = "0.8rem";
+          message.style.margin = "0rem";
+          container.insertAdjacentElement("afterend",message);
+        }
+    }
+
+    checksignupform(event){
+        event.preventDefault();
+        if(this.username.value.trim() === "" && this.email.value === "" && this.password.value === "" && this.mobileNum.value === "" && this.confirmpassword.value === ""){
+            const excist = document.querySelector("#formerror");
+            if(excist){
+                excist.remove();
+            }
+            const message = document.createElement("span");
+            message.id = "formerror"
+            message.textContent ="Please Fill Up Your Details";
+            message.style.color = "red";
+            message.style.fontSize = "0.8rem";
+            message.style.margin = "0rem";
+            this.signupbtn.insertAdjacentElement("beforebegin",message);
+        }
+    }
+
+
 }
 
 new LOGIN();
