@@ -43,6 +43,7 @@ class SIGNUP{
     this.password = document.querySelector(".js_signup_password");
     this.confirmpassword = document.querySelector(".js_signup_ConfirmPassword");
     this.signupbtn = document.querySelector(".js_signupbtn");
+    this.eye = document.querySelectorAll(".toggle_eye");
     this.init()
     }
     init(){
@@ -52,6 +53,10 @@ class SIGNUP{
         this.password.addEventListener("input",(event)=>this.checkpassword(event));
         this.confirmpassword.addEventListener("blur",(event)=>this.checkpasswordifference(event));
         this.signupbtn.addEventListener("click",(event)=>this.checksignupform(event));
+
+        this.eye.forEach(eye =>{
+            eye.addEventListener("click",()=>this.togglepassword(eye));  
+        });
     }
 
     backtologin(){
@@ -142,6 +147,23 @@ class SIGNUP{
                 this.email.scrollIntoView({ behavior: "smooth", block: "bottom" });
             });
         }
+
+        const confirmContainer = document.querySelector(".C_Password");
+        const existingConfirmError = document.querySelector("#Cpasserror");
+        if (existingConfirmError) existingConfirmError.remove();
+
+        if (this.confirmpassword.value !== "") {
+            if (password !== this.confirmpassword.value) {
+                const confirmError = document.createElement("span");
+                confirmError.id = "Cpasserror";
+                this.signupbtn.preventDefault();
+                confirmError.textContent = "Entered Password Is Not Same";
+                confirmError.style.color = "red";
+                confirmError.style.fontSize = "0.8rem";
+                confirmError.style.margin = "0rem";
+                confirmContainer.insertAdjacentElement("afterend", confirmError);
+            }
+        }
     }
 
     checkpasswordifference(){
@@ -183,7 +205,18 @@ class SIGNUP{
         }
     }
 
-
+    togglepassword(icon){
+        const input = icon.closest("span").previousElementSibling;
+        if(input.type === "password"){
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        }else{
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye")
+        }
+    }
 }
 
 new LOGIN();
