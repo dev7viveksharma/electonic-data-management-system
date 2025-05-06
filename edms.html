@@ -13,7 +13,7 @@
             <img src="./source/images/edms image.png" alt="EDMS Illustration" class="image">
             <img src="./source/images/head officer.png" class="head-officer js_head hidden">
         </div>
-        <div class="login hidden">
+        <div class="login">
             <h1>Welcome Officers</h1>
             <form class="login-form">
                 <div class="login-id-email margin">
@@ -28,7 +28,7 @@
             </form>
             <p>Don't have an account? <span id="showSignup" class="toggle">Create New Account</span></p>
         </div>
-        <div class="Admin_signup ">               
+        <div class="Admin_signup hidden">               
             <div class="Signup-welcome">
                 <div class="admin-welcome">
                 <div class="back-btn">
@@ -40,7 +40,7 @@
                 </div>
                 </div>   
             </div>
-            <form  class="Admin-Signup-form" action="">
+            <form  class="Admin-Signup-form" >
                 <div class="Username">
                     <label for="name" class="Admin-details"> Full Name</label>
                     <input type="text" id="name" class="login-input js_signup_username" placeholder="Enter Full Name" required>
@@ -51,11 +51,11 @@
                 </div>
                 <div class="Admin_mobileNo">
                     <label for="AdminEmail" class="Admin-details">Mobile No.</label>
-                    <input type="number" id="AdminMobileNo" class="login-input js_signup_mobile" placeholder="+91" required>
+                    <input type="tel" id="AdminMobileNo" class="login-input js_signup_mobile" placeholder="+91" required>
                 </div>
                 <div class="Designation">
                     <label for="AdminDesignation" class="Admin-details">Designation</label>
-                    <select name="Admindesignation" id="AdminDesignation" class="login-input" required>
+                    <select name="Admindesignation" id="AdminDesignation" class="login-input js_designation" required>
                     <option value="" disabled selected>Select Your Designation</option>
                     <option value="Designation 1" >Designation 1</option>
                     <option value="Designation 2" >Designation 2</option>
@@ -112,6 +112,7 @@
             <p class="AlreadyAccount">Already have an account ?<span>Sign in</span></p>
         </div>
     </div>
-<script src="edms.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="edms.js"></script>
 </body>
 </html>

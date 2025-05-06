@@ -6,7 +6,7 @@ class LOGIN {
         this.image = document.querySelector(".img");
         this.headImage = document.querySelector(".js_head");
         this.electiveImage = document.querySelector(".image");
-        this.username = document.querySelector(".js_name_code");
+        this.gmailornumber = document.querySelector(".js_name_code");
         this.password = document.querySelector(".js_login_password");
         this.loginBtn = document.querySelector(".js_login_btn");
         this.email = document.querySelector(".js_signup_email");
@@ -15,7 +15,7 @@ class LOGIN {
 
     init(){
         this.noAccount.addEventListener("click", (event) => this.signuppage(event));
-        this.loginBtn.addEventListener("click", (event) => this.signupcheck(event));
+        this.loginBtn.addEventListener("click", async (event) => this.signupcheck(event));
         
     }
 
@@ -25,6 +25,51 @@ class LOGIN {
         this.image.classList.add("img-container");
         this.electiveImage.classList.add("hidden");
         this.headImage.classList.remove("hidden");
+    }
+
+    async signupcheck(event){
+        event.preventDefault();
+        const error = document.querySelector("#loginerror");
+        if(error){
+            error.remove();
+        }
+        if(this.gmailornumber.value.trim() === "" || this.password.value === ""){
+            const message = document.createElement("span");
+            message.id= "loginerror";
+            message.textContent = "Please Enter Your Credentials";
+            message.style.color = "red";
+            message.style.margin = "0";
+            message.style.fontSize = "0.8rem";
+            this.loginBtn.insertAdjacentElement("beforebegin",message);
+        }else{
+            const url = "http://localhost:8080/login";
+            try{
+                
+                const response = await axios.post(url,{
+                    identified : this.gmailornumber.value,
+                    password : this.password.value
+                });
+                console.log("Identified:", this.gmailornumber.value);
+                console.log("Password:", this.password.value);
+                const data = await response.data;
+                if(data.success){
+                 
+                    localStorage.setItem("userid", data.userid); 
+                    localStorage.setItem("username", data.username); 
+                    window.location.href = "dashboard.html"; // Redirect after saving user info
+                }
+            }catch (err) {
+                if (err.response) {
+                    console.error("Server Error:", err.response.data.message);
+                    // Display a message to the user (optional)
+                } else if (err.request) {
+                    console.error("Network Error:", err.request);
+                } else {
+                    console.error("Error:", err.message);
+                }
+            }
+            
+        }
     }
 
 }
@@ -41,6 +86,7 @@ class SIGNUP{
     this.electiveImage = document.querySelector(".image");
     this.mobileNum = document.querySelector(".js_signup_mobile");
     this.password = document.querySelector(".js_signup_password");
+    this.designation = document.querySelector(".js_designation");
     this.confirmpassword = document.querySelector(".js_signup_ConfirmPassword");
     this.signupbtn = document.querySelector(".js_signupbtn");
     this.eye = document.querySelectorAll(".toggle_eye");
@@ -52,7 +98,7 @@ class SIGNUP{
         this.mobileNum.addEventListener("input",(event)=> this.checkmobilenumber(event));
         this.password.addEventListener("input",(event)=>this.checkpassword(event));
         this.confirmpassword.addEventListener("blur",(event)=>this.checkpasswordifference(event));
-        this.signupbtn.addEventListener("click",(event)=>this.checksignupform(event));
+        this.signupbtn.addEventListener("click",async (event)=>this.checksignupform(event));
 
         this.eye.forEach(eye =>{
             eye.addEventListener("click",()=>this.togglepassword(eye));  
@@ -104,8 +150,8 @@ class SIGNUP{
         message.id = "merror"
         if(this.mobileNum.value === ""){
             message.remove();
-        }else if(condition.length !== 10){
-            message.textContent = "Invalid Mobile Number";
+        }else if(!/^\d{10}$/.test(this.mobileNum.value)) {
+            message.textContent = "Enter a valid 10-digit mobile number";
             message.style.color = "red";
             message.style.margin = "0";
             message.style.fontSize = "0.8rem";
@@ -117,7 +163,7 @@ class SIGNUP{
         container.insertAdjacentElement("afterend",message);
     }
 
-    checkpassword(){
+    checkpassword(event){
         const password = this.password.value;
         const conditions = [
             { test: /[A-Z]/.test(password), message: "atleast 1 Uppercase letter [A-Z]" },
@@ -144,7 +190,7 @@ class SIGNUP{
                 container.insertAdjacentElement("afterend", error);
                 this.signupbtn.addEventListener("click",(event)=>{
                 event.preventDefault()
-                this.email.scrollIntoView({ behavior: "smooth", block: "bottom" });
+                this.email.scrollIntoView({ behavior: "smooth", block: "end" });
             });
         }
 
@@ -156,7 +202,7 @@ class SIGNUP{
             if (password !== this.confirmpassword.value) {
                 const confirmError = document.createElement("span");
                 confirmError.id = "Cpasserror";
-                this.signupbtn.preventDefault();
+                event.preventDefault();
                 confirmError.textContent = "Entered Password Is Not Same";
                 confirmError.style.color = "red";
                 confirmError.style.fontSize = "0.8rem";
@@ -176,7 +222,7 @@ class SIGNUP{
         const message = document.createElement("span");
         message.id = "Cpasserror";
 
-        if(this.confirmpassword === ""){
+        if(this.confirmpassword.value === ""){
             message.remove();
         }else if(confirmpass !== real_password){
           const container = document.querySelector(".C_Password");
@@ -188,20 +234,48 @@ class SIGNUP{
         }
     }
 
-    checksignupform(event){
+    async checksignupform(event){
         event.preventDefault();
+        const message = document.createElement("span");
         if(this.username.value.trim() === "" && this.email.value === "" && this.password.value === "" && this.mobileNum.value === "" && this.confirmpassword.value === ""){
             const excist = document.querySelector("#formerror");
             if(excist){
                 excist.remove();
             }
-            const message = document.createElement("span");
             message.id = "formerror"
             message.textContent ="Please Fill Up Your Details";
             message.style.color = "red";
             message.style.fontSize = "0.8rem";
             message.style.margin = "0rem";
             this.signupbtn.insertAdjacentElement("beforebegin",message);
+        }else{
+            try{
+                const url = `http://localhost:8080/signup`;
+                const response = await axios.post(url,{
+                    username : this.username.value,
+                    gmail : this.email.value,
+                    mobileno : this.mobileNum.value,
+                    designation : this.designation.value,
+                    password : this.password.value
+                });
+                const data = await response.data;
+                console.log(response.data);  
+                if(data.success){
+                    this.login.classList.remove("hidden");
+                    this.signup.classList.add("hidden");
+                    this.headImage.classList.add("hidden");
+                    this.image.classList.remove("img-container");
+                    this.electiveImage.classList.remove("hidden");
+                }
+            }catch (err) {
+                if (err.response) {
+                    console.log("Error:", err.response.data.message); // server responded with error
+                } else {
+                    console.log("Error:", err.message); // other errors (network etc.)
+                }
+            }
+           
+          
         }
     }
 
