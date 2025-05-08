@@ -1,0 +1,397 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+
+.top-bar{
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+    margin: 0;
+    border-bottom: 0.5px solid black;
+    z-index :10;
+}
+
+.usertools{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0.5rem;
+}
+
+.logo img{
+    display: block;
+    width: 80%;
+    height: 80%;
+    object-fit:fill; 
+    margin: 0.5rem  1rem 0rem 1rem;
+    padding-left: 1rem;
+}
+
+.user h2{
+    margin: 1rem 1rem;
+}
+
+.js_bars{
+    display: flex;
+    align-self: center;
+    font-size: 2rem;
+    margin-left: 2rem ;
+}
+
+.nav-features{
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    width: 100%;
+}
+
+.nav-bar{
+    width: 15rem;
+    height: 100%; 
+    background-color:#f8f8f8;
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 0.5px  solid black;
+    border-bottom: 0.5px  solid black;
+    border-right: 0.5px  solid black;
+}
+
+.drop-menu{
+    position: fixed;
+    right: 0;
+    top:-30%;
+    width: 10rem;
+    height: fit-content;
+    border-left: 0.5px solid black ;
+    border-right: 0.5px solid black ;
+    border-bottom: 0.5px solid black ;
+    transition: top 0.5s ease;
+    z-index: 2;
+}
+
+.drop{
+    top: 4rem;
+}
+.drop-menu ul{
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding:0;
+}
+.drop-menu ul li{
+    width: 10rem;
+    height: 4rem;
+    display: flex;
+    background-color: #f8f8f8;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    line-height: 4rem;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.navs ul {
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* spacing between items */
+    padding-bottom: 2rem;
+  }
+.navs ul li{
+    width: 12rem;
+    height: 3rem;
+    display: flex;
+    background-color: #f8f8f8;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    line-height: 4rem;
+    border-radius: 0.5rem;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+.navs ul li i{
+    margin-right: 0.2rem;
+  }
+
+.navs ul li:hover , .drop-menu ul li:hover {
+    background-color: #eaeaea;
+    border: 0.5px solid black 0.5;
+  }
+
+.js_bars:hover{
+    cursor: pointer;
+  }
+
+.logo img:hover{
+    cursor: pointer;
+}
+
+
+.sidebar_nav_tabs{
+    width: 100%;
+    height: 100%;
+    box-sizing: content-box;
+
+}
+
+
+.createEmployee {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+    flex-wrap: wrap;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    overflow: scroll;
+}
+
+.ShowEmployeeSignupPage{
+    opacity: 1;
+}
+
+
+.signup {
+    display: flex;
+    width: 100%;
+    flex-direction: column; /* Stack heading and form vertically */
+    align-items: center;     /* Center horizontally */
+    background:#ffff;
+    height: 100%;
+    width: 100%;
+}
+
+
+ .signup-bar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:sticky;
+    background-color: #ffffff;
+    width: 100%;
+    height: 5rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    top: 0;
+    z-index: 10;
+}
+
+.singup .main_heading h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 1rem;
+    text-align: center;
+}
+.signup .signup-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: 5rem;
+}
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    padding:1rem 0rem 1rem 0rem ;
+}
+
+.detail-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Label takes 1 fraction, Input takes 2 fractions */
+    gap: 15px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 1rem;
+}
+
+.signup-heading {
+    display: flex;
+    width: 100%;
+    padding-left:1rem ;
+    font-size: 1.5rem;
+    font-weight: 600;
+
+}
+
+.line{
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    padding-top: 1rem;
+}
+
+.personal-division{
+    display: flex;
+    flex-direction: row;
+}
+
+.signup-details, .p-heading {
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.signup-input,
+.signup-selection {
+    height: 2.2rem;
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 0.3rem;
+    box-sizing: border-box;
+}
+
+.password-wrapper {
+    position: relative;
+    width: fit-content;
+}
+
+.password-wrapper input {
+    padding-right: 40px; /* space for the icon */
+}
+
+.password-wrapper input {
+    padding-right: 40px; /* space for the icon */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
+}
+/* Wrap the whole thing */
+.Emp_photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    position: relative;
+}
+
+.Emp_photo input[type="file"] {
+    display: none;
+}
+  
+  /* Upload box */
+  .upload-box {
+    height: 8rem;
+    width: 6rem;
+    border: 2px dashed #aaa;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #777;
+    cursor: pointer;
+    transition: border 0.3s, color 0.3s;
+    position: relative;
+}
+  
+  /* ✅ Show feedback if file is selected */
+  .Emp_photo:has(input[type="file"]:not(:placeholder-shown)) .upload-box {
+    border-color: green;
+    color: green;
+}
+
+.Emp_photo:has(input[type="file"]:not(:placeholder-shown)) .upload-box::after {
+    position: absolute;
+    bottom: 0.3rem;
+    right: 0.4rem;
+    font-size: 1.5rem;
+    color: green;
+}
+
+ /* Hover style */
+.upload-box:hover {
+    border-color: #007BFF;
+    color: #007BFF;
+}
+      
+  
+.signup-image{
+    border: 1px solid black;
+    height:8rem;
+    width:6rem;
+
+}
+
+.gender p{
+    width: 8rem;
+    font-weight: 600;
+    padding-left:0.5rem ;
+    padding: 0rem 0.5rem 0rem 0.5rem;
+}
+
+
+.signup-form .signup_btn{
+    height: 3rem;
+    width: 10rem;
+    margin-top: 1.5rem;
+    align-self: center;
+    background-color: #007BFF;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border: 0.1rem solid black;
+    border-radius: 1rem;
+}
+
+.signup-input:hover,.signup-selection:hover{
+    border: 0.5px solid #007BFF;
+    cursor: pointer;
+}
+
+.signup-input:focus,
+.signup-selection:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+
+@media screen and (max-width: 768px) {
+    .detail-container {
+        grid-template-columns: 1fr; /* Stack the labels and inputs vertically */
+    }
+
+    .signup {
+        width: 95%; /* Ensure the form is not too wide on smaller screens */
+    }
+
+    .signup-form {
+        padding: 0 1rem;
+    }
+
+    .signup-details {
+        font-size: 1rem; /* Adjust font size for mobile */
+    }
+}

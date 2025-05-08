@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>welcome to EDM System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="./style/edms.css">
+</head>
+<body>
+    <div class="logo">
+        <img src="./images/EDMS LOGO for main screen.png"class ="js_logo">
+    </div>
+    <div class="main">
+        <div class="img">
+            <img src="./images/edms image.png" alt="EDMS Illustration" class="image">
+            <img src="./images/head officer.png" class="head-officer js_head hidden">
+        </div>
+        <div class="login">
+            <h1>Welcome Officers</h1>
+            <form class="login-form">
+                <div class="login-id-email margin">
+                <label for="Username" class="Login-details">Mobile or Gmail</label>
+                <input type="text" id="Username" name="FullName" placeholder="Enter your Name or email" class="login-input js_name_code">
+                </div>
+                <div class="login-password margin">
+                <label for="password" class="Login-details m">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your Password" class="login-input  js_login_password">
+                </div>
+                <button type="submit" class="login-btn  js_login_btn">Log In</button>
+            </form>
+            <p>Don't have an account? <span id="showSignup" class="toggle">Create New Account</span></p>
+        </div>
+        <div class="Admin_signup hidden">               
+            <div class="Signup-welcome">
+                <div class="admin-welcome">
+                <div class="back-btn">
+                    <img src="./images/arrow.png" class="back">
+                </div>
+                <div class="welcome">
+                    <h1>Create An Account</h1>
+                    <p>Join us Today To Empower Democracy</p>
+                </div>
+                </div>   
+            </div>
+            <form  class="Admin-Signup-form" >
+                <div class="Username">
+                    <label for="name" class="Admin-details"> Full Name</label>
+                    <input type="text" id="name" class="login-input js_signup_username" placeholder="Enter Full Name" required>
+                </div>
+                <div class="Email_Address">
+                    <label for="AdminEmail" class="Admin-details">Email Address</label>
+                    <input type="email" id="AdminEmail" class="login-input js_signup_email" placeholder="Enter Your Valid Email" required>
+                </div>
+                <div class="Admin_mobileNo">
+                    <label for="AdminEmail" class="Admin-details">Mobile No.</label>
+                    <input type="tel" id="AdminMobileNo" class="login-input js_signup_mobile" placeholder="+91" required>
+                </div>
+                <div class="Designation">
+                    <label for="AdminDesignation" class="Admin-details">Designation</label>
+                    <select name="Admindesignation" id="AdminDesignation" class="login-input js_designation" required>
+                    <option value="" disabled selected>Select Your Designation</option>
+                    <option value="Designation 1" >Designation 1</option>
+                    <option value="Designation 2" >Designation 2</option>
+                    <option value="Designation 3" >Designation 3</option>
+                    <option value="Designation 4" >Designation 4</option>
+                    <option value="Designation 5" >Designation 5</option>
+                    <option value="Designation 6" >Designation 6</option>
+                    <option value="Designation 7" >Designation 7</option>
+                    <option value="Designation 8" >Designation 8</option>
+                    <option value="Designation 9" >Designation 9</option>
+                    <option value="Designation 10" >Designation 10</option>
+                    <option value="Designation 11" >Designation 11</option>
+                    <option value="Designation 12" >Designation 12</option>
+                    <option value="Designation 13" >Designation 13</option>
+                    <option value="Designation 14" >Designation 14</option>
+                    <option value="Designation 15" >Designation 15</option>
+                    <option value="Designation 16" >Designation 16</option>
+                    <option value="Designation 17" >Designation 17</option>
+                    <option value="Designation 18" >Designation 18</option>
+                    <option value="Designation 19" >Designation 19</option>
+                    <option value="Designation 20" >Designation 20</option>
+                    <option value="Designation 21" >Designation 21</option>
+                    <option value="Designation 22" >Designation 22</option>
+                    <option value="Designation 23" >Designation 23</option>
+                    <option value="Designation 24" >Designation 24</option>
+                    <option value="Designation 25" >Designation 25</option>
+                    <option value="Designation 26" >Designation 26</option>
+                    <option value="Designation 27" >Designation 27</option>
+                    <option value="Designation 28" >Designation 28</option>
+                    <option value="Designation 29" >Designation 29</option>
+                    <option value="Designation 30" >Designation 30</option>
+                    </select>
+                </div>
+                <div class="AdminPassword">
+                    <label for="adminPassword" class="Admin-details"> Password</label>
+                    <div class="password-container">
+                    <input type="password" id="adminPassword" class="login-input js_signup_password" placeholder="Enter A Password" required>
+                    <span class="toggle-password" >
+                        <i class="fa-regular fa-eye toggle_eye"></i>
+                      </span>
+                   </div>
+                </div>
+                <div class="C_Password">
+                    <label for="ConfirmPassword" class="Admin-details"> Confirm Password</label>
+                    <div class="password-container">
+                    <input type="password" id="ConfirmPassword" class="login-input js_signup_ConfirmPassword" placeholder="Confirm Your Password" required>
+                    <span class="toggle-password" >
+                        <i class="fa-regular fa-eye toggle_eye"></i>
+                      </span>
+                    </div>
+                </div>
+                <button class="signup-btn js_signupbtn">Signup</button>
+            </form>
+            <p class="AlreadyAccount">Already have an account ?<span>Sign in</span></p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="edms.js"></script>
+</body>
+</html>
