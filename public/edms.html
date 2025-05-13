@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="./style/edms.css">
 </head>
 <body>
+    <div class="pop-ups">
+        <P class="popMessage ">Register Successfully</P>
+    </div>
     <div class="logo">
         <img src="./images/EDMS LOGO for main screen.png"class ="js_logo">
     </div>
@@ -21,7 +24,7 @@
             <form class="login-form">
                 <div class="login-id-email margin">
                 <label for="Username" class="Login-details">Mobile or Gmail</label>
-                <input type="text" id="Username" name="FullName" placeholder="Enter your Name or email" class="login-input js_name_code">
+                <input type="text" id="Username" name="FullName" placeholder="Enter your Mobile no. or email" class="login-input js_name_code">
                 </div>
                 <div class="login-password margin">
                 <label for="password" class="Login-details m">Password</label>
@@ -34,16 +37,13 @@
         <div class="Admin_signup hidden">               
             <div class="Signup-welcome">
                 <div class="admin-welcome">
-                <div class="back-btn">
-                    <img src="./images/arrow.png" class="back">
-                </div>
                 <div class="welcome">
                     <h1>Create An Account</h1>
                     <p>Join us Today To Empower Democracy</p>
                 </div>
                 </div>   
             </div>
-            <form  class="Admin-Signup-form" >
+            <form  class="Admin-Signup-form js_admins_form" >
                 <div class="Username">
                     <label for="name" class="Admin-details"> Full Name</label>
                     <input type="text" id="name" class="login-input js_signup_username" placeholder="Enter Full Name" required>
@@ -112,7 +112,7 @@
                 </div>
                 <button class="signup-btn js_signupbtn">Signup</button>
             </form>
-            <p class="AlreadyAccount">Already have an account ?<span>Sign in</span></p>
+            <p class="AlreadyAccount">Already have an account ?<span class="signin">Sign in</span></p>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -28,13 +28,13 @@ class LOGIN {
     }
 
     async signupcheck(event){
-        event.preventDefault();
+        event.preventDefault(); 
+        const message = document.createElement("span");
         const error = document.querySelector("#loginerror");
         if(error){
             error.remove();
         }
         if(this.gmailornumber.value.trim() === "" || this.password.value === ""){
-            const message = document.createElement("span");
             message.id= "loginerror";
             message.textContent = "Please Enter Your Credentials";
             message.style.color = "red";
@@ -53,7 +53,6 @@ class LOGIN {
                 console.log("Password:", this.password.value);
                 const data = await response.data;
                 if(data.success){
-                 
                     localStorage.setItem("userid", data.userid); 
                     localStorage.setItem("username", data.username); 
                     window.location.href = "dashboard.html"; // Redirect after saving user info
@@ -61,7 +60,7 @@ class LOGIN {
             }catch (err) {
                 if (err.response) {
                     console.error("Server Error:", err.response.data.message);
-                    // Display a message to the user (optional)
+                    
                 } else if (err.request) {
                     console.error("Network Error:", err.request);
                 } else {
@@ -79,7 +78,6 @@ class SIGNUP{
     this.login = document.querySelector(".login");
     this.username = document.querySelector(".js_signup_username");
     this.signup = document.querySelector(".Admin_signup");
-    this.backbtn = document.querySelector(".back");
     this.email = document.querySelector(".js_signup_email"); 
     this.image = document.querySelector(".img");
     this.headImage = document.querySelector(".js_head");
@@ -90,13 +88,23 @@ class SIGNUP{
     this.confirmpassword = document.querySelector(".js_signup_ConfirmPassword");
     this.signupbtn = document.querySelector(".js_signupbtn");
     this.eye = document.querySelectorAll(".toggle_eye");
+    this.signin = document.querySelector(".signin");
+    this.popmessage = document.querySelector(".popMessage");
+    this.adminform = document.querySelector(".js_admins_form");
     this.init()
     }
     init(){
-        this.backbtn.addEventListener("click", (event) => this.backtologin(event));
+        this.signin.addEventListener("click", (event) => this.backtologin(event));
         this.email.addEventListener("blur",(event) => this.checkemail(event));
         this.mobileNum.addEventListener("input",(event)=> this.checkmobilenumber(event));
-        this.password.addEventListener("input",(event)=>this.checkpassword(event));
+        this.password.addEventListener("input",(event)=>{
+            this.checkpassword(event);
+
+            if(this.confirmpassword.value !== ""){
+                this.checkpasswordifference();
+            }
+
+        });
         this.confirmpassword.addEventListener("blur",(event)=>this.checkpasswordifference(event));
         this.signupbtn.addEventListener("click",async (event)=>this.checksignupform(event));
 
@@ -194,22 +202,7 @@ class SIGNUP{
             });
         }
 
-        const confirmContainer = document.querySelector(".C_Password");
-        const existingConfirmError = document.querySelector("#Cpasserror");
-        if (existingConfirmError) existingConfirmError.remove();
-
-        if (this.confirmpassword.value !== "") {
-            if (password !== this.confirmpassword.value) {
-                const confirmError = document.createElement("span");
-                confirmError.id = "Cpasserror";
-                event.preventDefault();
-                confirmError.textContent = "Entered Password Is Not Same";
-                confirmError.style.color = "red";
-                confirmError.style.fontSize = "0.8rem";
-                confirmError.style.margin = "0rem";
-                confirmContainer.insertAdjacentElement("afterend", confirmError);
-            }
-        }
+       
     }
 
     checkpasswordifference(){
@@ -266,6 +259,12 @@ class SIGNUP{
                     this.headImage.classList.add("hidden");
                     this.image.classList.remove("img-container");
                     this.electiveImage.classList.remove("hidden");
+                    this.popmessage.classList.add("poptransition");
+                    this.adminform.reset();
+                    setTimeout(() => {
+                        this.popmessage.classList.remove("poptransition");//hides pop
+                    }, 3000);
+    
                 }
             }catch (err) {
                 if (err.response) {

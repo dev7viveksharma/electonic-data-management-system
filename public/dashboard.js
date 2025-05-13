@@ -59,7 +59,14 @@ class SIGNUP{
             eye.addEventListener("click",()=>this.togglepassword(eye));
         });
 
-        this.signupPassword.addEventListener("input",(event)=>this.validateSignupPassword(event));
+        this.signupPassword.addEventListener("input",(event)=>{
+            this.validateSignupPassword(event);
+
+            if(this.signupCpassword.value !== ""){
+                  this.comparepassword(this.signupCpassword);
+            }
+
+        });
         this.signupCpassword.addEventListener("input",(event)=>this.comparepassword(event.target));
         this.signupCpassword.addEventListener("blur", (event) =>this.comparepassword(event.target));
         this.mobileNum.addEventListener("blur",(event)=>this.correctMobileNumber(event.target));
@@ -68,8 +75,9 @@ class SIGNUP{
         this.createEmployeetab.addEventListener("click",(event)=>this.showemployeeform(event));
         this.agelimit(dob);
         this.dorlimit(this.dor);
-
-        
+        document.querySelectorAll('input[name="disabled"]').forEach(radio => {
+        radio.addEventListener("change", () => this.checkdisabled());
+        });        
     }
 
     showemployeeform(event){
@@ -124,6 +132,7 @@ class SIGNUP{
         const existingError = document.querySelector("#signupError");
         if (existingError) existingError.remove();  // Remove error message when input loses focus
        });
+
     }
     
     comparepassword(confirmpass) {
@@ -285,6 +294,21 @@ class SIGNUP{
             period.insertAdjacentElement("afterend",m);
         });
     }
+
+    checkdisabled() {
+    const selected = document.querySelector('input[name="disabled"]:checked');
+
+    if (selected && selected.value === "yes") {
+        document.querySelector(".disability").classList.remove("hidden");
+        document.querySelector(".percentage_of_diability").classList.remove("hidden");
+        document.querySelector(".certificate").classList.remove("hidden");
+    } else {
+        document.querySelector(".disability").classList.add("hidden");
+        document.querySelector(".percentage_of_diability").classList.add("hidden");
+        document.querySelector(".certificate").classList.add("hidden");
+    }
+}
+
 }
 new TOPBAR();
 new SIGNUP();
