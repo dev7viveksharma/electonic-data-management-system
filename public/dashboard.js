@@ -14,6 +14,7 @@ class TOPBAR{
 
     showdropmenu(){
         this.dropMenu.classList.toggle("drop");
+        this.bar.classList.toggle("active");
     }
 
     showname(){
@@ -51,6 +52,8 @@ class SIGNUP{
         this.pay_scale = document.querySelector(".js_pay_scale");
         this.dor = document.querySelector(".js_retirement_date");
         this.createEmployeetab = document.querySelector(".Create_EmployeeBtn");
+        this.uploadImage = document.querySelector("#empUpload");
+        this.previewImage = document.querySelector("#previewImage");
         this.init();
     }
 
@@ -77,7 +80,9 @@ class SIGNUP{
         this.dorlimit(this.dor);
         document.querySelectorAll('input[name="disabled"]').forEach(radio => {
         radio.addEventListener("change", () => this.checkdisabled());
-        });        
+        });
+        
+        this.uploadImage.addEventListener("change",()=> this.showproFileImg());
     }
 
     showemployeeform(event){
@@ -149,7 +154,9 @@ class SIGNUP{
         message.id = "compareError";
         message.style.margin = "0";
         message.style.fontSize = "0.8rem";
-    
+        if(cpass === ""){
+            return;
+        }
         if (value !== cpass) {
             message.innerText = "Passwords do not match";
             message.style.color = "red";
@@ -302,12 +309,28 @@ class SIGNUP{
         document.querySelector(".disability").classList.remove("hidden");
         document.querySelector(".percentage_of_diability").classList.remove("hidden");
         document.querySelector(".certificate").classList.remove("hidden");
-    } else {
+        } else {
         document.querySelector(".disability").classList.add("hidden");
         document.querySelector(".percentage_of_diability").classList.add("hidden");
         document.querySelector(".certificate").classList.add("hidden");
+        }
     }
-}
+
+    showproFileImg(){
+        const file = this.uploadImage.files[0]
+        if(file){
+            const reader = new FileReader();
+            reader.onload = () =>{
+                this.previewImage.src = reader.result;
+                this.previewImage.style.display = 'block';
+                const bg = document.querySelector(".jsimg");
+                bg.style.backgroundColor = "#4CAF50"
+            };
+             reader.readAsDataURL(file);
+        }else{
+            this.previewImage.style.display = 'none';
+        }
+    }
 
 }
 new TOPBAR();

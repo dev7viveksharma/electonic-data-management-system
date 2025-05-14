@@ -70,13 +70,14 @@
                             </div>
             
                             <div class="Emp_photo">
-                                <label for="empUpload" class="upload-box">
-                                  <i class="fas fa-cloud-upload-alt"></i>
-                                </label>
+                                <div class="preview">
+                                    <img id="previewImage" src="./images/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" alt="">
+                                </div>
+                               <div class="imageUpload">
+                                <label for="empUpload" class="upload-box jsimg">upload</label>
                                 <input type="file" id="empUpload" accept="image/*">
+                               </div>                              
                               </div>
-            
-            
                             <div class="pass">
                                 <label for="s_password"class ="signup-details">Password</label>
                                 <div class="password-wrapper errorp">
@@ -165,7 +166,7 @@
                                 <label for="disablility_yes"class ="signup-details "><input id ="disabled_yes"  class="js_disabled" type="radio" name="disabled" value="yes">yes</label>
                                 <label for="disablility_no"class ="signup-details "><input id ="disabled_no" class="js_disabled" type="radio" name="disabled" value="no">no</label>
                             </div>
-                            
+
                             <div class="disability">
                                 <label for="type-of-disabilities" class="signup-details">Type of disability</label>
                                 <input type="text" id="type-of-disabilities" class="signup-input" name="types-of-disability">
@@ -202,9 +203,13 @@
                                     <label for="Type-of-service" class="signup-details">Type Of Service</label>
                                     <select name="Type-of-service" id="Type-of-service" class="signup-selection">
                                         <option value="" disabled selected>Select your service Type</option>
-                                        <option value="surajpur">surajpur</option>
-                                        <option value="ambikapur">ambikapur</option>
-                                        <option value="other">Other</option>
+                                        <option value="Regular">Regular</option>
+                                        <option value="Collector Rate">Collector Rate</option>
+                                        <option value="Daily Wage Earner">Daily Wage Earner</option>
+                                        <option value="Placement by Private Company / Contractors Staff"> Placement by Private Company / Contractors Staff</option>
+                                        <option value="Contractual">Contractual</option>
+                                        <option value="Ad_hoc">Ad-hoc</option>
+                                        <option value="Retired">Retired</option>
                                     </select>
                                 </div>
             

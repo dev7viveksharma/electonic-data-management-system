@@ -49,8 +49,17 @@ body {
 .js_bars{
     display: flex;
     align-self: center;
+    padding: 0.5rem;
     font-size: 2rem;
     margin-left: 2rem ;
+    border-radius: 50%;
+    transform:rotate(0deg);
+    transition: transform 0.5s ease-out;
+}
+
+.usertools .tool .active{
+    transform: rotate(90deg);
+    transition: transform 0.5s ease-in;
 }
 
 .nav-features{
@@ -288,56 +297,54 @@ body {
     cursor: pointer;
     color: #555;
 }
+#empUpload {
+  display: none;
+}
 /* Wrap the whole thing */
 .Emp_photo {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 1rem;
     position: relative;
 }
 
-.Emp_photo input[type="file"] {
-    display: none;
+.upload-box{
+    display: inline-block;
+    width: 6rem;
+    height: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #f6f6f6;
+    border: 0.5px solid black;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.upload-box:hover{
+    
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.5s ease, transform 0.3s ease;
 }
   
-  /* Upload box */
-  .upload-box {
+#previewImage{
     height: 8rem;
     width: 6rem;
-    border: 2px dashed #aaa;
-    border-radius: 0.5rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
     color: #777;
     cursor: pointer;
-    transition: border 0.3s, color 0.3s;
-    position: relative;
+    left: -6rem;
+    border: 0.5px solid black;
 }
-  
-  /* ✅ Show feedback if file is selected */
-  .Emp_photo:has(input[type="file"]:not(:placeholder-shown)) .upload-box {
-    border-color: green;
-    color: green;
-}
-
-.Emp_photo:has(input[type="file"]:not(:placeholder-shown)) .upload-box::after {
-    position: absolute;
-    bottom: 0.3rem;
-    right: 0.4rem;
-    font-size: 1.5rem;
-    color: green;
-}
-
- /* Hover style */
-.upload-box:hover {
-    border-color: #007BFF;
-    color: #007BFF;
-}
-      
-  
+       
 .signup-image{
     border: 1px solid black;
     height:8rem;
@@ -375,6 +382,10 @@ body {
 .signup-selection:focus {
     outline: none;
     border-color: #007BFF;
+}
+
+.signup_btn:hover{
+    cursor: pointer;
 }
 
 .hidden{
