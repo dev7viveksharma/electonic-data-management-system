@@ -734,7 +734,7 @@
              
                                <div class="department">
                                    <label for="organization" class="signup-details">Department/Organization</label>
-                                   <select name="organization" id="organization" class="signup-selection js_emp_form">
+                                   <select name="organization" id="organization" class="signup-selection js_emp_form js_department">
                                         <option value="" disabled selected>Select your department</option>
                                         <option value="Tribal and Scheduled Caste, Backward Class, and Minority Development">Tribal and Scheduled Caste, Backward Class, and Minority Development</option>
                                         <option value="Commissioner Land Records (Revenue and Disaster Management Department)">Commissioner Land Records (Revenue and Disaster Management Department)</option>
@@ -790,7 +790,7 @@
             
                                 <div class="Goverment">
                                     <label for="govern" class="signup-details">Goverment</label>
-                                    <select name="govern" id="govern" class="signup-selection js_emp_form">
+                                    <select name="govern" id="govern" class="signup-selection js_goverment js_emp_form">
                                         <option value="" disabled selected>Select your Goverment</option>
                                         <option value="state">state</option>
                                         <option value="central">central</option>
@@ -799,12 +799,12 @@
             
                                 <div class="treasury-code">
                                     <label for="Treasury-Employee-Code" class="signup-details">Treasury Employee Code</label>
-                                    <input type="number" id="Treasury-Employee-Code" class="signup-input js_emp_form" name="Treasury-Employee-Code">
+                                    <input type="number" id="Treasury-Employee-Code" class="signup-input js_treasury_code js_emp_form" name="Treasury-Employee-Code">
                                 </div>
             
                                 <div class="emp-status">
                                     <label for="Employee-status" class="signup-details">Employee status</label>
-                                    <select name="Employee-status" id="Employee-status" class="signup-selection js_emp_form">
+                                    <select name="Employee-status" id="Employee-status" class="signup-selection js_emp_status js_emp_form">
                                         <option value="" disabled selected>Select your Current Status</option>
                                         <option value="On leave for a long period">On leave for a long periode</option>
                                         <option value="Working and capable">Working and capable</option>
@@ -831,18 +831,18 @@
                             <div class="detail-container line "> 
                                 <div class="exp-voting-duties s-margin">
                                     <p class="p-heading">Experience in Voting Duties</p>
-                                    <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="exp_voting" class="js_emp_form" value="yes">yes</label>
-                                    <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="exp_voting" class="js_emp_form" value="no">no</label>
+                                    <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="exp_voting" class="js_votingexp js_emp_form" value="yes">yes</label>
+                                    <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="exp_voting" class="js_votingexp js_emp_form" value="no">no</label>
                                 </div>
                                 <div class="exp-counting-duties">
                                 <p class="p-heading">Experience in Counting Duties</p>
-                                <label for="exp_counting_duties"class ="signup-details"><input class="js_emp_form" type="radio" name="exp_counting" value="yes">yes</label>
-                                <label for="exp_counting_duties"class ="signup-details"><input  class="js_emp_form" type="radio" name="exp_counting" value="no">no</label>
+                                <label for="exp_counting_duties"class ="signup-details"><input class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="yes">yes</label>
+                                <label for="exp_counting_duties"class ="signup-details"><input  class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="no">no</label>
                                 </div>
                                 <div class="other_work">
                                 <p class="p-heading">Experience in Other Election-Related Work</p>
-                                <label for="exp_other"class ="signup-details"><input class="js_emp_form" type="radio" name="other_works" value="yes">yes</label>
-                                <label for="exp_other"class ="signup-details"><input  class="js_emp_form" type="radio" name="other_works" value="no">no</label>
+                                <label for="exp_other"class ="signup-details"><input class="js_emp_form js_expothers" type="radio" name="other_works " value="yes">yes</label>
+                                <label for="exp_other"class ="signup-details"><input  class="js_emp_form js_expothers" type="radio" name="other_works " value="no">no</label>
                                 </div>
                             </div>   
                         </div>
@@ -854,23 +854,23 @@
                             <div class="detail-container line "> 
                             <div class="Voter_Name ">
                                 <label for="voter_list_name"class ="signup-details">Name Present in Chhattisgarh Voter List</label>
-                                <input type="text"  id="voter_list_name" class="signup-input js_emp_form" name="voter_list_name">
+                                <input type="text"  id="voter_list_name" class="signup-input js_name_ch_voterList js_emp_form" name="voter_list_name">
                             </div>
                             <div class="voter_list_assembly">
                                 <label for="list_assembly"class ="signup-details">Voter List Assembly</label>
-                                <input type="number" id="list_assembly" class="signup-input js_emp_form" name="list_assembly">
+                                <input type="number" id="list_assembly" class="signup-input js_vla js_emp_form" name="list_assembly">
                             </div>
                             <div class="voter_part_number">
                                 <label for="part_number" class="signup-details">Voter Part Number</label>
-                                <input type="number" id="part_number" class="signup-input js_emp_form" name="part_number">
+                                <input type="number" id="part_number" class="signup-input js_vpn js_emp_form" name="part_number">
                             </div>
                             <div class="voter_serial_number">
                                 <label for="serial_number" class="signup-details">Voter Serial Number</label>
-                                <input type="number" name="serial_number" id="serial_number" class="signup-input js_emp_form">
+                                <input type="number" name="serial_number" id="serial_number" class="signup-input js_sn js_emp_form">
                             </div>
                             <div class="Epic">
                                 <label for="voter_id" class="signup-details">EPIC (Voter ID) Number</label>
-                                <input type="text" name="voter_id" id="voter_id" class="signup-input js_emp_form">
+                                <input type="text" name="voter_id" id="voter_id" class="signup-input js_epic js_emp_form">
                             </div>
                             </div>   
                         </div>
@@ -882,11 +882,11 @@
                             <div class="detail-container line "> 
                             <div class="Assembly_Constituency_of_Residence">
                                 <label for="Residence"class ="signup-details">Assembly Constituency of Residence</label>
-                                <input type="number" class="signup-input js_emp_form" id="Residence" name="Residence">
+                                <input type="number" class="signup-input js_Acr js_emp_form" id="Residence" name="Residence">
                             </div>
                             <div class="Assembly_Constituency_of_Workplace">
                                 <label for="Workplace"class ="signup-details">Assembly Constituency of Workplace</label>
-                                <input type="number" class="signup-input js_emp_form" id="Workplace" name="Workplace">
+                                <input type="number" class="signup-input js_Acw js_emp_form" id="Workplace" name="Workplace">
                             </div>
                             </div>   
                         </div>
@@ -898,11 +898,11 @@
                             <div class="detail-container line "> 
                             <div class="Current_Basic_Pay ">
                                 <label for="Basic_pay"class ="signup-details">Current Basic pay</label>
-                                <input type="number" class="signup-input js_emp_form" id="Basic_pay" name="Basic_pay">
+                                <input type="number" class="signup-input js_cbp js_emp_form" id="Basic_pay" name="Basic_pay">
                             </div>
                             <div class="Date_of_Current_Basic_Pay s-margin">
                                 <label for="Date_Basic_pay"class ="signup-details">Date of Current Basic Pay</label>
-                                <input type="date" class="signup-input js_emp_form" id="Date_Basic_pay" name="Date_Basic_pay">
+                                <input type="date" class="signup-input js_dcbp js_emp_form" id="Date_Basic_pay" name="Date_Basic_pay">
                             </div>
                             </div>
                         </div>
@@ -914,19 +914,19 @@
                             <div class="detail-container line "> 
                             <div class="Bank s-margin">
                                 <label for="B_name"class ="signup-details">Bank Name</label>
-                                <input type="text" class="signup-input js_emp_form" id="B_name" name="B_name">
+                                <input type="text" class="signup-input js_bank_name js_emp_form" id="B_name" name="B_name">
                             </div>
                             <div class="Account_Number s-margin">
                                 <label for="AccountNo"class ="signup-details">Account Number</label>
-                                <input type="number" class="signup-input js_emp_form" id="AccountNo" name="AccountNo">
+                                <input type="number" class="signup-input js_accountNumber js_emp_form" id="AccountNo" name="AccountNo">
                             </div>
                             <div class="Branch_code s-margin">
                                 <label for="Bcode" class="signup-details">Branch Code</label>
-                                <input type="number" class="signup-input js_emp_form" id="Bcode" name="Bcode">
+                                <input type="number" class="signup-input js_branchCode js_emp_form" id="Bcode" name="Bcode">
                             </div>
                             <div class="ifsc_code s-margin">
                                 <label for="ifsc" class="signup-details">IFSC Code</label>
-                                <input type="text" class="signup-input js_emp_form" id="ifsc" name="ifsc">
+                                <input type="text" class="signup-input js_ifsc js_emp_form" id="ifsc" name="ifsc">
                             </div>
                             </div>
                         </div>
@@ -938,7 +938,7 @@
                             <div class="detail-container line "> 
                             <div class="remarks s-margin">
                                 <label for="message">Your Message(optional):</label><br>
-                                <textarea id="message" name="message" rows="10" cols="30">remarks</textarea>
+                                <textarea id="message" name="message" rows="10" cols="30" class="remarks">no remarks</textarea>
                             </div>
                            </div>
                         </div>
@@ -948,6 +948,7 @@
             </div>
        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
    <script type="module" src="dashboard.js"></script>
 </body>
 </html>

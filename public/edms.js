@@ -54,7 +54,8 @@ class LOGIN {
                 const data = await response.data;
                 if(data.success){
                     localStorage.setItem("userid", data.userid); 
-                    localStorage.setItem("username", data.username); 
+                    localStorage.setItem("username", data.username);
+                    localStorage.setItem("admindesignation",data.AdminDesignation); 
                     window.location.href = "dashboard.html"; // Redirect after saving user info
                 }
             }catch (err) {

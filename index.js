@@ -10,7 +10,8 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 const logout_routes = require("./admindashboard");
-
+const profileImages = require("./EmpFile");
+app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 
 app.use(cors({
     origin:'http://127.0.0.1:5500'
@@ -94,7 +95,7 @@ app.post("/login",(req,res)=>{
                 return res.status(401).json({ success: false, message: "Incorrect password" });
             }
 
-            res.json({ success: true, message: "Login successful", userid: user.adminId, username: user.adminName  , Designation: user.adminDesignation});
+            res.json({ success: true, message: "Login successful", userid: user.adminId, username: user.adminName  , AdminDesignation: user.adminDesignation});
         });
 
     } catch (err) {
@@ -102,7 +103,9 @@ app.post("/login",(req,res)=>{
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
 app.use("/",logout_routes);
+app.use("/",profileImages);
 app.listen(port,(req,res)=>{
     console.log("server has been started");
 });

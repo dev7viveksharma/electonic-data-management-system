@@ -60,9 +60,32 @@ class SIGNUP{
         this.home_district = document.querySelector(".js_home_district");
         this.gender = document.querySelector(".js_gender");
         this.Designation = document.querySelector(".js_designation");
+        this.Department = document.querySelector(".js_department");
         this.service = document.querySelector(".js_services");
         this.classes = document.querySelector(".js_class");
+        this.supervisory = document.querySelector(".js_supervisory");
+        this.Goverment = document.querySelector(".js_goverment");
+        this.Tec = document.querySelector(".js_treasury_code");
+        this.empStatus = document.querySelector(".js_emp_status");
+        this.votingExp = document.querySelector('.js_votingexp[name="exp_voting"]:checked');
+        this.expCounting = document.querySelector('.js_expcounting[name="exp_counting"]:checked');
+        this.expOther = document.querySelector('.js_expothers[name="other_works"]:checked');
+        this.NameVoterList = document.querySelector(".js_name_ch_voterList");
+        this.voterListAssembly = document.querySelector(".js_vla");
+        this.voterPartNumber = document.querySelector(".js_vpn");
+        this.serialNumber = document.querySelector(".js_sn");
+        this.epic = document.querySelector(".js_epic");
+        this.Acr = document.querySelector("js_Acr");
+        this.Acw = document.querySelector("js_Acw");
+        this.currentBasicPay = document.querySelector(".js_cbp");
+        this.dcbp = document.querySelector("js_dcbp");
+        this.bankName = document.querySelector(".js_bank_name");
+        this.accountNo = document.querySelector(".js_accountNumber");
+        this.branchCode = document.querySelector(".js_branchCode");
+        this.ifsc = document.querySelector(".js_ifsc");
         this.empform = document.querySelectorAll(".js_emp_form");
+        this.remarks = document.querySelector(".remarks");
+        this.imagepath ="";
         this.init();
     }
 
@@ -85,8 +108,10 @@ class SIGNUP{
         this.percentage_of_disability.addEventListener("input",(event)=>this.disabilitypercentagelimit(event.target));
         this.pay_scale.addEventListener("input",(event)=>this.paylimit(event.target));
         this.createEmployeetab.addEventListener("click",(event)=>this.showemployeeform(event));
+        this.ifsc.addEventListener("input",()=>this.ifsclimit());
         this.agelimit(dob);
         this.dorlimit(this.dor);
+        this.empDepartment();
         document.querySelectorAll('input[name="disabled"]').forEach(radio => {
         radio.addEventListener("change", () => this.checkdisabled());
         });
@@ -330,21 +355,37 @@ class SIGNUP{
         }
     }
 
-    showproFileImg(){
-        const file = this.uploadImage.files[0]
-        if(file){
-            const reader = new FileReader();
-            reader.onload = () =>{
-                this.previewImage.src = reader.result;
-                this.previewImage.style.display = 'block';
-                const bg = document.querySelector(".jsimg");
-                bg.style.backgroundColor = "#4CAF50"
-            };
-             reader.readAsDataURL(file);
-        }else{
-            this.previewImage.style.display = 'none';
+    async showproFileImg(){
+            const file = this.uploadImage.files[0]
+            if(file){
+                const reader = new FileReader();
+                reader.onload = () =>{
+                    this.previewImage.src = reader.result;
+                    this.previewImage.style.display = 'block';
+                    const bg = document.querySelector(".jsimg");
+                    bg.style.backgroundColor = "#4CAF50"
+                };
+            try{
+                const formData = new FormData();
+                formData.append('pimage', file);
+                const url = "/uploadImg";
+                const response = await axios.post(url,formData ,{
+                headers: { "Content-Type": "multipart/form-data" }
+                });
+                this.imagepath = response.data.path;
+                console.log(this.imagepath);
+                }catch(err){
+                      if (err.response) {
+                    console.log("Error:", err.response.data.message); // server responded with error
+                } else {
+                    console.log("Error:", err.message); // other errors (network etc.)
+                }
+                }
+                reader.readAsDataURL(file);
+            }else{
+                this.previewImage.style.display = 'none';
+            }
         }
-    }
 
     showofficedropdownmenu(filteredOptions) {
     this.officeDropdDown.innerHTML = "";
@@ -401,6 +442,47 @@ class SIGNUP{
     });
 }
 
+ifsclimit(){
+    const ifscLength = this.ifsc.value;
+    const excist = document.querySelector("#ifscerror");
+    if(excist){
+        excist.remove();
+    }
+    const message = document.createElement("span");
+    message.id = "ifscerror";
+    message.style.margin = "0";
+    message.style.fontSize = "0.8rem";
+    if(this.ifsc.value === ""){
+        this.signupBtn.disabled = true;
+        return;
+    }
+    if(ifscLength.length !== 11){
+        this.signupBtn.disabled = true;
+        message.innerText = "invalid IFSC Code";
+        message.style.color = "red";
+    }else{
+        this.signupBtn.disabled = false;
+        message.innerText = "valid IFSC Code ✓";
+        message.style.color = "green"
+    }
+  
+    this.ifsc.insertAdjacentElement("afterend",message);
+
+    
+}
+
+empDepartment(){
+    const empdesignation = localStorage.getItem("admindesignation");
+    if(empdesignation){
+        this.Department.value = empdesignation;
+        this.Department.disabled = true;
+      }else{
+            alert("User Designation not Found! Redirecting to login...");
+            window.location.href = "edms.html";
+        }
+    }
+    
+
 async CreateEmpAccount(){
       const oldErrors = document.querySelectorAll("#Error");
       oldErrors.forEach(e => e.remove());
@@ -429,9 +511,46 @@ async CreateEmpAccount(){
                 const response = await axios.post(url , {
                     Fname : this.firstName.value,
                     Lname : this.lastName.value,
+                    profileImg : this.imagepath,
+                    Mnumber : this.mobileNum.value,
+                    password : this.password.value,
+                    dob : this.dob.value,
+                    home_district : this.home_district.value,
+                    gender : this.gender.value,
+                    Designation : this.Designation.value,
+                    typeservice : this.service.value,
+                    classes : this.classes.value,
+                    payScale : this.pay_scale.value,
+                    supervisory :this.supervisory.value,
+                    Department : this.Department.value,
+                    office : this.officeinput.value,
+                    Goverment : this.Goverment.value,
+                    tec : this.Tec.value,
+                    empStatus : this.empStatus.value,
+                    dor : this.dor.value,
+                    votingexp : this.votingExp.value,
+                    expcounting : this.expCounting.value,
+                    expother : this.expOther.value,
+                    NameVoterList : this.NameVoterList.value,
+                    voterListAssembly : this.voterListAssembly.value,
+                    serialNumber :this.serialNumber.value,
+                    epic : this.epic.value.value,
+                    Acr : this.Acr.value,
+                    Acw : this.Acw.value,
+                    currentBasicPay : this.currentBasicPay.value,
+                    dcbp : this.dcbp.value,
+                    bankName : this.bankName.value,
+                    accountNo : this.accountNo.value,
+                    branchCode : this.branchCode.value,
+                    ifsc : this.ifsc.value,
+                    remarks : this.remarks.value
                 });
-            }catch{
-
+            }catch(err){
+                if (err.response) {
+                    console.log("Error:", err.response.data.message); // server responded with error
+                } else {
+                    console.log("Error:", err.message); // other errors (network etc.)
+                }
             }
         }
     }
