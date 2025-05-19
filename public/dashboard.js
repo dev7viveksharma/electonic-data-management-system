@@ -1,3 +1,4 @@
+import { options } from './offices.js';
 class TOPBAR{
     constructor(){
         this.dropMenu = document.querySelector(".js_dropMenu");
@@ -54,6 +55,14 @@ class SIGNUP{
         this.createEmployeetab = document.querySelector(".Create_EmployeeBtn");
         this.uploadImage = document.querySelector("#empUpload");
         this.previewImage = document.querySelector("#previewImage");
+        this.officeinput = document.querySelector(".js_office");
+        this.officeDropdDown = document.querySelector(".officeDropDown");
+        this.home_district = document.querySelector(".js_home_district");
+        this.gender = document.querySelector(".js_gender");
+        this.Designation = document.querySelector(".js_designation");
+        this.service = document.querySelector(".js_services");
+        this.classes = document.querySelector(".js_class");
+        this.empform = document.querySelectorAll(".js_emp_form");
         this.init();
     }
 
@@ -83,7 +92,12 @@ class SIGNUP{
         });
         
         this.uploadImage.addEventListener("change",()=> this.showproFileImg());
-    }
+        this.officelist()
+        this.officeinput.addEventListener("input",()=>this.filterkeywords());
+        this.signupBtn.addEventListener("click",(event)=>{
+            event.preventDefault();
+            this.CreateEmpAccount()});
+        }
 
     showemployeeform(event){
         this.Employeeform.classList.toggle("ShowEmployeeSignupPage")
@@ -332,6 +346,95 @@ class SIGNUP{
         }
     }
 
+    showofficedropdownmenu(filteredOptions) {
+    this.officeDropdDown.innerHTML = "";
+    filteredOptions.forEach(option => {
+        const menu = document.createElement("div");
+        menu.textContent = option;
+        menu.onclick = () => {
+            this.officeinput.value = option;
+            this.officeDropdDown.style.display = "none";
+        };
+        this.officeDropdDown.appendChild(menu);
+    });
+
+    this.officeDropdDown.style.display = filteredOptions.length ? "block" : "none";
+}
+
+  filterkeywords() {
+    const current = this.officeinput.value.toLowerCase();
+    
+    if (current.trim() === "") {
+        this.officeDropdDown.style.display = "none";
+        return;
+    }
+
+    const filtered = options.filter(opt => opt.toLowerCase().includes(current));
+    this.showofficedropdownmenu(filtered);
+}
+
+    officelist(){
+    document.addEventListener("click", (event) => {
+    const isClickInside = event.target.closest(".js_office_container");
+
+    if (!isClickInside) {
+        this.officeDropdDown.style.display = "none";
+        const userInput = this.officeinput.value.trim();
+        const validOptions = options.map(opt => opt.toLowerCase());
+
+        const isValid = validOptions.includes(userInput.toLowerCase());
+
+        // Remove old error if exists
+        const oldError = document.querySelector("#officeError");
+        if (oldError) oldError.remove();
+
+        if (!isValid && userInput !== "") {
+            const error = document.createElement("span");
+            error.id = "officeError";
+            error.textContent = "Invalid Office, Please Select From Dropdown Below";
+            error.style.color = "red";
+            error.style.margin = "0";
+            error.style.fontSize = "0.8rem";
+            this.officeinput.insertAdjacentElement("afterend", error);
+            }
+        } 
+    });
+}
+
+async CreateEmpAccount(){
+      const oldErrors = document.querySelectorAll("#Error");
+      oldErrors.forEach(e => e.remove());
+      let isError = false;
+      this.empform.forEach(field =>{
+      if(field.value.trim() === ""){
+          isError = true;
+          return;
+        }
+      });
+      if(isError){
+         const error = document.createElement("span");
+            error.id = "Error";
+            error.textContent = `Please Fill All Of The Credentials`;
+            error.style.color = "red";
+            error.style.margin = "0";
+            error.style.fontSize = "1rem";
+            error.style.textAlign = "center";
+            this.signupBtn.insertAdjacentElement("beforebegin", error);
+        }else{
+            try{
+                const file =this.uploadImage.files[0];
+                const formdata = new FileReader();
+                formdata.append('image',file);
+                const url ="/CreateEmployeeAccount"
+                const response = await axios.post(url , {
+                    Fname : this.firstName.value,
+                    Lname : this.lastName.value,
+                });
+            }catch{
+
+            }
+        }
+    }
 }
 new TOPBAR();
 new SIGNUP();

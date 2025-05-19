@@ -94,7 +94,7 @@ app.post("/login",(req,res)=>{
                 return res.status(401).json({ success: false, message: "Incorrect password" });
             }
 
-            res.json({ success: true, message: "Login successful", userid: user.adminId, username: user.adminName });
+            res.json({ success: true, message: "Login successful", userid: user.adminId, username: user.adminName  , Designation: user.adminDesignation});
         });
 
     } catch (err) {

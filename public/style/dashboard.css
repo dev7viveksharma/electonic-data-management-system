@@ -373,6 +373,26 @@ body {
     border-radius: 1rem;
 }
 
+.js_office_container{
+    position: relative;
+}
+
+.officeDropDown{
+    position:absolute;
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 0.3rem;
+    box-sizing: border-box;
+    background-color:#f8f8f8;
+    cursor: pointer;
+}
+
+.officeDropDown{
+    display : none;
+}
+
 .signup-input:hover,.signup-selection:hover{
     border: 0.5px solid #007BFF;
     cursor: pointer;
