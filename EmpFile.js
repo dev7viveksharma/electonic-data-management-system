@@ -23,6 +23,7 @@ router.post('/uploadImg',upload.single('pimage'),(req,res)=>{
     }
 
     res.json({
+        success : true,
         message:'image uploaded successfully',
         path:`/profile/${req.file.filename}`
     });

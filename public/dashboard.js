@@ -127,14 +127,9 @@ class SIGNUP{
         radio.addEventListener("change", () => this.checkdisabled());
         });
 
-        this.certificates_disability.addEventListener("change",(event)=>{
-          
-            this.disabilitycertificates(event);
-         });
+        this.certificates_disability.addEventListener("change",()=>this.disabilitycertificates());
         
-        this.uploadImage.addEventListener("change",(event)=>{
-          
-            this.showproFileImg(event)});
+        this.uploadImage.addEventListener("change",()=>this.showproFileImg());
         this.officelist()
         this.officeinput.addEventListener("input",()=>this.filterkeywords());
         this.signupBtn.addEventListener("click",(event)=>{
@@ -376,7 +371,7 @@ class SIGNUP{
     }
 
     async showproFileImg(){
-            const file = this.uploadImage.files[0]
+            const file = this.uploadImage.files[0];
             if(file){
                 const reader = new FileReader();
                 reader.onload = () =>{
@@ -390,18 +385,13 @@ class SIGNUP{
                     const formData = new FormData();
                     formData.append('pimage', file);
                     const url = 'http://localhost:8080/uploadImg';
-                    const response = await axios.post(url,formData ,{
+                    const response = await axios.post(url,formData,{
                     headers: { "Content-Type": "multipart/form-data" }
                     });
                     this.imagepath = await response.data.path;
-                    }catch(error){
-                            if (error.response) {
-                        console.log("Error:", error.response.data.message); // server responded with error
-                    } else {
-                        console.log("Error:", error.message); // other errors (network etc.)
-                        }
+                    }catch{
+                        console.log("error");
                     }
-                    reader.readAsDataURL(file);
             }else{
                 this.previewImage.style.display = 'none';
             }
@@ -502,8 +492,7 @@ empDepartment(){
         }
     }
     
-async disabilitycertificates(event){
-    event.preventDefault();
+async disabilitycertificates(){
     const file = this.certificates_disability.files[0];
     if(file){
     try{
@@ -513,15 +502,16 @@ async disabilitycertificates(event){
     const response = await axios.post(url,formData,{
         headers: { "Content-Type": "multipart/form-data" }
     });
-    const data = await response.data;
+    const data =  response.data;
     if(data.success){
-            const error = document.createElement("span");
-            error.id = "officeError";
-            error.textContent = response.message;
-            error.style.color = "green";
-            error.style.margin = "0";
-            error.style.fontSize = "0.8rem";
-            this.certificates_disability.insertAdjacentElement("afterend", error);
+        const container = document.querySelector(".certificate");
+        const error = document.createElement("span");
+        error.id = "officeError";
+        error.textContent = data.message;
+        error.style.color = "green";
+        error.style.margin = "0";
+        error.style.fontSize = "0.8rem";
+        container.insertAdjacentElement("beforeend", error);
     }
     }catch(error){
         if (error.response) {

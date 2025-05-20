@@ -17,13 +17,14 @@ const storage = multer.diskStorage({
 const upload = multer({storage:storage});
 
 router.post('/disabilityCertificate',upload.single('certificate'),(req,res)=>{
-    console.log('image uploading...');
+    console.log('document uploading...');
     if(!req.file){
         return res.status(400).json({error:'no file uploaded'});
     }
 
     res.json({
-        message:'document uploaded successfully',
+        success: true,
+        message:'(document uploaded successfully)',
         path:`/profile/${req.file.filename}`
     });
 });

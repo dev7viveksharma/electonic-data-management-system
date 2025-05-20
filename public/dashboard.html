@@ -77,7 +77,7 @@
                                 <label for="empUpload" class="upload-box jsimg">upload</label>
                                 <input type="file" id="empUpload" accept="image/*"  class="js_emp_form">
                                </div>                              
-                              </div>
+                            </div>
                             <div class="pass">
                                 <label for="s_password"class ="signup-details">Password</label>
                                 <div class="password-wrapper errorp">
@@ -823,29 +823,42 @@
                                 </div>
                             </div>
                         </div>
-            
+                        
                         <div class="container">
-                            <div class="heading-container">
-                                <p class="signup-heading">Election Duty Experience</p>
-                            </div>
-                            <div class="detail-container line "> 
-                                <div class="exp-voting-duties s-margin">
-                                    <p class="p-heading">Experience in Voting Duties</p>
-                                    <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="exp_voting" class="js_votingexp js_emp_form" value="yes">yes</label>
-                                    <label for="exp_voting_duties"class ="signup-details"><input type="radio" name="exp_voting" class="js_votingexp js_emp_form" value="no">no</label>
-                                </div>
-                                <div class="exp-counting-duties">
-                                <p class="p-heading">Experience in Counting Duties</p>
-                                <label for="exp_counting_duties"class ="signup-details"><input id="exp_counting_duties" class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="yes">yes</label>
-                                <label for="exp_counting_duties"class ="signup-details"><input id="exp_counting_duties"  class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="no">no</label>
-                                </div>
-                                <div class="other_work">
-                                <p class="p-heading">Experience in Other Election-Related Work</p>
-                                <label for="exp_other"class ="signup-details"><input id="exp_other" class="js_emp_form js_expothers" type="radio" name="other_works " value="yes">yes</label>
-                                <label for="exp_other"class ="signup-details"><input id="exp_other" class="js_emp_form js_expothers" type="radio" name="other_works " value="no">no</label>
-                                </div>
-                            </div>   
+                        <div class="heading-container">
+                            <p class="signup-heading">Election Duty Experience</p>
                         </div>
+                        <div class="detail-container line"> 
+                            <div class="exp-voting-duties s-margin">
+                                <p class="p-heading">Experience in Voting Duties</p>
+                                <label for="exp_voting_dutie_yes" class="signup-details">
+                                    <input type="radio" id="exp_voting_dutie_yes" name="exp_voting" class="js_votingexp js_emp_form" value="yes"> yes
+                                </label>
+                                <label for="exp_voting_dutie_no" class="signup-details">
+                                    <input type="radio" id="exp_voting_dutie_no" name="exp_voting" class="js_votingexp js_emp_form" value="no"> no
+                                </label>
+                            </div>
+                            <div class="exp-counting-duties">
+                                <p class="p-heading">Experience in Counting Duties</p>
+                                <label for="exp_counting_dutie_yes" class="signup-details">
+                                    <input id="exp_counting_dutie_yes" class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="yes"> yes
+                                </label>
+                                <label for="exp_counting_dutie_no" class="signup-details">
+                                    <input id="exp_counting_dutie_no" class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="no"> no
+                                </label>
+                            </div>
+                            <div class="other_work">
+                                <p class="p-heading">Experience in Other Election-Related Work</p>
+                                <label for="exp_other_yes" class="signup-details">
+                                    <input id="exp_other_yes" class="js_emp_form js_expothers" type="radio" name="other_works" value="yes"> yes
+                                </label>
+                                <label for="exp_other_no" class="signup-details">
+                                    <input id="exp_other_no" class="js_emp_form js_expothers" type="radio" name="other_works" value="no"> no
+                                </label>
+                            </div>
+                        </div>   
+                        </div>
+
             
                         <div class="container">
                             <div class="heading-container">
