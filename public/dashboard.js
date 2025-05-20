@@ -85,11 +85,22 @@ class SIGNUP{
         this.ifsc = document.querySelector(".js_ifsc");
         this.empform = document.querySelectorAll(".js_emp_form");
         this.remarks = document.querySelector(".remarks");
+        this.diffrentlyabled = document.querySelector('.js_disabled[name="disabled"]:checked');
+        this.type_disability = document.querySelector(".js_typedisability");
+        this.certificates_disability = document.querySelector(".disability_certificates");
         this.imagepath ="";
+        this.documentpath = "";
         this.init();
     }
 
     init(){
+        window.addEventListener("error", (e) => {
+          console.error("Global Error:", e.message);
+        });
+        window.addEventListener("beforeunload", () => {
+        console.warn("Page is reloading!");
+        });
+
         this.eye.forEach(eye =>{
             eye.addEventListener("click",()=>this.togglepassword(eye));
         });
@@ -115,14 +126,23 @@ class SIGNUP{
         document.querySelectorAll('input[name="disabled"]').forEach(radio => {
         radio.addEventListener("change", () => this.checkdisabled());
         });
+
+        this.certificates_disability.addEventListener("change",(event)=>{
+          
+            this.disabilitycertificates(event);
+         });
         
-        this.uploadImage.addEventListener("change",()=> this.showproFileImg());
+        this.uploadImage.addEventListener("change",(event)=>{
+          
+            this.showproFileImg(event)});
         this.officelist()
         this.officeinput.addEventListener("input",()=>this.filterkeywords());
         this.signupBtn.addEventListener("click",(event)=>{
             event.preventDefault();
             this.CreateEmpAccount()});
-        }
+
+
+    }
 
     showemployeeform(event){
         this.Employeeform.classList.toggle("ShowEmployeeSignupPage")
@@ -365,23 +385,23 @@ class SIGNUP{
                     const bg = document.querySelector(".jsimg");
                     bg.style.backgroundColor = "#4CAF50"
                 };
-            try{
-                const formData = new FormData();
-                formData.append('pimage', file);
-                const url = "/uploadImg";
-                const response = await axios.post(url,formData ,{
-                headers: { "Content-Type": "multipart/form-data" }
-                });
-                this.imagepath = response.data.path;
-                console.log(this.imagepath);
-                }catch(err){
-                      if (err.response) {
-                    console.log("Error:", err.response.data.message); // server responded with error
-                } else {
-                    console.log("Error:", err.message); // other errors (network etc.)
-                }
-                }
                 reader.readAsDataURL(file);
+                try{
+                    const formData = new FormData();
+                    formData.append('pimage', file);
+                    const url = 'http://localhost:8080/uploadImg';
+                    const response = await axios.post(url,formData ,{
+                    headers: { "Content-Type": "multipart/form-data" }
+                    });
+                    this.imagepath = await response.data.path;
+                    }catch(error){
+                            if (error.response) {
+                        console.log("Error:", error.response.data.message); // server responded with error
+                    } else {
+                        console.log("Error:", error.message); // other errors (network etc.)
+                        }
+                    }
+                    reader.readAsDataURL(file);
             }else{
                 this.previewImage.style.display = 'none';
             }
@@ -402,7 +422,7 @@ class SIGNUP{
     this.officeDropdDown.style.display = filteredOptions.length ? "block" : "none";
 }
 
-  filterkeywords() {
+filterkeywords() {
     const current = this.officeinput.value.toLowerCase();
     
     if (current.trim() === "") {
@@ -414,7 +434,7 @@ class SIGNUP{
     this.showofficedropdownmenu(filtered);
 }
 
-    officelist(){
+officelist(){
     document.addEventListener("click", (event) => {
     const isClickInside = event.target.closest(".js_office_container");
 
@@ -482,6 +502,38 @@ empDepartment(){
         }
     }
     
+async disabilitycertificates(event){
+    event.preventDefault();
+    const file = this.certificates_disability.files[0];
+    if(file){
+    try{
+    const formData = new FormData();
+    formData.append("certificate",file);
+    const url = 'http://localhost:8080/disabilityCertificate';
+    const response = await axios.post(url,formData,{
+        headers: { "Content-Type": "multipart/form-data" }
+    });
+    const data = await response.data;
+    if(data.success){
+            const error = document.createElement("span");
+            error.id = "officeError";
+            error.textContent = response.message;
+            error.style.color = "green";
+            error.style.margin = "0";
+            error.style.fontSize = "0.8rem";
+            this.certificates_disability.insertAdjacentElement("afterend", error);
+    }
+    }catch(error){
+        if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+        }
+    }
+    }else{
+        console.log("file not found ");
+    }
+}
 
 async CreateEmpAccount(){
       const oldErrors = document.querySelectorAll("#Error");
@@ -504,10 +556,7 @@ async CreateEmpAccount(){
             this.signupBtn.insertAdjacentElement("beforebegin", error);
         }else{
             try{
-                const file =this.uploadImage.files[0];
-                const formdata = new FileReader();
-                formdata.append('image',file);
-                const url ="/CreateEmployeeAccount"
+                const url ="/CreateEmployeeAccount";
                 const response = await axios.post(url , {
                     Fname : this.firstName.value,
                     Lname : this.lastName.value,

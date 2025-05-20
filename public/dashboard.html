@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div class="signup">
-                    <form class="signup-form">
+                    <form class="signup-form js_signup_form">
                         <div class="container">
                             <div class="heading-container">
                                 <p class="signup-heading">Personel details</p>
@@ -169,7 +169,7 @@
 
                             <div class="disability">
                                 <label for="type-of-disabilities" class="signup-details">Type of disability</label>
-                                <input type="text" id="type-of-disabilities" class="signup-input" name="types-of-disability">
+                                <input type="text" id="type-of-disabilities" class="signup-input js_typedisability" name="types-of-disability">
                             </div>
                             <div class="percentage_of_diability">
                                 <label for="percentage-of-disability" class="signup-details">Percentage of Disability</label>
@@ -179,7 +179,7 @@
                             <div class="certificate">
                                 <p class="p-heading">Disability Certificate</p>
                                 <label for="myFile">Upload a file:</label>
-                                <input type="file" id="myFile" name="myFile" accept=".pdf">
+                                <input type="file" id="myFile" class="disability_certificates" name="myFile" accept=".pdf">
                             </div>
                         </div>
                         </div>
@@ -836,13 +836,13 @@
                                 </div>
                                 <div class="exp-counting-duties">
                                 <p class="p-heading">Experience in Counting Duties</p>
-                                <label for="exp_counting_duties"class ="signup-details"><input class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="yes">yes</label>
-                                <label for="exp_counting_duties"class ="signup-details"><input  class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="no">no</label>
+                                <label for="exp_counting_duties"class ="signup-details"><input id="exp_counting_duties" class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="yes">yes</label>
+                                <label for="exp_counting_duties"class ="signup-details"><input id="exp_counting_duties"  class="js_emp_form js_expcounting" type="radio" name="exp_counting" value="no">no</label>
                                 </div>
                                 <div class="other_work">
                                 <p class="p-heading">Experience in Other Election-Related Work</p>
-                                <label for="exp_other"class ="signup-details"><input class="js_emp_form js_expothers" type="radio" name="other_works " value="yes">yes</label>
-                                <label for="exp_other"class ="signup-details"><input  class="js_emp_form js_expothers" type="radio" name="other_works " value="no">no</label>
+                                <label for="exp_other"class ="signup-details"><input id="exp_other" class="js_emp_form js_expothers" type="radio" name="other_works " value="yes">yes</label>
+                                <label for="exp_other"class ="signup-details"><input id="exp_other" class="js_emp_form js_expothers" type="radio" name="other_works " value="no">no</label>
                                 </div>
                             </div>   
                         </div>

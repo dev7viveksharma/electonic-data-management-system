@@ -5,7 +5,7 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
     destination:function(req,file,cb){
-        cb(null,'./data/profile');
+        cb(null,'./data/documents');
     },
     filename:function(req,file,cb){
         const uniqueSuffix = Date.now()+'-'+Math.round(Math.random()*1E9);
@@ -16,14 +16,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage});
 
-router.post('/uploadImg',upload.single('pimage'),(req,res)=>{
+router.post('/disabilityCertificate',upload.single('certificate'),(req,res)=>{
     console.log('image uploading...');
     if(!req.file){
         return res.status(400).json({error:'no file uploaded'});
     }
 
     res.json({
-        message:'image uploaded successfully',
+        message:'document uploaded successfully',
         path:`/profile/${req.file.filename}`
     });
 });
