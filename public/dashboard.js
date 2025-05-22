@@ -58,7 +58,7 @@ class SIGNUP{
         this.officeinput = document.querySelector(".js_office");
         this.officeDropdDown = document.querySelector(".officeDropDown");
         this.home_district = document.querySelector(".js_home_district");
-        this.gender = document.querySelector(".js_gender");
+        this.gender = "";
         this.Designation = document.querySelector(".js_designation");
         this.Department = document.querySelector(".js_department");
         this.service = document.querySelector(".js_services");
@@ -67,30 +67,31 @@ class SIGNUP{
         this.Goverment = document.querySelector(".js_goverment");
         this.Tec = document.querySelector(".js_treasury_code");
         this.empStatus = document.querySelector(".js_emp_status");
-        this.votingExp = document.querySelector('.js_votingexp[name="exp_voting"]:checked');
-        this.expCounting = document.querySelector('.js_expcounting[name="exp_counting"]:checked');
-        this.expOther = document.querySelector('.js_expothers[name="other_works"]:checked');
+        this.votingExp = "";
+        this.expCounting = "";
+        this.expOther = "";
         this.NameVoterList = document.querySelector(".js_name_ch_voterList");
         this.voterListAssembly = document.querySelector(".js_vla");
         this.voterPartNumber = document.querySelector(".js_vpn");
         this.serialNumber = document.querySelector(".js_sn");
         this.epic = document.querySelector(".js_epic");
-        this.Acr = document.querySelector("js_Acr");
-        this.Acw = document.querySelector("js_Acw");
+        this.Acr = document.querySelector(".js_Acr");
+        this.Acw = document.querySelector(".js_Acw");
         this.currentBasicPay = document.querySelector(".js_cbp");
-        this.dcbp = document.querySelector("js_dcbp");
+        this.dcbp = document.querySelector(".js_dcbp");
         this.bankName = document.querySelector(".js_bank_name");
         this.accountNo = document.querySelector(".js_accountNumber");
         this.branchCode = document.querySelector(".js_branchCode");
         this.ifsc = document.querySelector(".js_ifsc");
         this.empform = document.querySelectorAll(".js_emp_form");
-        this.remarks = document.querySelector(".remarks");
-        this.diffrentlyabled = document.querySelector('.js_disabled[name="disabled"]:checked');
+        this.remarks = document.querySelector(".remark");
+        this.diffrentlyabled = "";
         this.type_disability = document.querySelector(".js_typedisability");
         this.certificates_disability = document.querySelector(".disability_certificates");
         this.imagepath ="";
         this.documentpath = "";
         this.init();
+        this.radio();
     }
 
     init(){
@@ -111,7 +112,10 @@ class SIGNUP{
             if(this.signupCpassword.value !== ""){
                   this.comparepassword(this.signupCpassword);
             }
-
+        });
+        this.signupPassword.addEventListener("blur",() => {
+            const existingError = document.querySelector("#signupError");
+            if (existingError) existingError.remove();  // Remove error message when input loses focus
         });
         this.signupCpassword.addEventListener("input",(event)=>this.comparepassword(event.target));
         this.signupCpassword.addEventListener("blur", (event) =>this.comparepassword(event.target));
@@ -123,9 +127,7 @@ class SIGNUP{
         this.agelimit(dob);
         this.dorlimit(this.dor);
         this.empDepartment();
-        document.querySelectorAll('input[name="disabled"]').forEach(radio => {
-        radio.addEventListener("change", () => this.checkdisabled());
-        });
+    
 
         this.certificates_disability.addEventListener("change",()=>this.disabilitycertificates());
         
@@ -136,8 +138,30 @@ class SIGNUP{
             event.preventDefault();
             this.CreateEmpAccount()});
 
-
     }
+
+
+    radio(){
+        document.querySelectorAll('input[name="disabled"]').forEach(radio => {
+        radio.addEventListener("change", () => this.checkdisabled());
+        });
+        document.querySelectorAll('input[name="gender"]').forEach(radio => {
+        radio.addEventListener("change", () => this.checkgenders());
+        });
+
+        document.querySelectorAll('input[name="exp_voting"]').forEach(radio => {
+        radio.addEventListener("change", () => this.checkexpvoting());
+        });
+
+         document.querySelectorAll('input[name="exp_counting"]').forEach(radio => {
+        radio.addEventListener("change", () => this.checkexpcounting());
+        });
+
+         document.querySelectorAll('input[name="other_works"]').forEach(radio => {
+        radio.addEventListener("change", () => this.checkexpother());
+        });
+    }
+
 
     showemployeeform(event){
         this.Employeeform.classList.toggle("ShowEmployeeSignupPage")
@@ -176,7 +200,7 @@ class SIGNUP{
 
         const container = document.querySelector(".errorp")
         const failedCondition = conditions.find(cond => !cond.test);
-        if (failedCondition,container) {
+        if (failedCondition && container) {
             // If there's a failed condition, display the error message
             const error = document.createElement("p");
             error.id = "signupError";
@@ -185,12 +209,11 @@ class SIGNUP{
             error.style.margin = "0";
             error.style.fontSize = "0.8rem";
             container.insertAdjacentElement("afterend", error);
-        }
-        
-        this.signupPassword.addEventListener("blur",() => {
+        }else{
+        // password valid, so remove any old error message
         const existingError = document.querySelector("#signupError");
-        if (existingError) existingError.remove();  // Remove error message when input loses focus
-       });
+        if (existingError) existingError.remove();
+    }
 
     }
     
@@ -355,7 +378,11 @@ class SIGNUP{
             period.insertAdjacentElement("afterend",m);
         });
     }
-
+    checkgenders(){
+        const selected = document.querySelector('input[name="gender"]:checked');
+        this.gender = selected.value;
+        console.log(this.gender);
+    }
     checkdisabled() {
     const selected = document.querySelector('input[name="disabled"]:checked');
 
@@ -368,6 +395,26 @@ class SIGNUP{
         document.querySelector(".percentage_of_diability").classList.add("hidden");
         document.querySelector(".certificate").classList.add("hidden");
         }
+        this.diffrentlyabled = selected.value;
+        console.log(this.diffrentlyabled);
+    }
+
+    checkexpvoting(){
+        const selected = document.querySelector('input[name="exp_voting"]:checked');
+        this.votingExp = selected.value;
+        console.log(this.votingExp);
+    }
+    
+    checkexpcounting(){
+        const selected = document.querySelector('input[name="exp_counting"]:checked');
+        this.expCounting = selected.value;
+        console.log(this.expCounting);
+    }
+
+     checkexpother(){
+        const selected = document.querySelector('input[name="other_works"]:checked');
+        this.expOther = selected.value;
+        console.log(this.expOther);
     }
 
     async showproFileImg(){
@@ -389,6 +436,10 @@ class SIGNUP{
                     headers: { "Content-Type": "multipart/form-data" }
                     });
                     this.imagepath = await response.data.path;
+                    const data = response.data;
+                    if(data.success){
+                        console.log(this.imagepath);
+                    }
                     }catch{
                         console.log("error");
                     }
@@ -495,26 +546,28 @@ empDepartment(){
 async disabilitycertificates(){
     const file = this.certificates_disability.files[0];
     if(file){
-    try{
-    const formData = new FormData();
-    formData.append("certificate",file);
-    const url = 'http://localhost:8080/disabilityCertificate';
-    const response = await axios.post(url,formData,{
-        headers: { "Content-Type": "multipart/form-data" }
-    });
-    const data =  response.data;
-    if(data.success){
-        const container = document.querySelector(".certificate");
-        const error = document.createElement("span");
-        error.id = "officeError";
-        error.textContent = data.message;
-        error.style.color = "green";
-        error.style.margin = "0";
-        error.style.fontSize = "0.8rem";
-        container.insertAdjacentElement("beforeend", error);
-    }
-    }catch(error){
-        if (error.response) {
+        try{
+            const formData = new FormData();
+            formData.append("certificate",file);
+            const url = 'http://localhost:8080/disabilityCertificate';
+            const response = await axios.post(url,formData,{
+                headers: { "Content-Type": "multipart/form-data" }
+            });
+            this.documentpath = await response.data.path;
+            const data =  response.data;
+            if(data.success){
+                const container = document.querySelector(".certificate");
+                const error = document.createElement("span");
+                error.id = "officeError";
+                error.textContent = data.message;
+                error.style.color = "green";
+                error.style.margin = "0";
+                error.style.fontSize = "0.8rem";
+                container.insertAdjacentElement("beforeend", error);
+                console.log(this.documentpath);
+            }
+        }catch(error){
+            if (error.response) {
                 console.log("Error:", error.response.data.message); // server responded with error
             } else {
                 console.log("Error:", error.message); // other errors (network etc.)
@@ -546,16 +599,22 @@ async CreateEmpAccount(){
             this.signupBtn.insertAdjacentElement("beforebegin", error);
         }else{
             try{
-                const url ="/CreateEmployeeAccount";
+                const userid = localStorage.getItem("userid");
+                const url ="http://localhost:8080/CreateEmployeeAccount";
                 const response = await axios.post(url , {
+                    adminid : userid,
                     Fname : this.firstName.value,
                     Lname : this.lastName.value,
                     profileImg : this.imagepath,
                     Mnumber : this.mobileNum.value,
-                    password : this.password.value,
+                    password : this.signupPassword.value,
                     dob : this.dob.value,
                     home_district : this.home_district.value,
-                    gender : this.gender.value,
+                    gender : this.gender,
+                    diffrentlyabled : this.diffrentlyabled,
+                    typeofdisability : this.type_disability.value,
+                    disablepercent : this.percentage_of_disability.value,
+                    certificateofDiability : this.documentpath,
                     Designation : this.Designation.value,
                     typeservice : this.service.value,
                     classes : this.classes.value,
@@ -567,13 +626,14 @@ async CreateEmpAccount(){
                     tec : this.Tec.value,
                     empStatus : this.empStatus.value,
                     dor : this.dor.value,
-                    votingexp : this.votingExp.value,
-                    expcounting : this.expCounting.value,
-                    expother : this.expOther.value,
+                    votingexp : this.votingExp,
+                    expcounting : this.expCounting,
+                    expother : this.expOther,
                     NameVoterList : this.NameVoterList.value,
                     voterListAssembly : this.voterListAssembly.value,
+                    vpn : this.voterPartNumber.value,
                     serialNumber :this.serialNumber.value,
-                    epic : this.epic.value.value,
+                    epic : this.epic.value,
                     Acr : this.Acr.value,
                     Acw : this.Acw.value,
                     currentBasicPay : this.currentBasicPay.value,
@@ -584,11 +644,18 @@ async CreateEmpAccount(){
                     ifsc : this.ifsc.value,
                     remarks : this.remarks.value
                 });
+
+                const data = await response.data;
+
+                if(data.success){
+                    console.log("successfully added");
+                }
             }catch(err){
                 if (err.response) {
                     console.log("Error:", err.response.data.message); // server responded with error
                 } else {
                     console.log("Error:", err.message); // other errors (network etc.)
+                    
                 }
             }
         }

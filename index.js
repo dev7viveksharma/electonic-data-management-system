@@ -7,16 +7,16 @@ const port = 8080;
 const bcrypt = require("bcrypt");
 const app = express();
 app.use(express.json());
-app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 const logout_routes = require("./admindashboard");
 const profileImages = require("./EmpFile");
+const createEmployee = require("./Employeesignup");
 const diableCertificate = require("./disabledcertificate");
 const { Certificate } = require("crypto");
 app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 app.use('/documents',express.static(path.join(__dirname,'data/documents')));
 app.use(cors({
-    origin:'http://127.0.0.1:5500'
+    origin:'http://localhost:8080'
 }));
 
 
@@ -109,6 +109,7 @@ app.post("/login",(req,res)=>{
 app.use("/",logout_routes);
 app.use("/",profileImages);
 app.use("/",diableCertificate);
+app.use("/",createEmployee);
 app.listen(port,(req,res)=>{
     console.log("server has been started");
 });
