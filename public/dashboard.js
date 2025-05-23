@@ -38,9 +38,54 @@ class TOPBAR{
     }
 }
 
+
+class SIDENAV{
+    constructor(){
+        // this.Employeeform = document.querySelector(".createEmployee");
+        // this.createEmployeetab = document.querySelector(".Create_EmployeeBtn");
+        this.nav = document.querySelectorAll(".navs ul li");
+        this.contentTab = document.querySelectorAll(".sidebar_nav_tabs > div")
+        this.active = null;
+        this.activeNav = null;
+        this.init();
+    }
+    init(){
+        // this.createEmployeetab.addEventListener("click",(event)=>this.showemployeeform(event));
+        this.nav.forEach((option)=>{
+            option.addEventListener("click",()=>{
+                const tabs =option.getAttribute("data-tab");
+                this.showemployeeform(tabs,option)});
+        });
+    }
+
+    showemployeeform(tabs,navItem){
+        
+        if(this.active){
+            this.active.classList.remove("ShowEmployeeSignupPage");
+            // this.Employeeform.classList.toggle("ShowEmployeeSignupPage");
+        }
+        if (this.activeNav) {
+            this.activeNav.classList.remove("activetab");
+        }
+
+        const newTab = document.querySelector(`.${tabs}`);
+
+        if(newTab){
+            newTab.classList.add("ShowEmployeeSignupPage");
+            this.active = newTab;
+
+        }
+        navItem.classList.add("activetab");
+        this.activeNav = navItem;
+
+    }
+}
+
+
 class SIGNUP{
     constructor(){
-        this.Employeeform = document.querySelector(".createEmployee");
+        this.form = document.querySelector(".js_signup_form");
+        this.pop = document.querySelector(".js_pop");
         this.firstName = document.querySelector(".js_signup_first_name");
         this.lastName = document.querySelector(".js_signup_last_name");
         this.signupPassword = document.querySelector(".js_password");
@@ -52,7 +97,6 @@ class SIGNUP{
         this.percentage_of_disability = document.querySelector(".js_percentageDisability");
         this.pay_scale = document.querySelector(".js_pay_scale");
         this.dor = document.querySelector(".js_retirement_date");
-        this.createEmployeetab = document.querySelector(".Create_EmployeeBtn");
         this.uploadImage = document.querySelector("#empUpload");
         this.previewImage = document.querySelector("#previewImage");
         this.officeinput = document.querySelector(".js_office");
@@ -122,7 +166,6 @@ class SIGNUP{
         this.mobileNum.addEventListener("blur",(event)=>this.correctMobileNumber(event.target));
         this.percentage_of_disability.addEventListener("input",(event)=>this.disabilitypercentagelimit(event.target));
         this.pay_scale.addEventListener("input",(event)=>this.paylimit(event.target));
-        this.createEmployeetab.addEventListener("click",(event)=>this.showemployeeform(event));
         this.ifsc.addEventListener("input",()=>this.ifsclimit());
         this.agelimit(dob);
         this.dorlimit(this.dor);
@@ -163,9 +206,7 @@ class SIGNUP{
     }
 
 
-    showemployeeform(event){
-        this.Employeeform.classList.toggle("ShowEmployeeSignupPage")
-    }
+
 
     togglepassword(icon){
         const input = icon.closest("span").previousElementSibling;
@@ -648,7 +689,9 @@ async CreateEmpAccount(){
                 const data = await response.data;
 
                 if(data.success){
-                    console.log("successfully added");
+                    this.form.reset();
+                    this.empDepartment();
+                    this.form.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
             }catch(err){
                 if (err.response) {
@@ -661,5 +704,9 @@ async CreateEmpAccount(){
         }
     }
 }
+
+
+
 new TOPBAR();
+new SIDENAV()
 new SIGNUP();

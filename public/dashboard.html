@@ -32,8 +32,8 @@
         <div class="nav-bar">
         <nav class="navs">
             <ul>
-                <li class="Create_EmployeeBtn"><i class="fa-solid fa-user"></i>Create Employee Account</li>
-                <li>option 2</li>
+                <li class="Create_EmployeeBtn" data-tab="createEmployee"><i class="fa-solid fa-user"></i>Create Employee Account</li>
+                <li class="View_EmployeeBtn" data-tab="View_Employee"><i class="fa-solid fa-users-viewfinder"></i>View Employee Data</li>
                 <li>option 3</li>
                 <li>option 4</li>
                 <li>option 5</li>
@@ -958,6 +958,34 @@
                         <button type="submit" class="signup_btn">submit</button>
                     </form>
                 </div> 
+            </div>
+            <div class="View_Employee">
+                <div class="Top_Search_Bar">
+                    <div class="SearchBar">
+                        <div class="searchField">
+                            <input type="text" placeholder="Search" class="empSearch">
+                        </div>
+                        <div class="searchBtn">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="Data_Field">
+                     <div class="Varified_Employee">
+                        <div class="varified_heading">
+
+                        </div>
+                        <div class="listOfVarifiedEmployess"></div>
+                    </div>
+               
+                    <div class="NonVarified_Employee">
+                        <div class="NonVarified_heading">
+                            
+                        </div>
+                        <div class="listOfNonVarifiedEmployess"></div>
+                    </div>
+                </div>
+
             </div>
        </div>
     </div>
