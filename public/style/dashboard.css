@@ -8,6 +8,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
+
 }
 
 
@@ -175,21 +176,19 @@ body {
 }
 
 
-.sidebar_nav_tabs{
-    width: 100%;
-    height: 100%;
-    box-sizing: content-box;
-
-}
-
-
 /* Side navigation bar ends */
 
 
 
 /* signup form started */
 
+.sidebar_nav_tabs{
+    position: relative;
+    width: calc(100% - 15rem);
+    height: 100%;
+    flex-wrap: wrap;
 
+}
 .createEmployee , .View_Employee {
     position: absolute;
     display: flex;
@@ -200,7 +199,7 @@ body {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
-    overflow: auto;
+    overflow-x: hidden;
 }
 
 .ShowEmployeeSignupPage{
@@ -305,10 +304,6 @@ body {
 .password-wrapper {
     position: relative;
     width: fit-content;
-}
-
-.password-wrapper input {
-    padding-right: 40px; /* space for the icon */
 }
 
 .password-wrapper input {
@@ -439,6 +434,10 @@ body {
 
 /* View Employee Data */
 
+.Top_Search_Bar{
+    box-shadow: none;
+}
+
 .SearchBar{
     display:flex;
     flex-direction: row;
@@ -491,15 +490,134 @@ body {
 
 .Varified_Employee , .NonVarified_Employee {
     width: 100%;
+    height: auto;
+
+}
+
+
+.Varified_heading , .NonVarified_heading{
+    display: flex;
     height: 2rem;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    border: 1px solid black;
 }
 
-.Varified_Employee{
-    background-color: #4CAF50;
+.Varified_heading{
+    background-color:#4CAF50;
 }
 
-.NonVarified_Employee{
+.NonVarified_heading{
     background-color:#FF2C2C;
+}
+
+.Varified_heading .nameofComponent , .NonVarified_heading .nameofComponent {
+    margin: 0.1rem;
+}
+.Varified_heading .dropdownArrow , .NonVarified_heading .dropdownArrow{
+    width: 2rem;
+    cursor: pointer;
+    margin: 0.1rem;
+    cursor: pointer;
+}
+
+.Varified_heading .dropdownArrow i , .NonVarified_heading .dropdownArrow i{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+    color: #ffff;
+    border-radius: 100%;
+}
+
+.listOfVarifiedEmployees , .listOfNonVarifiedEmployees{
+    width: 100%;
+    height: auto;
+    padding: 0.2rem;
+    margin: 0.1rem 0.1rem 0.1rem 0rem;
+   
+}
+
+
+.EmployeeList{
+    width: 100%;
+    height: 4.5rem;
+    display: flex;
+    flex-direction: row;
+    margin: 0rem 0rem 0.3rem 0rem ;
+    padding: 0.1rem;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 1rem;
+}
+
+.image_container{
+    display:flex;
+    width: 6rem;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.empImage{
+    width: 3rem;
+    height: 4rem;
+  
+    
+    border: 1px solid white;
+    border-radius: 0.5rem;
+}
+
+.details{
+    height: calc(100%-6rem);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    margin-right: 1rem;
+}
+
+.emp_code , .emp_name , .emp_mobileNumber , .emp_department{
+    margin: 0rem 1rem;
+    height: 100%;
+}
+
+.empcode , .empName , .empMNum , .empDepartment {
+    margin-top: 0.5rem;
+}
+
+.editBtn , .verify{
+    display: flex;
+    width: 5rem;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-left:1rem ;
+    
+}
+
+.editBtn button , .verify button{
+    display: flex;
+    width: 100%;
+    height: 1.5rem;
+    border-radius: 1rem;
+    border: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.editBtn button:hover , .verify button:hover{
+    cursor: pointer;
+    color:white ;
+    background-color: chocolate;
+}
+
+.editBtn button i {
+    margin-left:0.5rem;
 }
 /* View Employee Data End*/
 

@@ -705,8 +705,140 @@ async CreateEmpAccount(){
     }
 }
 
+class VIEWEMPLOYEE{
+    constructor(){
+        this.VarifiedDataContainer = document.querySelector(".listOfVarifiedEmployees");
+        this.NonVarifiedDataContainer = document.querySelector(".listOfNonVarifiedEmployees");
+        this.init();
+    }
+    init(){
+        this.varifiedData()
+        this.NonVarifiedData();
+    }
+
+    async varifiedData(){
+        try {
+            const response = await axios.get("http://localhost:8080/VarifiedEmployee");
+            let data = response.data.result;
+            let emp = data.map(employees=>({
+              empcode: employees.Employee_code,
+              empimg : employees.Employee_Image,
+              empname : employees.Employee_FName + " " + employees.Employee_LName,
+              empmnum : employees.Mobile_Number,
+              empdepartment : employees.Department,
+              empVarified : employees.varified
+            }));
+            const list = this.createEmployeelist(emp);
+            
+        } catch (error) {
+             if (error.response) {
+                    console.log("Error:", error.response.data.message); // server responded with error
+                } else {
+                    console.log("Error:", error.message); // other errors (network etc.)
+                    
+                }
+        }
+    }
+
+    async NonVarifiedData(){
+        try {
+            const response = await axios.get("http://localhost:8080/NonVarifiedEmployee");
+            let data = response.data.result;
+            let emp = data.map(employees=>({
+              empcode: employees.Employee_code,
+              empimg : employees.Employee_Image,
+              empname : employees.Employee_FName + " " + employees.Employee_LName,
+              empmnum : employees.Mobile_Number,
+              empdepartment : employees.Department,
+              empVarified : employees.varified
+            }));
+            const list = this.createEmployeelist(emp);
+        } catch (error) {
+             if (error.response) {
+                    console.log("Error:", error.response.data.message); // server responded with error
+                } else {
+                    console.log("Error:", error.message); // other errors (network etc.)
+                    
+                }
+        }
+    }
+
+    createEmployeelist(emp){
+        this.NonVarifiedDataContainer.innerHTML = "";
+        this.VarifiedDataContainer.innerHTML = "";
+        for(const data of emp){
+        if(data.empVarified === "Not Varified"){
+            this.NonVarifiedDataContainer.innerHTML +=`
+            <div class="EmployeeList">
+                <div class="image_container">
+                    <img  class="empImage" src="${data.empimg}">
+                </div>
+                <div class="details">
+                    <div class="emp_code">
+                        <p>Employee Code</p>
+                        <p class="empcode">${data.empcode}</p>
+                    </div>
+                    <div class="emp_name">
+                        <p>Employee Name</p>
+                        <p class="empName">${data.empname}</p>   
+                    </div>
+                    <div class="emp_mobileNumber">
+                        <p>Employee Mobile Number</p>
+                        <p class="empMNum">${data.empmnum}</p>
+                    </div>
+                    <div class="emp_department">
+                        <p>Employee Department</p>
+                        <p class="empDepartment">${data.empdepartment}</p>
+                    </div>
+                    <div class="verify">
+                        <button class="varifyBtn" type="button">Varify</button>
+                    </div>
+                    <div class="editBtn">
+                        <button  type="button">Edit<i class="fa-solid fa-pen"></i></button>
+                    </div>
+                </div>
+            </div>
+            `
+        }else{
+            this.VarifiedDataContainer.innerHTML += `
+            <div class="EmployeeList">
+                <div class="image_container">
+                    <img  class="empImage" src="${data.empimg}">
+                </div>
+                <div class="details">
+                    <div class="emp_code">
+                        <p>Employee Code</p>
+                        <p class="empcode">${data.empcode}</p>
+                    </div>
+                    <div class="emp_name">
+                        <p>Employee Name</p>
+                        <p class="empName">${data.empname}</p>   
+                    </div>
+                    <div class="emp_mobileNumber">
+                        <p>Employee Mobile Number</p>
+                        <p class="empMNum">${data.empmnum}</p>
+                    </div>
+                    <div class="emp_department">
+                        <p>Employee Department</p>
+                        <p class="empDepartment">${data.empdepartment}</p>
+                    </div>
+                    <div class="verify">
+                        <button class="notvarifyBtn" type="button">varify</button>
+                    </div>
+                    <div class="editBtn">
+                        <button>Edit<i class="fa-solid fa-pen"></i></button>
+                    </div>
+                </div>
+            </div>
+            `
+        }
+      }
+    }
+}
+
 
 
 new TOPBAR();
 new SIDENAV()
 new SIGNUP();
+new VIEWEMPLOYEE();
