@@ -610,16 +610,25 @@ body {
     align-items: center;
 }
 
+
+.editBtn button i {
+    margin-left:0.5rem;
+}
+
+
+
+
 .editBtn button:hover , .verify button:hover{
     cursor: pointer;
     color:white ;
     background-color: chocolate;
 }
-
-.editBtn button i {
-    margin-left:0.5rem;
-}
 /* View Employee Data End*/
+
+.invert {
+  transform: rotate(180deg);
+}
+
 
 .hidden{
     display: none;

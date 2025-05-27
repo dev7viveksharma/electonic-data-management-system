@@ -1,0 +1,18 @@
+.heading{
+    width: 100vw;
+    height: 4rem;
+}
+
+.logoSection{
+    height: 100%;
+    width: 10rem;
+}
+
+.logoSection img{
+    display: block;
+    width: 80%;
+    height: 80%;
+    object-fit:fill; 
+    margin: 0.5rem  1rem 0rem 1rem;
+    padding-left: 1rem;
+}

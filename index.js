@@ -13,6 +13,7 @@ const profileImages = require("./EmpFile");
 const createEmployee = require("./Employeesignup");
 const diableCertificate = require("./disabledcertificate");
 const ViewEmployee = require("./APIs/Viewdata");
+const varifyemp = require("./APIs/varifyemp");
 const { Certificate } = require("crypto");
 app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 app.use('/documents',express.static(path.join(__dirname,'data/documents')));
@@ -112,6 +113,7 @@ app.use("/",profileImages);
 app.use("/",diableCertificate);
 app.use("/",createEmployee);
 app.use("/",ViewEmployee);
+app.use("/",varifyemp);
 app.listen(port,(req,res)=>{
     console.log("server has been started");
 });

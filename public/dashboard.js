@@ -709,11 +709,23 @@ class VIEWEMPLOYEE{
     constructor(){
         this.VarifiedDataContainer = document.querySelector(".listOfVarifiedEmployees");
         this.NonVarifiedDataContainer = document.querySelector(".listOfNonVarifiedEmployees");
+        this.dropdownArrow = document.querySelectorAll(".dropdownArrow");
+        this.searchbox = document.querySelector(".empSearch");
+        this.searchbtn = document.querySelector(".searchBtn");
         this.init();
     }
     init(){
         this.varifiedData()
         this.NonVarifiedData();
+        this.dropdownArrow.forEach((arrow)=>{
+            arrow.addEventListener("click",(event)=>{
+                arrow.querySelector(".js_icon").classList.toggle("invert");
+                this.arrowfunction(event.currentTarget)});
+        });
+
+        this.searchbox.addEventListener("input",()=>this.searchEmployeesdata(this.VarifiedDataContainer,this.NonVarifiedDataContainer));
+        this.searchbtn.addEventListener("click",()=>this.searchEmployeesdata(this.VarifiedDataContainer,this.NonVarifiedDataContainer));
+        
     }
 
     async varifiedData(){
@@ -728,7 +740,7 @@ class VIEWEMPLOYEE{
               empdepartment : employees.Department,
               empVarified : employees.varified
             }));
-            const list = this.createEmployeelist(emp);
+            const list = this.createEmployeelist(emp,'Varified');
             
         } catch (error) {
              if (error.response) {
@@ -737,6 +749,22 @@ class VIEWEMPLOYEE{
                     console.log("Error:", error.message); // other errors (network etc.)
                     
                 }
+        }
+    }
+
+    arrowfunction(arrow){
+        const varifiedList = arrow.closest('.Varified_Employee')?.querySelector('.listOfVarifiedEmployees');
+        const nonVarifiedList = arrow.closest('.NonVarified_Employee')?.querySelector('.listOfNonVarifiedEmployees');
+        if(varifiedList){
+           const container =  varifiedList.querySelectorAll(".EmployeeList");
+           container.forEach((box)=>{
+           box.classList.toggle("hidden");
+           });
+        }else if(nonVarifiedList){
+           const container =  nonVarifiedList.querySelectorAll(".EmployeeList");
+           container.forEach((box)=>{
+           box.classList.toggle("hidden");
+           });
         }
     }
 
@@ -752,7 +780,7 @@ class VIEWEMPLOYEE{
               empdepartment : employees.Department,
               empVarified : employees.varified
             }));
-            const list = this.createEmployeelist(emp);
+            this.list = this.createEmployeelist(emp,'Not Varified');
         } catch (error) {
              if (error.response) {
                     console.log("Error:", error.response.data.message); // server responded with error
@@ -763,11 +791,30 @@ class VIEWEMPLOYEE{
         }
     }
 
-    createEmployeelist(emp){
-        this.NonVarifiedDataContainer.innerHTML = "";
-        this.VarifiedDataContainer.innerHTML = "";
-        for(const data of emp){
-        if(data.empVarified === "Not Varified"){
+   addVerificationListeners() {
+    this.NonVarifiedDataContainer.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target.classList.contains("varifyBtn")) {
+            console.log("Verify button clicked!");
+            this.verifyEmp(target);
+        }
+    });
+
+    this.VarifiedDataContainer.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target.classList.contains("notvarifyBtn")) {
+            console.log("Unverify button clicked!");
+            this.verifyEmp(target);
+            // this.unverifyEmp(target); // if needed
+        }
+    });
+}
+
+
+    createEmployeelist(emp , v){
+        if(v === "Not Varified"){
+            this.NonVarifiedDataContainer.innerHTML = "";
+            for(const data of emp){
             this.NonVarifiedDataContainer.innerHTML +=`
             <div class="EmployeeList">
                 <div class="image_container">
@@ -799,7 +846,10 @@ class VIEWEMPLOYEE{
                 </div>
             </div>
             `
+        }
         }else{
+            this.VarifiedDataContainer.innerHTML = "";
+            for(const data of emp){
             this.VarifiedDataContainer.innerHTML += `
             <div class="EmployeeList">
                 <div class="image_container">
@@ -823,16 +873,89 @@ class VIEWEMPLOYEE{
                         <p class="empDepartment">${data.empdepartment}</p>
                     </div>
                     <div class="verify">
-                        <button class="notvarifyBtn" type="button">varify</button>
-                    </div>
-                    <div class="editBtn">
-                        <button>Edit<i class="fa-solid fa-pen"></i></button>
+                        <button class="notvarifyBtn" type="button">UnVarify</button>
                     </div>
                 </div>
             </div>
             `
         }
       }
+      // Add this after rendering all employee lists
+      this.addVerificationListeners();
+    }
+
+    async verifyEmp(btn){
+        const parent_container = btn.closest('.EmployeeList');
+        const Empcode = parent_container.querySelector(".empcode").textContent.trim();
+
+        if(btn.classList.contains("varifyBtn")){
+        try {
+            const url = "http://localhost:8080/NonVarifiedEmployee/varify";
+
+
+            const response = await axios.post(url,{
+                empcode : Empcode
+            });
+            const data = await response.data;
+            if(data.success){
+                await this.NonVarifiedData();  // refresh unverified list
+                await this.varifiedData();     // refresh verified list
+            }
+            
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+            }
+        }
+        }else{
+            try {
+            const url = "http://localhost:8080/NonVarifiedEmployee/unvarify";
+
+
+            const response = await axios.post(url,{
+                empcode : Empcode
+            });
+            const data = await response.data;
+            if(data.success){
+                await this.NonVarifiedData();  // refresh unverified list
+                await this.varifiedData();     // refresh verified list
+            }
+            
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+            }
+        }  
+        }
+    }
+
+
+    searchEmployeesdata(varified,nonvarified){
+        const varifiedemployeelist = varified.querySelectorAll(".EmployeeList");
+        const nonvarifiedemployeelist = nonvarified.querySelectorAll(".EmployeeList");
+        varifiedemployeelist.forEach((list)=>{
+            const code = list.querySelector(".empcode")?.textContent.toLowerCase() || "";
+            const name = list.querySelector(".empName")?.textContent.toLowerCase() || "";
+            if(!code.includes(this.searchbox.value) && !name.includes(this.searchbox.value.toLowerCase())){
+                list.classList.add("hidden");
+            }else{
+                list.classList.remove("hidden");
+            }
+        });
+
+         nonvarifiedemployeelist.forEach((list)=>{
+            const code = list.querySelector(".empcode")?.textContent.toLowerCase() || "";
+            const name = list.querySelector(".empName")?.textContent.toLowerCase() || "";
+            if(!code.includes(this.searchbox.value) && !name.includes(this.searchbox.value.toLowerCase())){
+                list.classList.add("hidden");
+            }else{
+                list.classList.remove("hidden");
+            }
+        });
     }
 }
 
