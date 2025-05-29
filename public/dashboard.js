@@ -5,12 +5,29 @@ class TOPBAR{
         this.bar = document.querySelector(".js_bars");
         this.name = document.querySelector(".adminName");
         this.logoutBtn = document.querySelector(".logout");
+        this.profile = document.querySelector(".Profile");
+        this.backicon = document.querySelector(".js_backicon");
+        this.editSection = document.querySelector(".admin_profile");
+        this.designation = this.editSection.querySelector(".Admin_designation");
+        this.adminName = this.editSection.querySelector(".Admin_FullName");
+        this.mobile = this.editSection.querySelector(".Admin_Mobileno");
+        this.email = this.editSection.querySelector(".Admin_EmailAddress");
+        this.CompanyLogo = document.querySelector(".CompanyLogo");
+        this.editBtn = this.editSection.querySelector(".admineditbtn");
+        this.isedit = false;
         this.init();
         this.showname();
     }
     init(){
         this.bar.addEventListener("click",(event)=>this.showdropmenu(event));
         this.logoutBtn.addEventListener("click",(event)=>this.backtologin(event));
+        this.profile.addEventListener("click",()=>this.showadmineditpage());
+        this.backicon.addEventListener("click",()=>this.hideAdminEdit());
+        this.CompanyLogo.addEventListener("click",()=>{
+            location.reload();
+        });
+        this.adminProfile();
+        this.editBtn.addEventListener("click",()=>this.editProfile());
     }
 
     showdropmenu(){
@@ -36,6 +53,110 @@ class TOPBAR{
     window.location.href = 'http://localhost:8080/logout';
 
     }
+
+    showadmineditpage(){
+        this.editSection.style.right = "0rem";
+        this.showdropmenu();
+    }
+    hideAdminEdit(){
+        this.editSection.style.right = "-20rem";
+        this.showdropmenu();
+    }
+
+    async adminProfile(){
+        const empdesignation = localStorage.getItem("admindesignation");
+        const username = localStorage.getItem('username');
+        this.adminName.textContent = username;
+        this.designation.textContent = empdesignation;
+        try {
+            const id = localStorage.getItem("userid");
+            const url = 'http://localhost:8080/Admindata';
+            const response = await axios.get(url,{ params: { adminid: id }});
+
+            const admindata = response.data.result;
+            const list = admindata.map(admin=>({
+                mnum : admin.adminMobileNo,
+                ademail :admin.adminEmail
+            }));
+
+            for(let i of list){
+            this.mobile.textContent = i.mnum;
+            this.email.textContent = i.ademail;
+            }
+
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+                
+            }
+        }
+    }
+
+    editProfile(){
+        if(!this.isedit){
+                this.inputName = document.createElement("input");
+                this.inputEmail = document.createElement("input");
+                this.inputNum = document.createElement("input");
+
+                this.inputName.classList = "editableinputFieldName";
+                this.inputEmail.classList = "editableinputFieldEmail";
+                this.inputNum.classList = "editableinputFieldNumber";
+
+                this.inputName.value = this.adminName.textContent;
+                this.inputEmail.value = this.email.textContent;
+                this.inputNum.value = this.mobile.textContent;
+
+                this.inputName.type = "text";
+                this.inputEmail.type = "email";
+                this.inputNum.type = "tel";
+
+                this.origibalname = this.adminName.textContent;
+                this.originalnum = this.mobile.textContent;
+                this.originalmail = this.email.textContent;
+                
+                this.adminName.replaceWith(this.inputName);
+                this.mobile.replaceWith(this.inputNum);
+                this.email.replaceWith(this.inputEmail);
+                this.editBtn.textContent = "Done";
+                this.isedit = true;
+        }else{
+            try {
+                const adminname = document.createElement("p");
+                const adminmail = document.createElement("p");
+                const adminmnum = document.createElement("p");
+
+                adminmnum.classList = "Admin_Mobileno";
+                adminmail.classList = "Admin_EmailAddress";
+                adminname.classList = "Admin_FullName";
+
+                adminname.textContent = this.inputName.value;
+                adminmail.textContent = this.inputEmail.value;
+                adminmnum.textContent = this.inputNum.value;
+
+                this.inputName.replaceWith(adminname);
+                this.inputEmail.replaceWith(adminmail);
+                this.inputNum.replaceWith(adminmnum);
+
+                this.adminName = adminname;
+                this.email = adminmail;
+                this.mobile = adminmnum;
+
+                this.editBtn.textContent = "Edit";
+                this.isedit = false;
+
+
+            } catch (error){
+                if (error.response) {
+                    console.log("Error:", error.response.data.message); // server responded with error
+                } else {
+                    console.log("Error:", error.message); // other errors (network etc.)
+                }
+            } 
+        }
+    }
+
 }
 
 

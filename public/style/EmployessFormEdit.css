@@ -1,11 +1,35 @@
-.heading{
+body{
+    margin: 0rem;
+}
+.mainContainer{
+    display: flex;
+    height: 100vh;
     width: 100vw;
-    height: 4rem;
+    margin: 0rem;
+    flex-wrap: wrap;
+    overflow: scroll;
+}
+.heading{
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 10;
+}
+.heading_sections{
+    display: flex;
+    flex-direction: column;
 }
 
 .logoSection{
     height: 100%;
     width: 10rem;
+    padding: 0.5rem;
 }
 
 .logoSection img{
@@ -16,3 +40,178 @@
     margin: 0.5rem  1rem 0rem 1rem;
     padding-left: 1rem;
 }
+
+.edit_heading{
+    display: flex;
+    width:100%;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    
+}
+
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    padding:1rem 0rem 1rem 0rem ;
+}
+
+.detail-container{
+    display: grid;
+    grid-template-columns: 2fr 2fr; /* Label takes 1 fraction, Input takes 2 fractions */
+    gap: 15px 20px;
+    width: 100%;
+    padding: 1rem 1rem;
+}
+
+.line{
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    padding-top: 1rem;
+}
+
+
+.signup-heading {
+    display: flex;
+    width: 100%;
+    padding-left:1rem ;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.signup-details, .p-heading {
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.signup-input,
+.signup-selection {
+  display: block;
+  width: 30rem;
+  height: 2rem;
+}
+
+.signup-input:focus,
+.signup-selection:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+.formbtns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-form .signup_btn{
+    height: 3rem;
+    width: 10rem;
+    margin: 1.5rem;
+    align-self: center;
+    background-color: #007BFF;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border: 0.1rem solid black;
+    border-radius: 1rem;
+}
+
+#empUpload {
+  display: none;
+}
+/* Wrap the whole thing */
+.Emp_photo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.upload-box{
+    display: inline-block;
+    width: 6rem;
+    height: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #f6f6f6;
+    border: 0.5px solid black;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    cursor: pointer;
+}
+
+#previewImage{
+    height: 8rem;
+    width: 6rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #777;
+    cursor: pointer;
+    left: -6rem;
+    border: 0.5px solid black;
+}
+
+.signup-image{
+    border: 1px solid black;
+    height:8rem;
+    width:6rem;
+}
+.upload-box:hover{
+    
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.5s ease, transform 0.3s ease;
+}
+.js_office_container{
+    position: relative;
+}
+
+.officeDropDown{
+    position:absolute;
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 0.3rem;
+    box-sizing: border-box;
+    background-color:#f8f8f8;
+    cursor: pointer;
+}
+
+.officeDropDown{
+    display : none;
+}
+.delete_btn{
+    height: 3rem;
+    width: 10rem;
+    margin: 1.5rem;
+    align-self: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-radius: 1rem;
+    background-color: #FF2C2C;
+    color: white;
+    border: 0.1rem solid black
+}
+
+.signup_btn:hover , .delete_btn:hover{
+    cursor: pointer;
+}
+
