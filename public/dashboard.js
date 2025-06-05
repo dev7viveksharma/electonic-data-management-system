@@ -851,7 +851,10 @@ class VIEWEMPLOYEE{
 
     async varifiedData(){
         try {
-            const response = await axios.get("http://localhost:8080/VarifiedEmployee");
+            const dept = localStorage.getItem("admindesignation"); 
+            const response = await axios.get("http://localhost:8080/VarifiedEmployee",{
+                params: { department: dept }
+            });
             let data = response.data.result;
             let emp = data.map(employees=>({
               empcode: employees.Employee_code,
@@ -862,7 +865,17 @@ class VIEWEMPLOYEE{
               empVarified : employees.varified
             }));
             const list = this.createEmployeelist(emp,'Varified');
-            
+             if(data.length === 0){
+                 this.VarifiedDataContainer.innerHTML +=`
+                    <div class="EmployeeList">
+                        <div class="details">
+                        <h5>
+                            No Employee Data Found 
+                        </h5>
+                        </div>
+                    </div>
+                    `;
+            }
         } catch (error) {
              if (error.response) {
                     console.log("Error:", error.response.data.message); // server responded with error
@@ -891,7 +904,10 @@ class VIEWEMPLOYEE{
 
     async NonVarifiedData(){
         try {
-            const response = await axios.get("http://localhost:8080/NonVarifiedEmployee");
+            const dept = localStorage.getItem("admindesignation"); 
+            const response = await axios.get("http://localhost:8080/NonVarifiedEmployee",{
+                params: { department: dept }
+            });
             let data = response.data.result;
             let emp = data.map(employees=>({
               empcode: employees.Employee_code,
@@ -902,9 +918,20 @@ class VIEWEMPLOYEE{
               empVarified : employees.varified
             }));
             this.list = this.createEmployeelist(emp,'Not Varified');
+            if(data.length === 0){
+                 this.NonVarifiedDataContainer.innerHTML +=`
+                    <div class="EmployeeList">
+                        <div class="details">
+                        <h5>
+                            No Employee Data Found 
+                        </h5>
+                        </div>
+                    </div>
+                    `;
+            }
         } catch (error) {
              if (error.response) {
-                    console.log("Error:", error.response.data.message); // server responded with error
+                console.log("Error:", error.response.data.message); // server responded with error
                 } else {
                     console.log("Error:", error.message); // other errors (network etc.)
                     

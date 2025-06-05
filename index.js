@@ -15,6 +15,7 @@ const diableCertificate = require("./disabledcertificate");
 const ViewEmployee = require("./APIs/Viewdata");
 const varifyemp = require("./APIs/varifyemp");
 const adminview = require("./APIs/adminData");
+const empdatashow = require("./APIs/EmpviewData");
 const { Certificate } = require("crypto");
 app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 app.use('/documents',express.static(path.join(__dirname,'data/documents')));
@@ -116,6 +117,7 @@ app.use("/",createEmployee);
 app.use("/",ViewEmployee);
 app.use("/",varifyemp);
 app.use("/",adminview);
+app.use("/",empdatashow);
 app.listen(port,(req,res)=>{
     console.log("server has been started");
 });

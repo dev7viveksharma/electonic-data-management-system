@@ -1,0 +1,509 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(140deg, #FF671F, rgb(255, 255, 255) 50%, #046A38 100%);
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.staticBody{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction:column;
+}
+
+.header{
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    background-color: #ffffff50;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.companyLogoContainer{
+    display: flex;
+    width: 10rem;
+    height: 5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.CompanyLogo{
+    width: 80%;
+    height: 80%;
+    display: block;
+    object-fit:fill; 
+}
+
+.username{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin: 0.5rem 0.5rem;
+}
+
+.adminName{
+    font-size: 2rem;
+    font-weight: 500;
+    color: #dcdcdc;
+}
+
+.tool{
+    display: flex;
+    width: 10rem;
+    height: 5rem;
+    justify-content: flex-end;
+    align-items: end;
+    padding: 0.5rem 0.5rem;
+}
+
+.tool .js_bars{
+    font-size: 2rem;
+}
+
+.features{
+    display: flex;
+    width: 56rem;
+    height: 50%;
+    align-self: flex-end;
+    justify-content: center;
+    align-items: end;
+    border-top-left-radius: 1.2rem;
+    border-top-right-radius: 1.2rem;
+    border-bottom: 0.1rem solid #484848;
+}
+
+.departmentHead , .employeesDetails , .Home , .ElectionPlacement , .options{
+    display:flex;
+    margin: 0.25rem 0.5rem;
+    width: 8rem;
+    height: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.departmentHead button , .employeesDetails button , .ElectionPlacement button , .options button{
+    display:flex;
+    margin: 0.25rem 0.5rem;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.4rem;
+    border: none;
+    cursor: pointer;
+    background-color:rgba(100,201,221,0);
+    font-weight: 600;
+}
+
+.Home button{
+    width:2rem;
+    height:2rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.Home button i {
+    font-size: 1.5rem;
+    color: black;
+}
+
+
+.departmentHead button:hover , .employeesDetails button:hover , .ElectionPlacement button:hover , .options button:hover , .Home button:hover{
+    background-color: #ececec;
+}
+
+.adminBody{
+    position: relative;
+    width: 100%;
+    height: calc(100% - 5rem);
+}
+
+
+.homePage , .hod , .employeesList , .placement , .option5{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.staticals , .votinglist{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50%;
+    border: 1px solid black;
+    padding: 0rem 3rem;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.HODNumbers , .EmployeesNumber{
+    width: 15rem;
+    height: 18rem;
+    border: 1px solid black;
+    margin: 0rem 8rem;
+    background-color: #00000030;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 1.2rem;
+}
+
+.ElectionTypes , .voters{
+    width: 25rem;
+    height: 18rem;
+    border: 1px solid black;
+    margin: 0rem 3rem;
+    background-color: #00000030;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 1.2rem;
+}
+
+
+.ShowEmployeeSignupPage{
+    opacity: 1;
+    pointer-events: all;
+}
+
+
+.activetab{
+    background-color: #ececec;
+    border: 0.5px solid black 0.5;
+}
+
+.activeNav{
+    background-color:rgba(100,201,221,0);
+}
+
+
+
+/* HOME STARTS */
+
+.HEADTitle , .EmpTitle , .VoterTitle, .ElectiveTitle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 3rem;
+    border-top-left-radius: 1.2rem;
+    border-top-right-radius: 1.2rem;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    background-color:#ececec;
+    border-bottom:1px solid #484848;
+}
+/* HOME ENDS */
+
+
+
+/* HOD LIST  */
+
+.Hod_heading{
+    display: flex;
+    height: 2rem;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    border: 1px solid black;
+    background-color: #890304;
+    color: #fff;
+}
+
+.HodList{
+    width: 100%;
+    height: 4.5rem;
+    display: flex;
+    flex-direction: row;
+    margin: 0rem 0rem 0.3rem 0rem ;
+    padding: 0.1rem;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 1rem;
+}
+
+.Hod_heading .dropdownArrowHod i{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+    color: #ffff;
+    border-radius: 100%;
+}
+
+.listOfHODs{
+    width: 100%;
+    height: auto;
+    padding: 0.2rem;
+    margin: 0.1rem 0.1rem 0.1rem 0rem;   
+}
+
+.hoddetails{
+    height: calc(100% - 6rem);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    margin-right: 1rem;
+}
+
+.hod_name , .hod_mobileNumber , .hod_department , .hod_email{
+    margin: 0rem 1rem;
+    height: 100%;
+    width: 80%;
+}
+
+.block_Unblock{
+    display: flex;
+    width: 20%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-left:1rem ;
+}
+
+.editBtn button , .verify button{
+    display: flex;
+    width: 100%;
+    height: 1.5rem;
+    border-radius: 1rem;
+    border: none;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.editBtn button i {
+    margin-left:0.5rem;
+}
+
+
+
+
+.editBtn button:hover , .verify button:hover{
+    cursor: pointer;
+    color:white ;
+    background-color: chocolate;
+}
+
+
+
+
+/* HOD LIST END */
+
+
+/* View Employee Data starts*/
+
+.Top_Search_Bar{
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+}
+
+.SearchBar{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+    height: 2rem;
+    width: 30rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+}
+
+.searchField{
+    width: 100%;
+    height: 100%;
+}
+
+.searchField .empSearch  , .searchField .HodSearch{
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-bottom-left-radius:1rem;
+    border-top-left-radius:1rem;
+    padding-left: 1rem;
+}
+
+.searchBtn , .hodsearchBtn{
+    height: 100%;
+    width: 4rem;
+    border-left: 1px solid black;
+    background-color: #eaeaea;
+    border-top-right-radius: 1rem ;
+    border-bottom-right-radius:1rem ;
+    cursor: pointer;
+}
+
+.searchBtn i  , .hodsearchBtn i{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.Data_Field{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.Varified_Employee , .NonVarified_Employee {
+    width: 100%;
+    height: auto;
+
+}
+
+
+.Varified_heading , .NonVarified_heading{
+    display: flex;
+    height: 2rem;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    border: 1px solid black;
+}
+
+.Varified_heading{
+    background-color:#4CAF50;
+}
+
+.NonVarified_heading{
+    background-color:#FF2C2C;
+}
+
+.Varified_heading .nameofComponent , .NonVarified_heading .nameofComponent {
+    margin: 0.1rem;
+}
+.Varified_heading .dropdownArrow , .NonVarified_heading .dropdownArrow{
+    width: 2rem;
+    cursor: pointer;
+    margin: 0.1rem;
+    cursor: pointer;
+}
+
+.Varified_heading .dropdownArrow i , .NonVarified_heading .dropdownArrow i{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+    color: #ffff;
+    border-radius: 100%;
+}
+
+.listOfVarifiedEmployees , .listOfNonVarifiedEmployees{
+    width: 100%;
+    height: auto;
+    padding: 0.2rem;
+    margin: 0.1rem 0.1rem 0.1rem 0rem;
+   
+}
+
+
+.EmployeeList{
+    width: 100%;
+    height: 4.5rem;
+    display: flex;
+    flex-direction: row;
+    margin: 0rem 0rem 0.3rem 0rem ;
+    padding: 0.1rem;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 1rem;
+}
+
+.image_container{
+    display:flex;
+    width: 6rem;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.empImage{
+    width: 3rem;
+    height: 4rem;
+  
+    
+    border: 1px solid white;
+    border-radius: 0.5rem;
+}
+
+.details{
+    height: calc(100%-6rem);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    margin-right: 1rem;
+}
+
+.emp_code , .emp_name , .emp_mobileNumber , .emp_department , .emp_email{
+    margin: 0rem 1rem;
+    height: 100%;
+}
+
+.empcode , .empName , .empMNum , .empDepartment {
+    margin-top: 0.5rem;
+}
+
+.editBtn , .verify{
+    display: flex;
+    width: 5rem;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-left:1rem ;
+    
+}
+
+.block_UnblockBtn{
+    display: flex;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 1rem;
+    border: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.block_UnblockBtn:hover{
+    cursor: pointer;
+    color:white ;
+    background-color: chocolate;
+}
+
+.invert {
+  transform: rotate(180deg);
+}
+/* View Employee Data End*/
+
+
+
+.hidden{
+    display: none;
+}

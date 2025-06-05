@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edms collector Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./style/CollectorDashboard.css">
+</head>
+<body>
+    <div class="staticBody">
+        <div class="header">
+            <div class="companyLogoContainer">
+                <img  class="CompanyLogo" src="./images/EDMS LOGO for main screen.png">
+            </div>
+            <div class="features">
+                <div class="departmentHead">
+                    <button class="hodBtn jsbtn" data-tab="hod" type="button">H.O.D</button>
+                </div>
+                <div class="employeesDetails">
+                    <button class="empBtn jsbtn" data-tab="employeesList" type="button">Employees</button>
+                </div>
+                <div class="Home">
+                    <button class="homeBtn jsbtn" data-tab="homePage" type="button">
+                        <i class="fa-solid fa-house"></i>
+                    </button>
+                </div>
+                <div class="ElectionPlacement">
+                    <button class="hodBtn jsbtn" data-tab="placement" type="button">Start placement</button>
+                </div>
+                <div class="options">
+                    <button class="hodBtn jsbtn" data-tab="option5" type="button">opt 5</button>
+                </div>
+            </div>
+            <div class="tool">
+                <i class="fa-solid fa-bars js_bars"></i>
+            </div>
+        </div>
+        <div class="adminBody">
+            <div class="homePage">
+                <div class="staticals">
+                    <div class="HODNumbers">
+                        <div class="HEADTitle">
+                            <h4>Number of Heads</h4>
+                        </div>
+                        <div class="Cardcontainer">
+                            <div class="NoofHeads">
+                                <h3>Number of Department heads</h3>
+                                <p>00</p>
+                            </div>
+                            <div class="headactive">
+                                <h3>Number of Department heads</h3>
+                                <p>00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="EmployeesNumber">
+                        <div class="EmpTitle">
+                            <h4>Number of Employees</h4>
+                        </div>
+                        <div class="Cardcontainer">
+                              <div class="NoofHeads">
+                                <h3>Number of Department heads</h3>
+                                <p>00</p>
+                            </div>
+                            <div class="headactive">
+                                <h3>Number of Department heads</h3>
+                                <p>00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="votinglist">
+                    <div class="ElectionTypes">
+                        <div class="ElectiveTitle">
+                            <h4>Types Of Elections</h4>
+                        </div>
+                          <div class="Cardcontainer">
+                              <div class="NoofHeads">
+                                <h3>Number of Department heads</h3>
+                                <p>00</p>
+                            </div>
+                            <div class="headactive">
+                                <h3>Number of Department heads</h3>
+                                <p>00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="voters">
+                        <div class="VoterTitle">
+                            <h4>Number of Voters in state</h4>
+                        </div>
+                        <div class="Cardcontainer">
+                              <div class="NoofHeads">
+                                <h3>Number of Department heads</h3>
+                                <p>00</p>
+                            </div>
+                            <div class="headactive">
+                                <h3>Number of Department heads</h3>
+                                <p>00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hod">
+                <div class="Top_Search_Bar">
+                    <div class="SearchBar">
+                        <div class="searchField">
+                            <input type="text" placeholder="Search" name="searchbox" class="HodSearch">
+                        </div>
+                        <div class="hodsearchBtn">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                </div>
+                  <div class="Data_Field">
+                     <div class="Heads">
+                        <div class="Hod_heading">
+                            <div class="nameofComponent"><h3>Head of All Departments</h3></div>
+                            <div class="dropdownArrowHod"><i class="fa-solid fa-angle-down js_icon"></i></div>
+                        </div>
+                        <div class="listOfHODs">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="employeesList">
+                 <div class="Top_Search_Bar">
+                    <div class="SearchBar">
+                        <div class="searchField">
+                            <input type="text" placeholder="Search" name="searchbox" class="empSearch">
+                        </div>
+                        <div class="searchBtn">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="Data_Field">
+                     <div class="Varified_Employee">
+                        <div class="Varified_heading">
+                            <div class="nameofComponent"><h3>Varified Employees</h3></div>
+                            <div class="dropdownArrow"><i class="fa-solid fa-angle-down js_icon"></i></div>
+                        </div>
+                        <div class="listOfVarifiedEmployees">
+                        </div>
+                    </div>
+               
+                    <div class="NonVarified_Employee">
+                        <div class="NonVarified_heading">
+                              <div class="nameofComponent"><h3>Non-Varified Employees</h3></div>
+                            <div class="dropdownArrow"><i class="fa-solid fa-angle-down js_icon"></i></div>
+                        </div>
+                        <div class="listOfNonVarifiedEmployees">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="placement">
+                <div class="placementHeading"></div>
+            </div>
+            <div class="option5">
+            </div>
+        </div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="CollectorDashboard.js"></script>
+</body>
+</html>
