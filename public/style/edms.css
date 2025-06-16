@@ -41,12 +41,21 @@
   
   /* Image section */
   .img {
-    position: relative;
+    position: absolute;
     width: 60%;
     height: 100%;
+    right: 20rem;
+     z-index: 3;
+    transition: right 0.5s ease-in-out;
+  }
+
+  .imgtransition{
+    right: 0rem;
+    transition: right 0.5s ease-in-out;
   }
   
   .img-container{
+    left: 0rem;
     width:50%;
   }
   .image {
@@ -56,6 +65,7 @@
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
     z-index:1000;
+    transition: border-top-left-radius 0.5s ease-in-out , border-bottom-left-radius 0.5s ease-in-out;
   }
 
   .head-officer{
@@ -63,16 +73,23 @@
     width: 100%;
     height: 100%;
     object-fit:cover;
-    object-position: -9rem;
+
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
     z-index:1000
   }
 
+  .remborder{
+    border-top-left-radius: 0rem;
+    border-bottom-left-radius: 0rem;
+    transition: border-top-left-radius 0.5s ease-in-out , border-bottom-left-radius 0.5s ease-in-out;
+  }
+
   
   
   /* Shared form container styles */
-  .login{
+  .login , .dmLogin{
+    position: absolute;
     width: 40%;
     height: 100%;
     padding: 2rem;
@@ -83,7 +100,17 @@
     z-index: 2;
   }
 
+  .login{
+    right: 0;
+  }
+
+  .dmlogin{
+      left: 0;
+  }
+
  .Admin_signup{
+  position: absolute;
+    right: 0;
     width: 50%;
     height: 100%;
     padding: 0rem 1rem 1rem 1rem;
@@ -99,6 +126,43 @@
     margin-top: 0rem;
     font-size: 2rem;
   }
+
+
+  .dmheading{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    height: 3rem;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .dmheading h1{
+    position: absolute;
+    left: 0rem;
+    font-size: 2rem;
+  }
+  .dmheading .dmbackbtn{
+    position: absolute;
+    right: -1.5rem;
+    bottom: 0.2rem;
+    margin-left: 0.5rem;
+    height: 2rem;
+    width: 2rem;
+    object-fit: contain;
+    cursor: pointer;
+    rotate: 180deg;
+    transform: scaley(-1);
+    border-radius: 50%;
+  }
+
+  .dmbackbtn:hover{
+    background-color: #007BFF80;
+    transition: background-color 0.1s ease-in-out;
+  }
+
 
 .Signup-welcome {
     display: flex;
@@ -147,7 +211,7 @@
 
   
   /* Shared form styles */
-  .login-form{
+  .login-form , .dmlogin-form{
     display: flex;
     flex-direction:column;
     width: 100%;
@@ -176,7 +240,7 @@
     margin-top: 1rem;
   }
 
-  .login-form .Login-details, .Admin-Signup-form .Admin-details {
+  .dmlogin-form .Login-details ,.login-form .Login-details, .Admin-Signup-form .Admin-details {
     font-size: 1rem;
     font-weight: 700;
     margin-top: 1rem;
@@ -195,6 +259,7 @@
     font-size: 1rem;
     margin: 0.5rem 0rem;
   }
+
   
   .login-input:hover {
     border: 0.5px solid #007BFF;
@@ -229,7 +294,16 @@
     transition: box-shadow 0.2s ease;
   }
 
-  .dmLogin{
+  .btncontainer{
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .dmLoginbtn{
     position: absolute;
     width: 2.5rem;
     height: 2.5rem;
@@ -241,21 +315,19 @@
   }
   
   .dmLogin i {
-    font-size: 1.1rem;
+    font-size: 2rem;
     color: #fff;
   }
 
-  .dmLogin:hover{
+  .dmLoginbtn:hover{
     background-color: #007BFF90;
     transition: background-color 0.1s ease-in-out;
   }
 
-  .dmLogin:hover i{
+  .dmLoginbtn:hover i{
     color: black;
     transition:color 0.1s ease-in-out;
   }
-
-
 
   .signup-btn{
     display:flex;
@@ -365,11 +437,9 @@
   color: white;
   font-size: 1.5rem;
   font-weight: 600;
-  opacity: 0;
 }
 
 .poptransition{
-  opacity: 1;
   top: -19rem;
   transition: top 1s ease;
 }

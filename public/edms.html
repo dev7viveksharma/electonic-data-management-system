@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>welcome to EDM System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./style/edms.css">
 </head>
 <body>
@@ -19,6 +19,26 @@
             <img src="./images/edms image.png" alt="EDMS Illustration" class="image">
             <img src="./images/head officer.png" class="head-officer js_head hidden">
         </div>
+        <div class="dmLogin">
+            <div class="dmheading">
+                <h1>Welcome Admin</h1>
+                <img src="./images/back.png" alt="./images/arrow.png" class="dmbackbtn">
+            </div>
+   
+            <form class="dmlogin-form">
+                <div class="adminLogin_num margin">
+                    <label for="email_number" class="Login-details">Mobile Number or email</label>
+                    <input type="text" id="email_number" placeholder="Enter your Mobile no. or email" class="login-input js_dm_num_email">
+                </div>
+                <div class="dmpassword margin">
+                    <label for="dmpassword" class="Login-details">Password</label>
+                    <input type="password" id="dmpassword" class="login-input js_Dm_Password" placeholder="Enter Your Password">
+                </div> 
+                <div class="btncontainer">
+                    <button type="submit" class="login-btn js_dm_Login_Btn">Log in</button>
+                </div>
+            </form>
+        </div>
         <div class="login">
             <h1>Welcome Officers</h1>
             <form class="login-form">
@@ -32,7 +52,7 @@
                 </div>
                 <div class="btns">
                     <button type="submit" class="login-btn  js_login_btn">Log In</button>
-                    <button type="button" class="dmLogin"><i class="fa-solid fa-user-tie"></i></button>
+                    <button type="button" class="dmLoginbtn"><i class="fa-solid fa-user-tie"></i></button>
                 </div>
                 
             </form>

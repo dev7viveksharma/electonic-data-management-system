@@ -1,3 +1,84 @@
+class ADMINLOGIN{
+    constructor(){
+        this.adminbtn = document.querySelector(".dmLoginbtn");
+        this.backbtn = document.querySelector(".dmbackbtn");
+        this.identifyinginput = document.querySelector(".js_dm_num_email");
+        this.dmPassword = document.querySelector(".js_Dm_Password");
+        this.dmloginbtn = document.querySelector(".js_dm_Login_Btn");
+        this.init();
+    }
+
+    init(){
+        this.adminbtn.addEventListener("click",()=>this.showadminLogin());
+        this.backbtn.addEventListener("click",()=>this.showadminLogin());
+        this.dmloginbtn.addEventListener("click",(event)=>this.dmLogin(event));
+    }
+
+    showadminLogin(){
+        const imagecontainer = document.querySelector(".img");
+        const innerimg = document.querySelector(".image");
+        imagecontainer.classList.toggle("imgtransition");
+        innerimg.classList.toggle("remborder");
+    }
+
+    async dmLogin(event){
+            event.preventDefault();
+            const error = document.querySelector("#dmerror");
+            if(error){
+                error.remove();
+            }
+            const inputs = [{id : this.identifyinginput.value , err:"please enter mobile number or email"} 
+                        ,{id : this.dmPassword.value  , err :"password field is empty"}];
+            const container = document.querySelector(".dmpassword");
+            const message = document.createElement("span");
+            message.id = "dmerror";
+            message.style.color = "red";
+            message.style.margin = "0";
+            message.style.fontSize = "0.8rem";
+
+            for(const data of inputs){
+                if(data.id === ""){
+                    message.textContent = data.err;
+                }
+            }
+
+            if(this.identifyinginput.value === "" && this.dmPassword.value === ""){
+                message.textContent = "All fields are Emplty , Please Enter your details"
+            }else{
+                try {
+                    const url = `http://localhost:8080/Dmlogin`;
+
+                    const response = await axios.post(url,{
+                        identifier : this.identifyinginput.value,
+                        password : this.dmPassword.value
+                    });
+
+                    const data = await response.data;
+                    if(data.success){
+                        localStorage.setItem("dmId", data.Id); 
+                        localStorage.setItem("dmname", data.Name);
+                        localStorage.setItem("District",data.District); 
+                        window.location.href = "CollectorDashboard.html";
+                    }else {
+                        message.textContent = data.message || "Login failed";
+                        container.insertAdjacentElement("afterend", message);
+                    }
+                } catch (error) {
+                    if (error.response && error.response.data && error.response.data.message) {
+                        message.textContent = error.response.data.message;
+                    } else {
+                        message.textContent = "An unexpected error occurred. Please try again.";
+                    }
+                    container.insertAdjacentElement("afterend", message);
+                }
+            }
+            
+            container.insertAdjacentElement("afterend",message);
+        }
+
+}
+
+
 class LOGIN {
     constructor(){
         this.noAccount = document.querySelector(".toggle");
@@ -25,6 +106,7 @@ class LOGIN {
         this.image.classList.add("img-container");
         this.electiveImage.classList.add("hidden");
         this.headImage.classList.remove("hidden");
+        this.image.classList.remove("imgtransition");
     }
 
     async signupcheck(event){
@@ -293,5 +375,6 @@ class SIGNUP{
     }
 }
 
+new ADMINLOGIN();
 new LOGIN();
 new SIGNUP();

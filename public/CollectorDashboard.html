@@ -28,8 +28,8 @@
                 <div class="ElectionPlacement">
                     <button class="hodBtn jsbtn" data-tab="placement" type="button">Start placement</button>
                 </div>
-                <div class="options">
-                    <button class="hodBtn jsbtn" data-tab="option5" type="button">opt 5</button>
+                <div class="posts">
+                    <button class="hodBtn jsbtn" data-tab="Post" type="button">Posts</button>
                 </div>
             </div>
             <div class="tool">
@@ -90,7 +90,7 @@
                         <div class="VoterTitle">
                             <h4>Number of Voters in state</h4>
                         </div>
-                        <div class="Cardcontainer">
+                        <div class="Cardcontainer mapinsideContainer">
                               <div class="NoofHeads">
                                 <h3>Number of Department heads</h3>
                                 <p>00</p>
@@ -157,9 +157,126 @@
                 </div>
             </div>
             <div class="placement">
-                <div class="placementHeading"></div>
+                <div class="placementHeading">
+                    <div class="placementHeadingTitle">
+                        <h5>Welcome To Election Duty Placement System</h5>
+                    </div>
+                </div>
+                <div class="placementContainer">
+                    <div class="SelectElectionSection">
+                        <div class="processMapPage1">
+                            <div class="circlestart"></div>
+                            <div class="line1"></div>
+                            <div class="sectorbox">
+                                <p>Select Area and polls</p>
+                            </div>
+                            <div class="line2"></div>
+                            <div class="EmpSelectionBox">
+                                <p>Select Employees for Duties</p>
+                            </div>
+                            <div class="line3"></div>
+                            <div class="circleend"></div>
+                        </div>
+                        <div class="inActive phase">
+                                <div class="processingbox1">
+                                        <div class="Election_type">
+                                            <div class="electionTypeContainer">
+                                                <label for="ElectionType" class="placement_labels">Select Type of Election</label>
+                                                <select id="ElectionType" class="placementInput electiontype R1" required>
+                                                    <option value="" disabled selected>Select Election Type</option>
+                                                    <option value="Vidhan Sabha Elections">Vidhan Sabha Elections</option>
+                                                    <option value="Lok Sabha Elections">Lok Sabha Elections</option>
+                                                    <option value="Local Body Elections">Local Body Elections</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="SelectSections">
+                                            <div class="districtContainer">
+                                                <label for="DistrictSection" class="placement_labels blocklabel"></label>
+                                                <input type="text" id="DistrictSection" class=" ElectionBlocksinput R1" placeholder="Please Select your block" >
+                                                <div class="electionBlocklist hidden">
+
+                                                </div>
+                                            </div>
+                                            <div class="NumberOfPolls">
+                                                <label for="Totalspollingplaces" class="pollinglabels">No. of Polling Booth</label>
+                                                <input type="number" name="Totalpolls" id="Totalspollingplaces" class="pollingNumbers R1" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="Ps">
+                                            <div class="pollingStationList">
+                                                <label for="psList" class="placement_labels">Select Polling Stations</label>
+                                                <input type="text" class="placementInput psInput R1" id="psList" placeholder="Select Number of Polling  Stations">
+                                                <div class="listofps hidden"></div>
+                                            </div>
+                                            <div class="numberofEMP">
+                                                    <label for="pollingEmpNumber" class="EmpNumlabels">No. of Employees Need</label>
+                                                    <input type="number" id="pollingEmpNumber" class="Empforpolls R1" disabled>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="clearElection">
+                                    <button type="button" class="ResetElectionData">Reset</button>
+                                </div>
+
+                        </div>
+                        <div class="inActive">
+                            <div class="processingbox2">
+                                <div class="typeElection">
+                                    <label for="ElectionT" class="placement_labels ETLabel"> </label>
+                                    <input id="ElectionT" class="placementInput ETInput hidden" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forwardBackwardbtn">
+                            <div class="backward">
+                                <button class="backbtn hidden">Back</button>
+                            </div>
+                            <div class="save">
+                                <button class="savebtn">Save</button>
+                            </div>
+                            <div class="forward">
+                                <button class="nextBtn">Next</button>
+                            </div>
+                        </div>
+                        <div class="alertbg hidden">
+                                <div class="alertbox">
+                                <div class="alertheading">
+                                    <i class="fa-solid fa-xmark crossmark"></i>
+                                    <h3></h3>
+                                    
+                                </div>
+                                <div class="alertmsg">
+                                </div>
+                                <div class="alertconfirm">
+                                    <button>Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="option5">
+            <div class="Post">
+                <div class="infosaarea">
+                    <div class="infos">
+                    <div class="prefences">
+                        <div class="postsShowcase"></div>
+                    </div>
+                    <div class="postType"></div>
+                </div>
+                </div>
+                <div class="postfieldsarea">
+                    <div class="postfield">  
+                        <div class="postinput">
+                            <textarea name="postinfo" id="dmInputPost" class="postsinputfield"></textarea>
+                        </div>
+                        <div class="postfeatures">
+                            <div class="postsfiles"></div>
+                            <div class="postsSent"></div>
+                        </div>
+                    </div>
+                  
+                </div>
             </div>
         </div>
     </div>

@@ -610,7 +610,7 @@ class SIGNUP{
             }
         }
 
-    showofficedropdownmenu(filteredOptions) {
+showofficedropdownmenu(filteredOptions) {
     this.officeDropdDown.innerHTML = "";
     filteredOptions.forEach(option => {
         const menu = document.createElement("div");

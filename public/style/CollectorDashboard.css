@@ -84,7 +84,7 @@ body {
     border-bottom: 0.1rem solid #484848;
 }
 
-.departmentHead , .employeesDetails , .Home , .ElectionPlacement , .options{
+.departmentHead , .employeesDetails , .Home , .ElectionPlacement , .posts{
     display:flex;
     margin: 0.25rem 0.5rem;
     width: 8rem;
@@ -93,7 +93,7 @@ body {
     align-items: center;
 }
 
-.departmentHead button , .employeesDetails button , .ElectionPlacement button , .options button{
+.departmentHead button , .employeesDetails button , .ElectionPlacement button , .posts button{
     display:flex;
     margin: 0.25rem 0.5rem;
     width: 100%;
@@ -121,7 +121,7 @@ body {
 }
 
 
-.departmentHead button:hover , .employeesDetails button:hover , .ElectionPlacement button:hover , .options button:hover , .Home button:hover{
+.departmentHead button:hover , .employeesDetails button:hover , .ElectionPlacement button:hover , .posts button:hover , .Home button:hover{
     background-color: #ececec;
 }
 
@@ -132,7 +132,7 @@ body {
 }
 
 
-.homePage , .hod , .employeesList , .placement , .option5{
+.homePage , .hod , .employeesList , .placement , .Post{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -207,6 +207,7 @@ body {
     background-color:#ececec;
     border-bottom:1px solid #484848;
 }
+
 /* HOME ENDS */
 
 
@@ -447,8 +448,6 @@ body {
 .empImage{
     width: 3rem;
     height: 4rem;
-  
-    
     border: 1px solid white;
     border-radius: 0.5rem;
 }
@@ -502,7 +501,434 @@ body {
 }
 /* View Employee Data End*/
 
+/*Election placement start */
 
+/* alert box z-index 30-31 */
+.placementHeading{
+    width: 100%;
+    height: 4rem;
+    background-color: #00000030;
+}
+
+.placementHeadingTitle{
+    font-size: 3rem;
+    color: #fff;
+    tab-size: 4;
+    text-align: center;
+    line-height: 4rem;
+    text-shadow: 
+    -1px -1px 0 black,
+     2px -1px 0 black,
+    -1px  1px 0 black,
+     2px  1px 0 black;
+}
+
+.placementContainer{
+    width: 100%;
+    height: calc(100% - 4rem);
+    background-color: #ffffff30;
+}
+
+.SelectElectionSection{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.processMapPage1{
+    width: 100%;
+    height: 6rem;
+    padding: 1rem 0rem;
+
+}
+
+.processMapPage1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sectorbox , .EmpSelectionBox{
+    display: flex;
+    width: 8rem;
+    height: 100%;
+    background-color: #fff;
+    border: 2px solid #007BFF;
+    border-radius: 1.2rem;
+    padding: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.circlestart , .circleend{
+    width: 1rem;
+    height: 1rem;
+    margin-top: 1.25rem;
+    background-color: #007BFF;
+    border: 2px solid #007BFF;
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+.sectorbox p,.EmpSelectionBox p{
+    font-size: 0.9rem;
+} 
+
+.line1 , .line2 , .line3{
+    width: 6rem;
+    height: 50%;
+    border-bottom: 2px solid #007BFF;
+} 
+
+.inActive{
+    display: none;
+}
+
+.phase{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100% - 10rem);
+    overflow: auto;
+}
+.alertbg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+.alertbox{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 30%;
+    width: 40rem;
+    height: 20rem;
+    border-radius: 1.2rem;
+    background-color: #21212199;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+.processingbox1 , .processingbox2{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 80%;
+}
+
+.clearElection{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+ .SelectSections , .Election_type , .Ps , .typeElection{
+    margin: 0rem 1rem;
+    height: 6rem;
+    width: calc(100% / 3);
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0rem;
+}
+
+.typeElection{
+    flex-direction: column;
+}
+
+.districtContainer , .electionTypeContainer , .pollingStationList{
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 2rem 2rem;
+    height: auto;
+}
+
+.electionBlocklist , .listofps{
+    position: absolute;
+    bottom: -10;
+    width: 20rem;
+    overflow-y:auto;
+    border: 1px solid black;
+}
+
+.listofps{
+    height: 20rem;
+}
+
+
+
+.PsOptionsContainer{
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    background-color: #f8f8f8;
+}
+
+.alertheading{
+    position: relative;
+    width: 100%;
+    height: 20%;
+    border-top-left-radius:1.2rem;
+    border-top-right-radius: 1.2rem;
+    background-color: #212121;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alertheading h3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align:center;
+    font-size: 1.5rem;
+    color: #dcdcdc;
+}
+
+.crossmark{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: -25%;
+    right: -2%;
+    margin: 1rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.5rem;
+    color: #fff;
+    border-radius: 50%;
+}
+.crossmark:hover{
+    cursor: pointer;
+    background-color: #24242499;
+}
+
+.alertmsg{
+    width: 100%;   
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+}
+
+.alertmsg p{
+    font-size: 1.2rem;
+    color: #dcdcdc;
+    text-align: center;
+}
+.alertconfirm{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.alertconfirm button{
+    display: flex;
+    border: none;
+    width: 8rem;
+    height: 2rem;
+    background-color: transparent;
+    color: #046A38;
+    font-size: 1.5rem;
+    font-weight: 600;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.alertconfirm button:hover{
+    
+    color: #4CAF50;
+}
+.placement_labels{
+    padding-left: 0.8rem;
+    width: 30rem;
+    height: 2rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.placementInput , .psInput{
+    width: 20rem;
+    height: 2rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.ElectionBlocksinput{
+    width: 20rem;
+    min-height: 2rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.BlockNames {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color:#f8f8f8;
+    cursor: pointer;
+}
+
+.PsRadiolist{
+    height: 100%;
+    width: 50%;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.PoolingStation{
+    height: 100%;
+    width: 50%;
+}
+.NumberOfPolls , .numberofEMP{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2rem 2rem;
+    justify-content: space-between;
+}
+
+.pollinglabels , .EmpNumlabels{
+    width: 50%;
+    height: 50%;
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.pollingNumbers , .Empforpolls{
+    width: 4rem;
+    height: 2rem;
+}
+
+.ResetElectionData{
+    width: 10rem;
+    height: 3rem;
+    border-radius: 0.8rem;
+    background-color: #FF2C2C;
+    color: #fff;
+    cursor: pointer;
+}
+
+.forwardBackwardbtn{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    height: 4rem;
+    background-color: #00000030;
+    bottom: 0;
+}
+
+.forward , .backward , .save{
+    display: flex;
+    height: 100%;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.forward button , .backward button , .save button{
+    width: 8rem;
+    height: 3rem;
+    background-color: #007BFF;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.backward button{
+    background-color: #FF2C2C;
+}
+
+.save button {
+    background-color: #4CAF50;
+}
+
+.placementInput:hover{
+    border: 1px solid #007BFF;
+}
+
+.BlockNames:hover{
+    background-color: #aeaeae;
+}
+/*Election placement ends */
+
+/* posts feature start */
+
+.Post{
+    display: flex;
+    flex-direction: column;
+    background-color:black ;
+    align-items: center;    
+}
+
+.Post .infosarea{
+    height: 45%;
+    width: 80%;
+}
+
+.Post .infos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 90%;
+    width: 90%;
+    margin: 1rem;
+}
+ 
+
+.Post .postfieldsarea{
+    display: flex;
+    flex-direction: column;
+    height: 45%;
+    width: 80%;
+    margin: 1rem;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+
+.Post .postfieldsarea .postfield{
+    height: 80%;
+    width: 80%;
+    margin: 1rem;
+    background-color: #fff;
+    border-radius: 0.8rem;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.postfieldsarea .postfield .postinput{
+    width: 80%;
+    height: 2rem;
+}
+
+.postinput textarea{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* posts feature ends */
 
 .hidden{
     display: none;

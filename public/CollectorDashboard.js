@@ -1,3 +1,4 @@
+
 class NAVBAR{
     constructor(){
     this.Tabs = document.querySelectorAll(".jsbtn");
@@ -352,6 +353,417 @@ class VIEWEMPLOYEE{
         });
     }
 }
+
+class ELECTIONPLACEMENT{
+    constructor(){
+        this.TypeElection = document.querySelector(".electiontype");
+        this.electionblocksinput = document.querySelector(".ElectionBlocksinput");
+        this.electionBlocklist = document.querySelector(".electionBlocklist");
+        this.TotalBooth = document.querySelector(".pollingNumbers");
+        this.pollingstation = document.querySelector(".psInput"); 
+        this.listofps = document.querySelector(".listofps");
+        this.totalEmpNeedForPs = document.querySelector(".Empforpolls");
+        this.resetbtn = document.querySelector(".ResetElectionData");
+        this.alertbg =  document.querySelector(".alertbg");
+        this.alertbox = document.querySelector(".alertbox");
+        this.alertboxheading = document.querySelector(".alertheading h3");
+        this.alertboxmsg = document.querySelector(".alertmsg ");
+        this.alertbtn = document.querySelector(".alertconfirm button");
+        this.xmark = document.querySelector(".crossmark");
+        this.pages = document.querySelectorAll(".inActive");
+        this.nextbtn = document.querySelector(".nextBtn");
+        this.savebtn = document.querySelector(".savebtn");
+        this.backbtn = document.querySelector(".backbtn");
+        this.psList = [];
+        this.init();
+        this.documents();
+        this.resetAlertResponse = 0;
+        this.actiontype = null; 
+        this.currentpage = 0;
+        this.actionhandlers ={
+            resetPolls : ()=>{
+                this.reset1();
+            },
+
+            resetNone : ()=>{
+                this.alertbg.classList.add("hidden");
+            },
+
+            InsertElectionData : ()=>{
+                this.datainsertion();
+            },
+
+            pagechange : ()=>{
+                this.page1();
+                this.changepage();
+            }  
+        }
+    }
+
+    documents(){
+        document.addEventListener("click",(event)=>{
+            if (this.listofps && !this.listofps.contains(event.target)) {
+               this.listofps.classList.add("hidden");
+            }
+        });
+    }
+    init(){
+        this.TypeElection.addEventListener("change",()=>this.showblockList());
+        this.electionblocksinput.addEventListener("click",()=>{
+            this.showlistdropmenu();
+        });
+        this.pollingstation.addEventListener("click",(event)=>{
+            event.stopPropagation(); 
+            this.showps();
+
+            setTimeout(()=>{
+            const psChecks = document.querySelectorAll(".js_ps_checkpoint");
+            if(this.psList.length > 0){
+                psChecks.forEach((poll)=>{
+                  this.psList.forEach((data)=>{
+                        if(poll.value === data.ps){
+                            poll.checked = true;
+                        }
+                    });
+                });
+            this.addps();
+            return;
+            }
+                psChecks.forEach((chk) => {
+                chk.addEventListener("change", () => this.addps());
+                });
+            },0);  
+        });
+
+        this.resetbtn.addEventListener("click",()=>{
+            this.resetAlertResponse = 1;
+            this.showresetAlert();
+        });
+        this.xmark.addEventListener("click",()=>{
+            this.alertbg.classList.add("hidden");
+        });
+
+        this.alertbtn.addEventListener("click",()=>{
+            this.alertconfirm(this.actiontype);
+
+        });
+
+        this.nextbtn.addEventListener("click",()=>{
+            this.next();
+            this.alertbg.classList.remove("hidden");
+        });
+        this.savebtn.addEventListener("click",()=>{
+            this.savedata();
+            this.alertbg.classList.remove("hidden");
+        });
+        this.backbtn.addEventListener("click",()=>this.backpage());
+    }
+
+async showblockList(){
+
+        try {
+            const url = `http://localhost:8080/blockList`;
+            const response = await axios.get(url,{
+               params :{Election : this.TypeElection.value} 
+            });
+            const data = response.data;
+
+            if(data.success){
+                this.electionBlocklist.innerHTML = ""
+                data.result.forEach((data)=>{
+                    console.log(data);
+                    this.electionBlocklist.innerHTML +=`
+                    <div class="BlockNames">${data.ElectionBlocks}</div>
+                    ` 
+                });
+                
+                this.insertBlock(this.TypeElection.value);
+                this.insertElectionType(this.TypeElection.value);
+            }
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+            }
+        }
+    }
+
+    showlistdropmenu(){
+        this.electionBlocklist.classList.toggle("hidden");
+        this.blocklist = document.querySelectorAll(".BlockNames");
+        this.selectOptions(this.blocklist);
+        
+    }
+
+ selectOptions(list){
+        list.forEach((options)=>{
+            options.addEventListener("click",async()=>{
+                
+                this.electionblocksinput.value =  options.textContent;
+                this.electionBlocklist.classList.add("hidden");
+                try {
+                    const url = `/showPSdata`;
+                    const id = localStorage.getItem("dmId");
+                    const response = await axios.get(url,{
+
+                        params:{
+                                ET : this.TypeElection.value,
+                                block : this.electionblocksinput.value,
+                                id : id
+                        }
+                    });
+                    const data = response.data;
+                    if(data.success && data.result.length > 0){
+                        this.psList = data.result.map(item => item.PS);
+                        this.pollingstation.value = this.psList.join(); 
+                        this.electionblocksinput.disabled = true;
+                        this.pollingstation.disabled = true;
+                        console.log("pass");
+                        let i = this.psList.length;
+                        this.calculatepolls(i);
+                    }
+                        this.showtotalBooth()
+                } catch (error) {
+                    if (error.response) {
+                    console.log("Error:", error.response.data.message); // server responded with error
+                    } else {
+                        console.log("Error:", error.message); // other errors (network etc.)
+                    }
+                }
+                
+            });
+        });
+    }
+
+async showtotalBooth(){
+    try {
+        const url = `http://localhost:8080/TotalBooths`;
+        const response = await axios.get(url,{
+            params : {block : this.electionblocksinput.value,
+                      Election : this.TypeElection.value
+            }
+        });
+
+    const data = response.data;
+
+    if(data.success && data.result.length > 0){
+        this.TotalBooth.value = data.result[0].NumberofBooths;
+    }
+
+    } catch (error) {
+          if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+            }
+    }
+    }
+
+    showps(){
+        if(this.TotalBooth.value != ""){
+            this.listofps.classList.remove("hidden");
+            const length = parseInt(this.TotalBooth.value);
+            this.listofps.innerHTML = "";
+            for(let i =1 ; i<= length ; i++){
+                this.listofps.innerHTML +=`
+                <div  class ="PsOptionsContainer">
+                 <label class ="PsRadiolist"> PS-${i}</label>
+                 <input type="checkbox" name="PoolingStation" value="PS${i}" class="js_ps_checkpoint">
+                 </div>    
+                `;
+            }
+        
+        }
+    }
+
+    addps(){
+        if(this.TotalBooth.value !== ""){
+            this.pollingstation.value = ""; // Clear old value
+            this.psList = []; // Clear previous list
+            let i = 0;
+            const list = document.querySelectorAll(".js_ps_checkpoint");
+            list.forEach((ps)=>{
+                if(ps.checked === true){
+                    this.psList.push({ps:ps.value,idx:i+1});
+                    i++;
+                }
+            });
+
+            if(this.psList.length > 0){
+                this.psList.forEach((array)=>{
+                    this.pollingstation.value += array.ps;
+                });
+
+            }
+
+           this.calculatepolls(i);
+        }  
+    }
+
+
+    calculatepolls(i){
+                const base = i * 4;
+                const extra = Math.ceil(base * 0.05); // rounds up to the next whole number
+                this.totalEmpNeedForPs.value = base + extra;
+    }
+
+    insertBlock(data){
+        const block = document.querySelector(".blocklabel");
+        const label =  data.replace("Elections","");
+        block.innerText = "Select " + label;
+    }
+
+    insertElectionType(data){
+        const label = document.querySelector(".ETLabel");
+        const input = document.querySelector(".ETInput");
+        input.value = data;
+        label.innerText = "Employees Selection for " + data;
+        input.classList.remove("hidden");
+    }
+
+    showresetAlert(){
+        if(this.TypeElection.value === ""){
+            this.alertboxheading.innerText = "NO DATA SELECTED FOR RESET";
+            this.alertboxmsg.innerHTML =`<p><strong>⚠️ Warning Please Select Type of Election if you want to Reset </strong></p>
+                                        `;
+            this.actiontype = "resetNone";
+        }else if(this.resetAlertResponse === 1){
+            this.alertboxheading.innerText = "RESET ELECTION POLLING DATA";
+            this.alertboxmsg.innerHTML =`<p><strong>⚠️ Are you sure you want to reset this data?</strong></p>
+                                        <p>This action will:</p>
+                                        <p>1: Clear the fields on this page</p>
+                                        <p>2: Permanently delete the associated data from the server</p>
+                                        <p><strong>This cannot be undone.</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "resetPolls";
+        } 
+        this.alertbg.classList.remove("hidden");
+        
+    }
+
+    alertconfirm(action){
+        if(this.actionhandlers[action] && action !== null){
+            this.actionhandlers[action]();
+        }
+        
+    }
+    next(){
+        if(this.currentpage === 0){
+        const input = document.querySelectorAll(".R1");
+            for(const page of input){
+                if(page.value === ""){
+                this.alertboxheading.innerText = "DATA FIELDS ARE EMPTY";
+                this.alertboxmsg.innerHTML =`<p><strong>⚠️ Warning Please Select Election Data if you want to Continue </strong></p>
+                                            `;
+                this.actiontype = "resetNone";
+                return ;
+                }
+            }
+
+            this.alertboxheading.innerText = "INSERT ELECTION POLLING DATA";
+            this.alertboxmsg.innerHTML=`<p><strong>⚠️ Are you sure you want to Proceed further ?</strong></p>
+                                        <p>This action will:</p>
+                                        <p>Permanently insert the associated data on the server</p>
+                                        <p><strong>This cannot be undone.</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "pagechange"
+            return;
+        }
+    }
+
+async reset1(){
+        try {
+            const url = `http://localhost:8080/DeletePSdata`;
+            const id = localStorage.getItem("dmId");
+            const response = await axios.delete(url,{
+                data:{
+                    id :id,
+                    ET : this.TypeElection.value,
+                    Block : this.electionblocksinput.value
+                }
+            });
+            const data = response.data;
+
+            if(data.success){
+            const reset = document.querySelectorAll(".R1");
+            reset.forEach((field)=>{
+                field.value = "";
+            });
+            this.electionblocksinput.disabled = false;
+            this.pollingstation.disabled = false;
+            this.resetAlertResponse = 0;
+            }
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+            }
+        }
+        this.alertbg.classList.add("hidden");
+    }
+
+    page1(){
+        // try {
+        //     const url = `http://localhost:8080/insertdata`;
+
+        // } catch (error) {
+            
+        // }
+        console.log("page1");
+    }
+
+    changepage(){
+        this.pages[this.currentpage].classList.remove("phase");
+        this.currentpage++;
+        this.pages[this.currentpage].classList.add("phase");
+        this.backbtn.classList.remove("hidden")
+        if(this.currentpage < this.pages.length){
+            this.pages[this.currentpage].classList.add("phase");
+        }
+        this.alertbg.classList.add("hidden");
+    }
+
+    backpage(){
+        this.pages[this.currentpage].classList.remove("phase");
+        this.currentpage--;
+        this.pages[this.currentpage].classList.add("phase");
+        this.backbtn.classList.add("hidden")
+        if(this.currentpage > this.pages.length){
+            this.pages[this.currentpage].classList.add("phase");
+        }
+        this.alertbg.classList.add("hidden");
+    }
+
+    savedata(){
+         if(this.currentpage === 0){
+        const input = document.querySelectorAll(".R1");
+            for(const page of input){
+                if(page.value === ""){
+                this.alertboxheading.innerText = "DATA FIELDS ARE EMPTY";
+                this.alertboxmsg.innerHTML =`<p><strong>⚠️ Warning Please Select Election Data if you want to Continue </strong></p>
+                                            `;
+                this.actiontype = "resetNone";
+                return ;
+                }
+            }
+            this.alertboxheading.innerText = "INSERT ELECTION POLLING DATA";
+            this.alertboxmsg.innerHTML=`<p><strong>⚠️ Are you sure you want to Insert this data into a Database?</strong></p>
+                                        <p>This action will:</p>
+                                        <p>this action will overwrite the excisting data of the ${this.blocklist.value} if data excist</P>
+                                        <p>Permanently insert the associated data on the server</p>
+                                        <p><strong>This cannot be undone.</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "InsertElectionData";
+            return;
+        }
+    }
+}
 new HOD();
 new VIEWEMPLOYEE();
 new NAVBAR();
+new ELECTIONPLACEMENT();
