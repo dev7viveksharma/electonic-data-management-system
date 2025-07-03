@@ -131,6 +131,25 @@ body {
     height: calc(100% - 5rem);
 }
 
+.PopUPMessageContainer{
+    position: absolute;
+    top : 0;
+    right: 40%;
+    width: 20rem;
+    height: 4rem;
+    background-color: #4CAF50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    color: #fff;
+    font-size: 1.5rem;
+    text-align: center;
+    border: 0.5px solid black;
+}
 
 .homePage , .hod , .employeesList , .placement , .Post{
     position: absolute;
@@ -368,15 +387,17 @@ body {
     flex-direction: column;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
 }
 
 .Varified_Employee , .NonVarified_Employee {
     width: 100%;
     height: auto;
-
 }
 
-
+.NonVarified_Employee{
+    padding-bottom: 10rem;
+}
 .Varified_heading , .NonVarified_heading{
     display: flex;
     height: 2rem;
@@ -461,6 +482,17 @@ body {
     margin-right: 1rem;
 }
 
+.details h5{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 700;
+    opacity: 0.5;
+    margin: 0;
+}
 .emp_code , .emp_name , .emp_mobileNumber , .emp_department , .emp_email{
     margin: 0rem 1rem;
     height: 100%;
@@ -533,7 +565,13 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
+    overflow-y: auto;
+    padding-bottom: 15rem;
 }
+.SelectElectionSection::-webkit-scrollbar{
+    display: none;
+}
+
 
 .processMapPage1{
     width: 100%;
@@ -589,12 +627,11 @@ body {
     flex-direction: column;
     width: 100%;
     height: calc(100% - 10rem);
-    overflow: auto;
 }
 .alertbg{
-    position: absolute;
+    position: fixed;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 6rem);
     background-color: transparent;
 }
 
@@ -617,7 +654,10 @@ body {
     height: 80%;
 }
 
-.clearElection{
+.processingbox2{
+    flex-direction: column;
+}
+.clearElection , .clearAllBtn{
     width: 100%;
     height: 20%;
     display: flex;
@@ -635,8 +675,32 @@ body {
     margin: 2rem 0rem;
 }
 
-.typeElection{
+.emppagetype{
+  width: 100%;
+  height: 20%;
+  margin: 1rem 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.EmpDesignationBody{
+    width: 100%;
+    height: calc(auto - 10rem);
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    padding-bottom: 5rem;
+}
+
+.P0Container , .P1Container , .P2Container, .P3Container{
+    margin: 1rem calc(10% / 4);
+    width: calc(90% / 4);
+    height: auto;
+    display: flex;
     flex-direction: column;
+    border: 1px solid black;
+    background-color:#eaeaea;
+    border-radius:0.8rem ;
 }
 
 .districtContainer , .electionTypeContainer , .pollingStationList{
@@ -660,8 +724,103 @@ body {
     height: 20rem;
 }
 
+.P0Heading , .P1Heading , .P2Heading , .P3Heading{
+    width: 100%;
+    height: 2rem;
+    border-bottom:1px solid black ;
+}
 
+.P0Heading H3 , .P1Heading H3 , .P2Heading H3 , .P3Heading H3{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+} 
+.P0BODY , .P1BODY , .P2BODY , .P3BODY  {
+    height: calc(100% - 4rem);
+    width: 100%;
+}
 
+.P1ADDNEW , .P2ADDNEW , .P3ADDNEW{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #aeaeae;
+}
+
+.EXTRAP2 , .EXTRAP1 , .EXTRAP0{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.PLUSBORDER{
+    height: 2rem;
+    width: 2rem;
+    border: 1px solid #00000030;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.TotalP0 , .TotalP1 , .TotalP2 , .TotalP3{
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    border-top:1px solid black ;
+}
+.ReqEmpNumbersP0 , .ReqEmpNumbersP1 , .ReqEmpNumbersP2 , .ReqEmpNumbersP3{
+    color: #890304;
+}
+
+.totalcontainer{
+    width: 45%;
+    height: 100%;
+    margin-left: 5%;
+}
+
+.OFFICERDesignation , .OFFICERDesignationEXTRA{
+    display: flex;
+    flex-direction: row;
+    height: 3rem;
+    width: 100%;
+}
+
+.OFFICERDesignationEXTRA{
+    background-color: #ffff;
+}
+
+.checkboxContainer , .checkboxContainerextraP0 , .checkboxContainerextraP1 , .checkboxContainerextraP2 , .checkboxContainerextraP3{
+    display: flex;
+    width: 20%;
+    height: 100%;
+    
+    justify-content: center;
+    align-items: center;
+}
+
+.officerinputcheckbox , .officerinputcheckboxextraP0 , .officerinputcheckboxextraP1 , .officerinputcheckboxextraP2 , .officerinputcheckboxextraP3{
+    transform: scale(1.5);
+}
+
+.officerDesignationName , .officerDesignationNameextra{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.officerDesignationName h3 , .officerDesignationNameextra h3{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
 .PsOptionsContainer{
     width: 100%;
     height: 2rem;
@@ -757,6 +916,10 @@ body {
     margin-bottom: 0.5rem;
 }
 
+.rempad{
+    padding-left: 0rem;
+    text-align: center;
+}
 .placementInput , .psInput{
     width: 20rem;
     height: 2rem;
@@ -817,7 +980,7 @@ body {
     height: 2rem;
 }
 
-.ResetElectionData{
+.ResetElectionData , .clearAllPosts{
     width: 10rem;
     height: 3rem;
     border-radius: 0.8rem;
@@ -825,9 +988,11 @@ body {
     color: #fff;
     cursor: pointer;
 }
-
+.clearAllPosts{
+    font-size: 1.5rem;
+}
 .forwardBackwardbtn{
-    position: absolute;
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -862,6 +1027,40 @@ body {
     background-color: #4CAF50;
 }
 
+.clearT0 , .clearT1 , .clearT2 , .clearT3 { 
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clearAllBtn{
+    padding-bottom: 6rem;
+}
+
+.clearT0 button , .clearT1 button , .clearT2 button , .clearT3 button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #FF2C2C;
+    color: #eaeaea;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-bottom-left-radius:0.8rem;
+    border-bottom-right-radius:0.8rem;
+}
+
+.errcontainerp{
+    width: 100%;
+    height: 3rem;
+}
+.postserror{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: red;
+}
 .placementInput:hover{
     border: 1px solid #007BFF;
 }
@@ -880,28 +1079,60 @@ body {
     align-items: center;    
 }
 
-.Post .infosarea{
+.Post .infosarea {
     height: 45%;
     width: 80%;
-}
-
-.Post .infos{
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    height: 90%;
-    width: 90%;
-    margin: 1rem;
 }
- 
+
+.infosarea .infos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+}
+
+.prefences, .postType {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
+    gap: 1rem;
+}
+
+.prefercontainer, .selectHodcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.prefercontainer{
+    justify-content: top;
+}
+
+.postType{
+    display: flex;
+    height: 100%;
+    width: 50%;
+    flex-direction: column;
+    justify-content: top;
+    align-items:flex-end;
+}
 
 .Post .postfieldsarea{
     display: flex;
     flex-direction: column;
     height: 45%;
     width: 80%;
-    margin: 1rem;
     align-items: center;
     padding: 0.5rem;
 }

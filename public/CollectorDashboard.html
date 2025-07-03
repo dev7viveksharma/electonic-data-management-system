@@ -177,7 +177,7 @@
                             <div class="line3"></div>
                             <div class="circleend"></div>
                         </div>
-                        <div class="inActive phase">
+                        <div class="inActive phase ">
                                 <div class="processingbox1">
                                         <div class="Election_type">
                                             <div class="electionTypeContainer">
@@ -193,25 +193,25 @@
                                         <div class="SelectSections">
                                             <div class="districtContainer">
                                                 <label for="DistrictSection" class="placement_labels blocklabel"></label>
-                                                <input type="text" id="DistrictSection" class=" ElectionBlocksinput R1" placeholder="Please Select your block" >
+                                                <input type="text" id="DistrictSection" class=" ElectionBlocksinput R1 R2" placeholder="Please Select your block" >
                                                 <div class="electionBlocklist hidden">
 
                                                 </div>
                                             </div>
                                             <div class="NumberOfPolls">
                                                 <label for="Totalspollingplaces" class="pollinglabels">No. of Polling Booth</label>
-                                                <input type="number" name="Totalpolls" id="Totalspollingplaces" class="pollingNumbers R1" disabled>
+                                                <input type="number" name="Totalpolls" id="Totalspollingplaces" class="pollingNumbers R1 R2" disabled>
                                             </div>
                                         </div>
                                         <div class="Ps">
                                             <div class="pollingStationList">
                                                 <label for="psList" class="placement_labels">Select Polling Stations</label>
-                                                <input type="text" class="placementInput psInput R1" id="psList" placeholder="Select Number of Polling  Stations">
+                                                <input type="text" class="placementInput psInput R1 R2" id="psList" placeholder="Select Number of Polling  Stations">
                                                 <div class="listofps hidden"></div>
                                             </div>
                                             <div class="numberofEMP">
                                                     <label for="pollingEmpNumber" class="EmpNumlabels">No. of Employees Need</label>
-                                                    <input type="number" id="pollingEmpNumber" class="Empforpolls R1" disabled>
+                                                    <input type="number" id="pollingEmpNumber" class="Empforpolls R1 R2" disabled>
                                             </div>
                                         </div>
                                 </div>
@@ -222,9 +222,82 @@
                         </div>
                         <div class="inActive">
                             <div class="processingbox2">
-                                <div class="typeElection">
-                                    <label for="ElectionT" class="placement_labels ETLabel"> </label>
+                                <div class="typeElection emppagetype">
+                                    <label for="ElectionT" class="placement_labels ETLabel rempad"> </label>
                                     <input id="ElectionT" class="placementInput ETInput hidden" disabled>
+                                </div>
+                                 <div class="errorcontainerp">
+                                    <p class="postserror"></p>
+                                </div>
+                                <div class="EmpDesignationBody">
+                                    <div class="P0Container">
+                                        <div class="P0Heading">
+                                            <h3>P0</h3>
+                                        </div>
+                                        <div class="P0BODY">
+                                            <div class="P0ADDNEW hidden">
+                                            
+                                           </div>
+                                        </div>
+                                        <div class="TotalP0">
+                                            <div class="totalcontainer">Total : </div>
+                                            <div class="ReqEmpNumbersP0"></div>
+                                        </div>
+                                    </div>
+                                    <div class="P1Container">
+                                        <div class="P1Heading">
+                                            <h3>P1</h3>
+                                        </div>
+                                        <div class="P1BODY">
+                                           <div class="P1ADDNEW hidden">
+                                            <div class="PLUSBORDER">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </div>
+                                           </div>
+                                        </div>
+                                        <div class="EXTRAP1"></div>
+                                        <div class="TotalP1">
+                                             <div class="totalcontainer">Total : </div>
+                                            <div class="ReqEmpNumbersP1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="P2Container">
+                                        <div class="P2Heading">
+                                            <h3>P2</h3>
+                                        </div>
+                                        <div class="P2BODY">
+                                            <div class="P2ADDNEW hidden">
+                                                <div class="PLUSBORDER">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </div>
+                                           </div>
+                                        </div>
+                                        <div class="EXTRAP2"></div>
+                                        <div class="TotalP2">
+                                             <div class="totalcontainer">Total : </div>
+                                            <div class="ReqEmpNumbersP2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="P3Container">
+                                        <div class="P3Heading">
+                                            <h3>P3</h3>
+                                        </div>
+                                        <div class="P3BODY">
+                                            <div class="P3ADDNEW hidden">
+                                                <div class="PLUSBORDER">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </div>
+                                           </div>
+                                        </div>
+                                        <div class="EXTRAP3"></div>
+                                        <div class="TotalP3">
+                                             <div class="totalcontainer">Total : </div>
+                                            <div class="ReqEmpNumbersP3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearAllBtn">
+                                    <Button class="clearAllPosts">clear</Button>
                                 </div>
                             </div>
                         </div>
@@ -236,7 +309,7 @@
                                 <button class="savebtn">Save</button>
                             </div>
                             <div class="forward">
-                                <button class="nextBtn">Next</button>
+                                <button class="nextBtn" disabled>Next</button>
                             </div>
                         </div>
                         <div class="alertbg hidden">
@@ -257,12 +330,31 @@
                 </div>
             </div>
             <div class="Post">
-                <div class="infosaarea">
+                <div class="infosarea">
                     <div class="infos">
                     <div class="prefences">
-                        <div class="postsShowcase"></div>
+                            <div class="prefercontainer">
+                            <label for="prefer" class="placement_labels">Type</label>
+                            <select id="prefer" class="placementInput">
+                                <option value="All">All</option>
+                                <option value="specific">specific</option>
+                            </select>
+                            </div>
+                           <div class="selectHodcontainer">
+                            <label for="Hods" class="placement_labels">Select Hod for Post</label>
+                            <input id="Hods" class="placementInput" placeholder="enter hod name">
+                            <div class="hodlist"></div>
+                           </div>
                     </div>
-                    <div class="postType"></div>
+                    <div class="postType">
+                        <label for="postsType" class="placement_labels">Level of Attention</label>
+                        <select id="postsType" class="placementInput">
+                            <option value="Informational">Informational</option>
+                            <option value="Low Priority">Low Priority</option>
+                            <option value="High Priority">High Priority</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
                 </div>
                 </div>
                 <div class="postfieldsarea">
@@ -277,6 +369,8 @@
                     </div>
                   
                 </div>
+            </div>
+            <div class="PopUPMessageContainer">
             </div>
         </div>
     </div>

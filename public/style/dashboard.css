@@ -47,6 +47,23 @@ body {
     margin: 1rem 1rem;
 }
 
+.PersonalChat{
+    width: 4rem;
+    height: 100%;
+    display: flex;
+    justify-content:right;
+    align-items: center;
+}
+
+.PersonalChat i{
+    font-size: 1.5rem;
+}
+
+.PersonalChat i:hover{
+    cursor: pointer;
+    color: #007BFF;
+    transition: color 0.2s ease-in;
+}
 .js_bars{
     display: flex;
     align-self: center;
@@ -602,6 +619,9 @@ body {
 
 }
 
+.NonVarified_Employee{
+    padding-bottom: 10rem;
+}
 
 .Varified_heading , .NonVarified_heading{
     display: flex;

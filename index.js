@@ -18,6 +18,7 @@ const adminview = require("./APIs/adminData");
 const empdatashow = require("./APIs/EmpviewData");
 const dmlogin = require("./APIs/DmLogin");
 const phase1 = require("./APIs/phase1");
+const phase2 = require("./APIs/phase2");
 const { Certificate } = require("crypto");
 app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 app.use('/documents',express.static(path.join(__dirname,'data/documents')));
@@ -122,6 +123,7 @@ app.use("/",adminview);
 app.use("/",empdatashow);
 app.use("/",dmlogin);
 app.use("/",phase1);
+app.use("/",phase2);
 app.listen(port,(req,res)=>{
     console.log("server has been started");
 });

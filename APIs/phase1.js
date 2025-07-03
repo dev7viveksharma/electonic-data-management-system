@@ -68,6 +68,36 @@ router.get('/TotalBooths',(req,res)=>{
 });
 
 
+router.get("/maxpoll",(req,res)=>{
+    const q =  `SELECT MAX(NumberofBooths) AS maxBooth FROM electionbodydata`;
+    connection.query(q,(err,result)=>{
+          if (err) {
+            console.error("Database error:", err.message);
+            return res.status(500).json({ success: false, message: "Database error" });
+        }
+
+        res.json({
+            success : true,
+            result : result
+        });
+    });
+});
+
+
+router.get("/getallpoollsdata",(req,res)=>{
+      const q =  `SELECT PS FROM pollingstations`;
+    connection.query(q,(err,result)=>{
+          if (err) {
+            console.error("Database error:", err.message);
+            return res.status(500).json({ success: false, message: "Database error" });
+        }
+
+        res.json({
+            success : true,
+            result : result
+        });
+    });
+});
 router.delete("/DeletePSdata",(req,res)=>{
     const {id , ET , Block } = req.body;
     const q =  `DELETE FROM pollingstations
@@ -87,4 +117,66 @@ router.delete("/DeletePSdata",(req,res)=>{
     });
 });
 
+
+router.post("/insertdata",(req,res)=>{
+    const {id ,ET , Block , ps } = req.body;
+    if (!Array.isArray(ps) || ps.length === 0) {
+        return res.status(400).json({ success: false, message: "Polling stations list is empty" });
+    }
+
+    const electionid= `select id from electionbodydata where DmId = ? and ElectionName = ? and ElectionBlocks = ?;`;
+    connection.query(electionid,[id,ET,Block],(err,result)=>{
+        if (err) {
+            console.error("Error fetching ElectionId:", err);
+            return res.status(500).json({ success: false, message: "Database error" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ success: false, message: "Election entry not found" });
+        }
+        const electionId = result[0].id;
+
+        const values = ps.map(ps=>[electionId,ps]);
+
+        const query = `insert into pollingstations (ElectionId, PS) values ?;`;
+        connection.query(query,[values],(err,result)=>{
+                if (err) {
+                    console.error("Error inserting PS list:", err);
+                    return res.status(500).json({ success: false, message: "Insert failed" });
+                }
+
+            res.json({
+                success: true,
+                message: "Polling stations inserted successfully",
+                result: result.affectedRows
+            });
+        });
+    });
+});
+
+
+router.get("/inspectdataentry",(req,res)=>{
+    const {ET} = req.query;
+    connection.query("select id from electionbodydata where ElectionName = ?",[ET],(err,result)=>{
+        if (err) {
+            console.error("Error fetching ElectionId:", err);
+            return res.status(500).json({ success: false, message: "Database error" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ success: false, message: "Election entry not found" });
+        }
+        const electionId = result.map(row => row.id);
+        const sql = "SELECT DISTINCT ElectionId FROM pollingstations WHERE ElectionId IN (?)";
+        connection.query(sql, [electionId], (err, result) => {
+            if (err) return res.status(500).json({ success: false });
+            const foundIds = result.map(row => row.id);
+            return res.json({
+                success: true,
+                foundIds,
+                missingIds: electionId.filter(id => !foundIds.includes(id))
+            });
+        });
+    });
+});
 module.exports = router;
