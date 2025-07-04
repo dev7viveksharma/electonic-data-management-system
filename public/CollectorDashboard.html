@@ -216,7 +216,7 @@
                                         </div>
                                 </div>
                                 <div class="clearElection">
-                                    <button type="button" class="ResetElectionData">Reset</button>
+                                    <button type="button" class="ResetElectionData">Reset All</button>
                                 </div>
 
                         </div>
@@ -297,7 +297,7 @@
                                     </div>
                                 </div>
                                 <div class="clearAllBtn">
-                                    <Button class="clearAllPosts">clear</Button>
+                                    <Button class="clearAllPosts">Reset</Button>
                                 </div>
                             </div>
                         </div>
@@ -341,19 +341,21 @@
                             </select>
                             </div>
                            <div class="selectHodcontainer">
-                            <label for="Hods" class="placement_labels">Select Hod for Post</label>
+                            <label for="Hods" class="placement_labels ptl">Select Hod for Post</label>
                             <input id="Hods" class="placementInput" placeholder="enter hod name">
                             <div class="hodlist"></div>
                            </div>
                     </div>
                     <div class="postType">
-                        <label for="postsType" class="placement_labels">Level of Attention</label>
-                        <select id="postsType" class="placementInput">
+                        <div class="posttypecontainer">
+                            <label for="postsTypes" class="placement_labels ">Level of Attention</label>
+                            <select id="postsTypes" class="placementInput">
                             <option value="Informational">Informational</option>
                             <option value="Low Priority">Low Priority</option>
                             <option value="High Priority">High Priority</option>
                             <option value="Critical">Critical</option>
                         </select>
+                        </div>
                     </div>
                 </div>
                 </div>
@@ -361,6 +363,10 @@
                     <div class="postfield">  
                         <div class="postinput">
                             <textarea name="postinfo" id="dmInputPost" class="postsinputfield"></textarea>
+                            <img src="" alt="" class="postImgvisible hidden">
+                        </div>
+                        <div class="inputSent">
+                            <i class="fa-solid fa-paper-plane"></i>
                         </div>
                         <div class="postfeatures">
                             <div class="postsfiles"></div>

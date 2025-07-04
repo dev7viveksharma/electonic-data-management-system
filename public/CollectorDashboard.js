@@ -437,8 +437,9 @@ class ELECTIONPLACEMENT{
         this.extravalueP2Array = [];
         this.extravalueP3Array = [];
         this.actionhandlers ={
-            resetPolls : ()=>{
-                this.reset1();
+            resetPolls : async ()=>{
+               await this.reset1();
+               await this.deleteAllPostsDetails();
             },
 
             resetNone : ()=>{
@@ -512,7 +513,7 @@ class ELECTIONPLACEMENT{
 
 
             psChecks.forEach((chk) => {
-                chk.addEventListener("change", () => this.addps());
+                chk.addEventListener("change", () => this.addps(this.TotalBooth.value));
             });
             } catch (error) {
                 if (error.response) {
@@ -549,6 +550,7 @@ class ELECTIONPLACEMENT{
         this.backbtn.addEventListener("click",()=>{
             this.backpage();
             this.cleanpage2();
+            this.savebtn.disabled = false;
         });
 
         this.clearAllPosts.addEventListener("click",()=>{
@@ -681,6 +683,7 @@ async showblockList(){
     }
 
  selectOptions(list){
+    this.electionblocksinput.value = ""
         list.forEach((options)=>{
             options.addEventListener("click",async()=>{
                 
@@ -699,7 +702,6 @@ async showblockList(){
                     if(data.success && data.result.length > 0){
                         this.psList = data.result.map(item => item.PS);
                         this.pollingstation.value = this.psList.join(); 
-                        this.electionblocksinput.disabled = true;
                         this.pollingstation.disabled = true;
                         let i = this.psList.length;
                         this.calculatepolls(i);
@@ -745,10 +747,15 @@ async showtotalBooth(){
         if(this.TotalBooth.value != ""){
             this.listofps.classList.remove("hidden");
             try {
-            const response = await axios.get(`/maxpoll`);
-            const length = parseInt(response.data.result[0].maxBooth);
+            const response = await axios.get(`/maxpoll`,{
+                params : {
+                    ET : this.TypeElection.value
+                }
+            });
+            const length = parseInt(response.data.result);
+            console.log("here",length);
             this.listofps.innerHTML = "";
-            for(let i =1 ; i<= length ; i++){
+            for(let i = 1 ; i<= length ; i++){
                 this.listofps.innerHTML +=`
                 <div  class ="PsOptionsContainer">
                 <label class ="PsRadiolist"> PS-${i}</label>
@@ -763,26 +770,31 @@ async showtotalBooth(){
                     console.log("Error:", error.message); // other errors (network etc.)
                 }
             }
-           
-        
         }
     }
 
-    addps() {
+    addps(max) {
         const checkboxes = document.querySelectorAll(".js_ps_checkpoint");
-
         const updatedList = [];
-
+        let totalLimit = max;
+        let currentchecked = 0 ;
         checkboxes.forEach((ps) => {
             if (ps.checked && !ps.disabled) {
                 updatedList.push({ ps: ps.value });
+                currentchecked++ ;
+            }
+        });
+
+        checkboxes.forEach((ps)=>{
+            if(!ps.checked){
+                ps.disabled = (currentchecked >= totalLimit);
             }
         });
 
         this.psList = updatedList;
-
         // Update input and employee count
         this.pollingstation.value = this.psList.map(p => p.ps).join(",");
+        this.electionblocksinput.disabled = updatedList.length > 0;
         this.calculatepolls(this.psList.length);
     }
 
@@ -862,10 +874,10 @@ async showtotalBooth(){
         }
         
     }
-    next(){
+  async next(){
         if(this.currentpage === 0){
-            const pageresponse = this.page1();
-                if(pageresponse === false){
+            const pageresponse = await this.page1();
+                if(!pageresponse){
                 this.alertboxheading.innerText = `${this.TypeElection.value} data Not Found `;
                 this.alertboxmsg.innerHTML =`<p><strong>⚠️ Warning Please Enter All Election Data if you want to Continue </strong></p>
                                             `;
@@ -873,10 +885,10 @@ async showtotalBooth(){
                 return ;
                 }
             
-            this.alertboxheading.innerText = "Continue With Excisting Data";
+            this.alertboxheading.innerText = "Continue With Existing Data";
             this.alertboxmsg.innerHTML=`<p><strong>⚠️ Are you sure you want to Proceed further ?</strong></p>
                                         <p>This action will:</p>
-                                        <p>Further Action Will Be Perform Over Excisting Data</p>
+                                        <p>Further Action Will Be Perform Over Existing Data</p>
                                         <p><strong>This cannot be undone.</strong></p>
                                         <p>Do you want to continue?</p>
                                         `;
@@ -886,19 +898,20 @@ async showtotalBooth(){
             return;
         }if(this.currentpage === 1){
             const et = document.querySelector(".ETInput").value;
-           const page2response = this.checkselectedPost();
-            if(page2response === false){
+            const page2response = await this.checkselectedPost();
+            if(!page2response){
             this.alertboxheading.innerText = `${et} STORED DATA DON'T MATCH`;
             this.alertboxmsg.innerHTML =`<p><strong>⚠️ Warning Please Confirm Your Data is Saved Or not</strong></p>
+                                        <p>Here Either Data Do Not Exist or Selection Is Not Matching With Stored Data </p>
                                         `;
             this.actiontype = "resetNone";
             return ;
             }
             
-            this.alertboxheading.innerText = "Continue With Excisting Data";
+            this.alertboxheading.innerText = "Continue With Existing Post Data";
             this.alertboxmsg.innerHTML=`<p><strong>⚠️ Are you sure you want to Proceed further ?</strong></p>
                                         <p>This action will:</p>
-                                        <p>Further Action Will Be Perform Over Excisting Data</p>
+                                        <p>Further Action Will Be Perform Over Existing Data</p>
                                         <p><strong>This cannot be undone.</strong></p>
                                         <p>Do you want to continue?</p>
                                         `;
@@ -913,7 +926,6 @@ async reset1(){
                 data:{
                     id :this.dmid,
                     ET : this.TypeElection.value,
-                    Block : this.electionblocksinput.value
                 }
             });
             const data = response.data;
@@ -923,8 +935,9 @@ async reset1(){
             reset.forEach((field)=>{
                 field.value = "";
             });
-            this.electionblocksinput.disabled = false;
-            this.pollingstation.disabled = false;
+            this.electionblocksinput.disabled = true;
+            this.pollingstation.disabled = true;
+            this.nextbtn.disabled = true;
             this.resetAlertResponse = 0;
             }
         } catch (error) {
@@ -944,10 +957,9 @@ async page1(){
                     ET : this.TypeElection.value
                 }
             });
-
             const data = response.data;
 
-            if(data.unusedIds && data.unusedIds.length > 0){
+            if(Array.isArray(data.missingIds) && data.missingIds.length > 0){
                 return false;
             }
             return true;
@@ -1049,6 +1061,7 @@ async page1insertion(){
             if(data.success){
                 this.clearlist();
                 this.alertbg.classList.add("hidden");
+                this.nextbtn.disabled = false;
             }
         } catch (error) {
                if (error.response) {
@@ -1103,6 +1116,9 @@ async page2insertion(){
                         delete this.dynamicListSourceP[ clear.position];
                     }
                 }
+
+                const counterName = `extravalueP${parseInt(clear.position)}`;  
+                this.checkseatwithEmployees(this[`checkDesignationEmpCountP${parseInt(clear.position)}`],this[`P${parseInt(clear.position)}Totalseats`],this[`currentCheckedP${parseInt(clear.position)}`],this[`TotalContainerBoxP${parseInt(clear.position)}`],clear.position,this[counterName],true);
             });
                 const pop = document.querySelector(".PopUPMessageContainer");
                  pop.textContent = "Post Data Inserted Successfully";
@@ -1111,6 +1127,11 @@ async page2insertion(){
                  setTimeout(() => {
                     pop.style.opacity = "0";
                 }, 3000);
+
+                if(this.currentpage === 1){
+                    this.savebtn.disabled = true;
+                    this.postserr.innerText = "Total Requirement Is Showing Fullfilled Due to Recent Post Insertion Please Press Reset Button And Delete The Preset Data To Save New posts Data";
+                }
             }
            
         } catch (error) {
@@ -1236,6 +1257,7 @@ cleanpage2() {
 
     async checkselectedPost(){
             try {
+                let flag = false;
                 const url = `/searchSelectedPosts`;
                 const election = document.querySelector(".ETInput").value;
                 const response = await axios.post(url,{
@@ -1251,7 +1273,7 @@ cleanpage2() {
 
                 const data = response.data;
                 if(data.success){
-                    let flag = false;
+                    
                     this.checkCountPost ={
                                     P0 : data.count.P0,
                                     P1 : data.count.P1,
@@ -1270,7 +1292,8 @@ cleanpage2() {
                         backendTotal += this.checkCountPost[`P${i}`];
                         frontendTotal += this[`p${i}array`].length;
                     }
-                    if(frontendTotal === backendTotal){
+                    if(backendTotal !== 0 && frontendTotal === backendTotal){
+                        console.log(frontendTotal , backendTotal , "hit ?");
                         flag = true;
                     }
                     return flag;
@@ -1483,9 +1506,10 @@ createExtraList(current, p) {
                         delete this.dynamicListSourceP[ clear.position];
                     }
                 }
-                
-                this.alertbg.classList.add("hidden");
+                const counterName = `extravalueP${parseInt(clear.position)}`;  
+                this.checkseatwithEmployees(this[`checkDesignationEmpCountP${parseInt(clear.position)}`],this[`P${parseInt(clear.position)}Totalseats`],this[`currentCheckedP${parseInt(clear.position)}`],this[`TotalContainerBoxP${parseInt(clear.position)}`],clear.position,this[counterName],true);
         });
+        this.alertbg.classList.add("hidden");
     }
 
     async deleteAllPostsDetails(){
@@ -1501,6 +1525,10 @@ createExtraList(current, p) {
             if(data.success && data.deleteResult.length !== 0){
                     pop.textContent = "Post Data Reset Successfully";
                     pop.style.opacity = "1";
+                if(this.currentpage === 1){
+                    this.savebtn.disabled = false;
+                    this.postserr.innerText = "";
+                }
             }
              setTimeout(() => {
                     pop.style.opacity = "0";

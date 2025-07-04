@@ -207,6 +207,15 @@ router.post("/insertPollingPosts", async (req, res) => {
     // Insert extra posts
     const extraArray = [extraP1Array, extraP2Array, extraP3Array];
     const extraTypes = [extraP1, extraP2, extraP3];
+    if(extraP1Array.length > 0 || extraP2Array.length > 0 || extraP2Array.length > 0){
+        await new Promise((resolve, reject) => {
+            connection.query(`DELETE FROM extraposts WHERE ElectionType = ?`, [ET], (err, result) => {
+                if (err) return reject(err);
+                resolve();
+            });
+        });
+
+    }
     for (let i = 0; i < extraArray.length; i++) {
       if (extraArray[i].length > 0 && extraTypes[i]) {
         const inserted = await insertExtravalues(extraArray[i], extraTypes[i], ET, `P${i + 1}`);

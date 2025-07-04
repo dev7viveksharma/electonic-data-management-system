@@ -69,16 +69,17 @@ router.get('/TotalBooths',(req,res)=>{
 
 
 router.get("/maxpoll",(req,res)=>{
-    const q =  `SELECT MAX(NumberofBooths) AS maxBooth FROM electionbodydata`;
-    connection.query(q,(err,result)=>{
+    const {ET} = req.query;
+    const q =  `SELECT NumberofBooths FROM electionbodydata WHERE ElectionName = ?`;
+    connection.query(q,[ET],(err,result)=>{
           if (err) {
             console.error("Database error:", err.message);
             return res.status(500).json({ success: false, message: "Database error" });
         }
-
+        const sum = result.reduce((ps , val) => ps + Number(val.NumberofBooths),0);
         res.json({
             success : true,
-            result : result
+            result : sum
         });
     });
 });
@@ -99,13 +100,13 @@ router.get("/getallpoollsdata",(req,res)=>{
     });
 });
 router.delete("/DeletePSdata",(req,res)=>{
-    const {id , ET , Block } = req.body;
+    const {id , ET  } = req.body;
     const q =  `DELETE FROM pollingstations
                 WHERE ElectionId IN (
                 SELECT id FROM electionbodydata
-                WHERE DmId = ? AND ElectionName = ? AND ElectionBlocks = ?
+                WHERE DmId = ? AND ElectionName = ? 
                 ); `;
-    connection.query(q,[id , ET , Block],(err , result)=>{
+    connection.query(q,[id , ET ],(err , result)=>{
         if (err) {
             console.error("Database error:", err.message);
             return res.status(500).json({ success: false, message: "Database error" });
@@ -155,28 +156,61 @@ router.post("/insertdata",(req,res)=>{
 });
 
 
-router.get("/inspectdataentry",(req,res)=>{
-    const {ET} = req.query;
-    connection.query("select id from electionbodydata where ElectionName = ?",[ET],(err,result)=>{
-        if (err) {
-            console.error("Error fetching ElectionId:", err);
-            return res.status(500).json({ success: false, message: "Database error" });
-        }
+router.get("/inspectdataentry", (req, res) => {
+    const { ET } = req.query;
 
-        if (result.length === 0) {
-            return res.status(404).json({ success: false, message: "Election entry not found" });
-        }
-        const electionId = result.map(row => row.id);
-        const sql = "SELECT DISTINCT ElectionId FROM pollingstations WHERE ElectionId IN (?)";
-        connection.query(sql, [electionId], (err, result) => {
-            if (err) return res.status(500).json({ success: false });
-            const foundIds = result.map(row => row.id);
-            return res.json({
-                success: true,
-                foundIds,
-                missingIds: electionId.filter(id => !foundIds.includes(id))
+    // Step 1: Get ALL ElectionBlocks for the ElectionName
+    connection.query(
+        "SELECT ElectionBlocks FROM electionbodydata WHERE ElectionName = ?",
+        [ET],
+        (err, blockResult) => {
+            if (err) {
+                console.error("Error fetching ElectionBlocks:", err);
+                return res.status(500).json({ success: false, message: "Database error" });
+            }
+
+            if (blockResult.length === 0) {
+                return res.status(404).json({ success: false, message: "No ElectionBlocks found" });
+            }
+
+            const blocks = blockResult.map(row => row.ElectionBlocks);
+            const blockPlaceholders = blocks.map(() => '?').join(', ');
+
+            // Step 2: Get all IDs where ElectionName and ElectionBlocks match
+            const idQuery = `SELECT id FROM electionbodydata WHERE ElectionName = ? AND ElectionBlocks IN (${blockPlaceholders})`;
+            connection.query(idQuery, [ET, ...blocks], (err, idResult) => {
+                if (err) {
+                    console.error("Error fetching ElectionId:", err);
+                    return res.status(500).json({ success: false, message: "Database error" });
+                }
+
+                if (idResult.length === 0) {
+                    return res.status(404).json({ success: false, message: "Election entry not found" });
+                }
+
+                const electionIds = idResult.map(row => row.id);
+                const placeholders = electionIds.map(() => '?').join(', ');
+                const sql = `SELECT DISTINCT ElectionId FROM pollingstations WHERE ElectionId IN (${placeholders})`;
+
+                connection.query(sql, electionIds, (err, foundResult) => {
+                    if (err) {
+                        console.error("Error querying pollingstations:", err);
+                        return res.status(500).json({ success: false });
+                    }
+
+                    const foundIds = foundResult.map(row => row.ElectionId);
+
+                    return res.json({
+                        success: true,
+                        foundIds,
+                        missingIds: electionIds.filter(id => !foundIds.includes(id))
+                    });
+                });
             });
-        });
-    });
+        }
+    );
 });
+
+
+
 module.exports = router;
