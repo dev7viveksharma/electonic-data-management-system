@@ -4,6 +4,7 @@ const {v4:uuidv4} = require("uuid");
 const bcrypt= require("bcrypt");
 const path = require("path");
 const { promises } = require("dns");
+const { table } = require("console");
 const router = express.Router();
 
 const connection = mysql.createConnection({
@@ -321,90 +322,66 @@ router.delete("/deletepostsdetails", async (req, res) => {
 });
 
 
-router.post("/searchSelectedPosts",async (req,res)=>{
-    const {ET,P0,P1,P2,P3,EXP1,EXP2,EXP3} = req.body;
-    const actionhandlers  = async (tableName , post,index)=>{
-        // if array is undefind or null
-        if (!post) return Promise.resolve([]);
-        // conversion of string to array
-        const items = Array.isArray(post) ? post : [post];
-        const promise = items.map(i =>{
-        const sql1 = `SELECT COUNT(Selection) as count FROM ${tableName} WHERE P${index} = ? AND ElectionType = ? ;`;
-        return new Promise((resolve,reject)=>{
-                 connection.query(sql1,[i,ET],(err,result)=>{
-                    if(err) reject(err);
-                    resolve(result[0].count);
-                 });
-            });
-        });
-
-        const counts = await Promise.all(promise);
-        return counts.reduce((sum, curr) => sum + curr, 0); // return total count
-    }
-
-const actionhandlersEXTRA = async (dataArray, postLevel) => {
-    if (!dataArray || !dataArray.length) return 0;
-
-    const items = Array.isArray(dataArray) ? dataArray : [dataArray];
-
-    const promises = items.map(designation => {
-        const sql = `
-            SELECT COUNT(*) AS count 
-            FROM extraposts 
-            WHERE ElectionType = ? 
-              AND desigantionsRequired = ? 
-              AND currentposts = ?
-        `;
-
-        return new Promise((resolve, reject) => {
-            connection.query(sql, [ET, designation, postLevel], (err, result) => {
-                if (err) return reject(err);
-                resolve(result[0].count > 0 ? 1 : 0); // ✅ Only 1 if match exists
+router.get("/searchSelectedPosts",async (req,res)=>{
+    const {ET} = req.query;
+    actionhandlers = ((ET , tableName , designation)=>{
+        return new Promise((resolve , reject)=>{
+            connection.query(`SELECT ${designation} from ${tableName} where ElectionType = ? AND Selection = "Selected"`,[ET],(err,result)=>{
+                if(err) return reject(err);
+                resolve(result);
             });
         });
     });
 
-    const counts = await Promise.all(promises);
-    return counts.reduce((sum, val) => sum + val, 0); // Total distinct matches
-};
+    extraActionhandlers = ((ET , requirement )=>{
+        return new Promise((resolve , reject)=>{
+            const sql = `SELECT desigantionsRequired FROM extraposts WHERE ElectionType = ? AND currentposts = ?`;
+            connection.query(sql,[ET,requirement],(err,result)=>{
+                if(err) return reject(err);
+                resolve(result);
+            });
+        });
+
+    });
+
+     const [P0] = await Promise.all([
+        actionhandlers( ET, "pollingofficersp0", "P0")
+    ]);
+     const [P1] = await Promise.all([
+        actionhandlers( ET, "pollingofficersp1", "P1")
+    ]);
+     const [P2] = await Promise.all([
+        actionhandlers( ET, "pollingofficersp2", "P2")
+    ]);
+     const [P3] = await Promise.all([
+        actionhandlers( ET, "pollingofficersp3", "P3")
+    ]);
+
+     const [EP1] = await Promise.all([
+        extraActionhandlers( ET,"P1")
+    ]);
+     const [EP2] = await Promise.all([
+        extraActionhandlers( ET,"P2")
+    ]);
+     const [EP3] = await Promise.all([
+        extraActionhandlers( ET,"P3")
+    ]);
 
 
 
 try {
-
-    const [COUNTP0 , COUNTP1, COUNTP2 , COUNTP3] = await Promise.all([
-        actionhandlers("pollingofficersp0" , P0,0),
-        actionhandlers("pollingofficersp1" , P1,1),
-        actionhandlers("pollingofficersp2" , P2,2),
-        actionhandlers("pollingofficersp3" , P3,3)        
-    ]);
-
-    const extraResults = {};
-
-    if (EXP1 && (Array.isArray(EXP1) ? EXP1.length : EXP1.trim() !== "")) {
-        extraResults.EXP1 = await actionhandlersEXTRA( EXP1 , "P1");
-    }
-    if (EXP2 && (Array.isArray(EXP2) ? EXP2.length : EXP2.trim() !== "")) {
-        extraResults.EXP2 = await actionhandlersEXTRA( EXP2 , "P2");
-    }
-    if (EXP3 && (Array.isArray(EXP3) ? EXP3.length : EXP3.trim() !== "")) {
-        extraResults.EXP3 = await actionhandlersEXTRA( EXP3 , "P3");
-    }
-
-
-
     res.status(200).json({
         success : true,
         count : {
-            P0 : COUNTP0,
-            P1 : COUNTP1,
-            P2 : COUNTP2, 
-            P3 : COUNTP3
+            P0 : P0,
+            P1 : P1,
+            P2 : P2, 
+            P3 : P3
         },
-        EXCount :{
-            EXP1: extraResults.EXP1 || [],
-            EXP2: extraResults.EXP2 || [],
-            EXP3: extraResults.EXP3 || []
+        EXCOUNT : {
+            P1 : EP1,
+            P2 : EP2,
+            P3 : EP3
         }
     });
     } catch (error) {

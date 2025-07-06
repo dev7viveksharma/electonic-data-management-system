@@ -161,6 +161,14 @@
                     <div class="placementHeadingTitle">
                         <h5>Welcome To Election Duty Placement System</h5>
                     </div>
+                    <div class="randomizormenucontainer">
+                        <select name="randomizorsmenu" id="randomizorHeading" class="randomizationlist">
+                                    <option value="" class="rdmopt">select randomization</option>
+                                    <option value="Randomization1" class="rdmopt">Randomization 1</option>
+                                    <option value="Randomization1" class="rdmopt">Randomization 2</option>
+                                    <option value="Randomization1" class="rdmopt">Randomization 3</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="placementContainer">
                     <div class="SelectElectionSection">
@@ -178,6 +186,9 @@
                             <div class="circleend"></div>
                         </div>
                         <div class="inActive phase ">
+                                <div class="errorcontainerp2">
+                                        <p class="postserror2"></p>
+                                </div>
                                 <div class="processingbox1">
                                         <div class="Election_type">
                                             <div class="electionTypeContainer">
@@ -199,7 +210,7 @@
                                                 </div>
                                             </div>
                                             <div class="NumberOfPolls">
-                                                <label for="Totalspollingplaces" class="pollinglabels">No. of Polling Booth</label>
+                                                <label for="Totalspollingplaces" class="pollinglabels">No. of Polling Booths</label>
                                                 <input type="number" name="Totalpolls" id="Totalspollingplaces" class="pollingNumbers R1 R2" disabled>
                                             </div>
                                         </div>
@@ -328,6 +339,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="randomization1Container">
+                    hii
+                </div>
             </div>
             <div class="Post">
                 <div class="infosarea">
@@ -348,7 +362,7 @@
                     </div>
                     <div class="postType">
                         <div class="posttypecontainer">
-                            <label for="postsTypes" class="placement_labels ">Level of Attention</label>
+                            <label for="postsTypes" class="placement_labels PtLevel">Level of Attention</label>
                             <select id="postsTypes" class="placementInput">
                             <option value="Informational">Informational</option>
                             <option value="Low Priority">Low Priority</option>
@@ -362,14 +376,16 @@
                 <div class="postfieldsarea">
                     <div class="postfield">  
                         <div class="postinput">
-                            <textarea name="postinfo" id="dmInputPost" class="postsinputfield"></textarea>
+                            <textarea name="postinfo" id="dmInputPost" class="postsinputfield" placeholder="Write a Message"></textarea>
                             <img src="" alt="" class="postImgvisible hidden">
-                        </div>
-                        <div class="inputSent">
-                            <i class="fa-solid fa-paper-plane"></i>
+                            <div class="inputSent">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </div>
                         </div>
                         <div class="postfeatures">
-                            <div class="postsfiles"></div>
+                            <div class="postsfiles">
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
                             <div class="postsSent"></div>
                         </div>
                     </div>

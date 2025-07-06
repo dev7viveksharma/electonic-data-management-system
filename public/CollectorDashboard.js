@@ -405,6 +405,7 @@ class ELECTIONPLACEMENT{
         this.P3Totalseats = document.querySelector(".ReqEmpNumbersP3");
         this.clearAllPosts = document.querySelector(".clearAllPosts");
         this.postserr = document.querySelector(".postserror");
+        this.postserr2 = document.querySelector(".postserror2");
         this.dmid = localStorage.getItem("dmId");
         this.psList = [];
         this.init();
@@ -473,6 +474,7 @@ class ELECTIONPLACEMENT{
         document.addEventListener("click",(event)=>{
             if (this.listofps && !this.listofps.contains(event.target)) {
                this.listofps.classList.add("hidden");
+               this.postserr2.innerText = "";
             }
         });
 
@@ -510,8 +512,8 @@ class ELECTIONPLACEMENT{
                     poll.checked = true;
                 }
             });
-
-
+            
+            this.addps(this.TotalBooth.value);
             psChecks.forEach((chk) => {
                 chk.addEventListener("change", () => this.addps(this.TotalBooth.value));
             });
@@ -683,7 +685,7 @@ async showblockList(){
     }
 
  selectOptions(list){
-    this.electionblocksinput.value = ""
+    this.electionblocksinput.value = "";
         list.forEach((options)=>{
             options.addEventListener("click",async()=>{
                 
@@ -705,6 +707,11 @@ async showblockList(){
                         this.pollingstation.disabled = true;
                         let i = this.psList.length;
                         this.calculatepolls(i);
+                    }
+                    if(data.result.length === 0){
+                        this.pollingstation.disabled = false;
+                        this.pollingstation.value = "";
+                        this.calculatepolls(0);
                     }
                         this.showtotalBooth()
                 } catch (error) {
@@ -790,6 +797,11 @@ async showtotalBooth(){
                 ps.disabled = (currentchecked >= totalLimit);
             }
         });
+        if(currentchecked < totalLimit && currentchecked !== 0){
+                    this.postserr2.innerText = " Currently Selected Polling Stations are under the Given Limit";
+        }else{
+            this.postserr2.innerText = "";
+        }
 
         this.psList = updatedList;
         // Update input and employee count
@@ -1257,46 +1269,46 @@ cleanpage2() {
 
     async checkselectedPost(){
             try {
-                let flag = false;
                 const url = `/searchSelectedPosts`;
                 const election = document.querySelector(".ETInput").value;
-                const response = await axios.post(url,{
-                        ET: election,
-                        P0:this.p0array,
-                        P1:this.p1array,
-                        P2:this.p2array,
-                        P3:this.p3array,
-                        EXP1 : this.extravalueP1Array,
-                        EXP2 : this.extravalueP2Array,
-                        EXP3 : this.extravalueP3Array
+                const response = await axios.get(url,{
+                    params : {ET : election}
                 });
 
                 const data = response.data;
                 if(data.success){
                     
                     this.checkCountPost ={
-                                    P0 : data.count.P0,
-                                    P1 : data.count.P1,
-                                    P2 : data.count.P2, 
-                                    P3 : data.count.P3
+                                P0: data.count.P0.map(obj => obj.P0),
+                                P1: data.count.P1.map(obj => obj.P1),
+                                P2: data.count.P2.map(obj => obj.P2),
+                                P3: data.count.P3.map(obj => obj.P3),
                                 }
-
-                    this.checkExtraCountPosts = {
-                                    P1 : data.EXCount.EXP1,
-                                    P2 : data.EXCount.EXP2,
-                                    P3 : data.EXCount.EXP3
+                    this.checkExtraCountPost = {
+                                P1 : data.EXCOUNT.P1.map(obj => obj.P1),
+                                P2 : data.EXCOUNT.P2.map(obj => obj.P2),
+                                P3 : data.EXCOUNT.P3.map(obj => obj.P3),
+                    }
+                    for(let i = 0 ; i < 4 ; i++){
+                        const FrontArray1 = [...this[`p${i}array`]].sort();
+                        const BackArray2 = [...this.checkCountPost[`P${i}`]].sort();
+                        if(FrontArray1.length === BackArray2.length && FrontArray1.every((val , index)=>val === BackArray2[index])){
+                            const postEmprequirement = BackArray2.length;
+                            let backendTotal = 0;
+                            if(i > 0){
+                                const frontex = [...this[`extravalueP${i}Array`]].sort();
+                                const backex = [...this.checkExtraCountPost[`P${i}`]].sort();
+                                if(frontex.length === backex.length && frontex.every((val,index)=>val === backex[index])){
+                                    backendTotal = backex.length;
                                 }
-                    let backendTotal = 0;
-                    let frontendTotal = 0;
-                    for(let i = 0 ; i<4 ; i++){
-                        backendTotal += this.checkCountPost[`P${i}`];
-                        frontendTotal += this[`p${i}array`].length;
+                            }
+                            const totalvalue = postEmprequirement + backendTotal;
+                            if(Number(this[`P${i}Totalseats`].textContent) <= totalvalue){
+                                return true;
+                            }
+                        }
                     }
-                    if(backendTotal !== 0 && frontendTotal === backendTotal){
-                        console.log(frontendTotal , backendTotal , "hit ?");
-                        flag = true;
-                    }
-                    return flag;
+                    return false;
                 }
 
             } catch (error) {
@@ -1536,6 +1548,12 @@ createExtraList(current, p) {
         } catch (error) {
             
         }
+    }
+}
+
+class RANDOMIZATION1{
+    constructor(){
+        
     }
 }
 new HOD();
