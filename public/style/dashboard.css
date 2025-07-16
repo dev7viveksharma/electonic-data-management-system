@@ -245,7 +245,38 @@ body {
 }
 
 /* admin profile view ends */
+/* private Posts */
+.privatePosts{
+    position: absolute;
+    right:-40rem;
+    top: -10;
+    width: 40rem;
+    height: 100%;
+    z-index: 16;
+    border-left: 2px solid rgba(0,0,0, 0.3);
+    border-bottom: 2px solid rgba(0,0,0, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    margin: 0;
+    transition: right 0.5s ease-in-out;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
 
+.personalchatting_heading{
+    position: relative;
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid rgba(0,0,0, 0.3);
+    line-height: 4rem;
+}
+
+.slideback{
+    right: 0rem;
+}
+/* private Posts end */
 /* Side navigation bar */
 
 
@@ -314,7 +345,7 @@ body {
     flex-wrap: wrap;
 
 }
-.createEmployee , .View_Employee {
+.createEmployee , .View_Employee , .postsAll{
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -765,6 +796,41 @@ body {
     background-color: chocolate;
 }
 /* View Employee Data End*/
+/* public posts */
+.postsAll{ 
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+.publicpostHeading{
+    width : 100%;
+    height: 10%;
+    background-color: #00000030;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.publicpostHeading h3 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+}
+.publicpostBody{
+    width: calc(100% - 4rem);
+    height: 90%;
+}
+.pubpost{
+    width: 100%;
+    min-height: 8rem;
+    height: auto;
+    margin: 1rem 2rem;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 0.5px solid black;
+    border-radius: 0.8rem;
+}
+/* public posts end */
 
 .invert {
   transform: rotate(180deg);

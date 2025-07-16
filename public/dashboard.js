@@ -14,6 +14,9 @@ class TOPBAR{
         this.email = this.editSection.querySelector(".Admin_EmailAddress");
         this.CompanyLogo = document.querySelector(".CompanyLogo");
         this.editBtn = this.editSection.querySelector(".admineditbtn");
+        this.personalposts = document.querySelector(".PersonalChat i");
+        this.privatechatcontainer = document.querySelector(".privatePosts");
+        this.personalchathead = document.querySelector(".personalchatting_heading")
         this.isedit = false;
         this.init();
         this.showname();
@@ -28,6 +31,9 @@ class TOPBAR{
         });
         this.adminProfile();
         this.editBtn.addEventListener("click",()=>this.editProfile());
+        this.personalposts.addEventListener("click",()=>{
+            this.personalpostfunct();
+        })
     }
 
     showdropmenu(){
@@ -44,6 +50,7 @@ class TOPBAR{
             window.location.href = "edms.html";
         }
     }
+   
 
     backtologin(){
     // Clear token from localStorage
@@ -61,6 +68,10 @@ class TOPBAR{
     hideAdminEdit(){
         this.editSection.style.right = "-20rem";
         this.showdropmenu();
+    }
+
+    personalpostfunct(){
+        this.privatechatcontainer.classList.toggle("slideback");
     }
 
     async adminProfile(){

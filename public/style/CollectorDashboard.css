@@ -582,7 +582,7 @@ body {
 
 }
 
-.placementContainer , .randomization1Container{
+.placementContainer , .Randomization1 , .Randomization2 , .Randomization3{
     position: absolute;
     display: flex;
     width: 100%;
@@ -1112,6 +1112,286 @@ body {
     background-color: #aeaeae;
 }
 /*Election placement ends */
+/* randomization1 */
+.Randomization1{
+    display: flex;
+    flex-direction: column;    
+}
+
+.Randomization1 .ElectionData{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.ElectionData .electionTypeContainerR , .ElectionData .SelectSectionsR{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 2rem;
+}
+
+.ElectionData .SelectSectionsR{
+    position: relative;
+}
+
+.dynamicrandomBlocklistcontainer{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 39%;
+    height: auto;
+    right: 0;
+    bottom: -50%;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2rem;
+}
+
+.RandomET , .RandomBlock{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.randomElectioninput , .randomBlockinput{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.BlockNamesR  {
+    width:100%;
+    height: 2rem;
+    cursor: pointer;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    background-color: #eaeaea;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.Randomization1 .randomizationBody{
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.randomizedatacontainer{
+    width: 95%;
+    min-height: 4rem;
+    height: auto;
+    border: 0.5px solid black;
+    border-radius: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+    margin: 1rem 1rem;
+}
+
+.blockName , .psName , .AllDataContainer  {
+    width: calc(100% / 3);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blockNameHeading , .psNameHeading , .AllDataHeading{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.blockNamecontent , .psNamecontent , .AllDatacontent {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: content-box;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+}
+
+.blockNamecontent{
+    border-left: none;
+}
+
+.AllDatacontent{
+    border-right: none;
+}
+
+.bottombtncontainers{
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 10%;
+    background-color: #00000030;
+    justify-content: center;
+    align-items: center;
+}
+
+.centerboxcontainerR , .centerboxcontainerR2 {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.savebtncontainerR , .randombtncontainerR , .resetbtncontainerR , .savebtncontainerR2 , .randombtncontainerR2 , .resetbtncontainerR2{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.savebtncontainerR button , .randombtncontainerR button , .resetbtncontainerR button , .savebtncontainerR2 button , .randombtncontainerR2 button , .resetbtncontainerR2 button{
+    width: 8rem;
+    height: 3rem;
+    background-color: #4CAF50;
+    color: #eaeaea;
+    border-radius: 0.8rem;
+    cursor: pointer;
+}
+
+.randombtncontainerR button{
+    background-color: #f8f8f8;
+    color: #212121;
+}
+
+.resetbtncontainerR button{
+    background-color: #FF2C2C;
+}
+
+.BlockNamesR:hover{
+    background-color: #007BFF;
+    transition: background-color 0.2s ease-in-out;
+}
+/* randomization1 end*/
+
+/* randomization2 START */
+.Randomization2{
+    display: flex;
+    flex-direction: column;
+}
+
+.ElectionDataR2{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.electiondatacentreContainer{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.electionblockR2LABEL{
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    outline: none;
+}
+
+.dynamicR2blockContainer{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: auto;
+    top : 6rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.BlockNamesR2{
+    width:100%;
+    height: 2rem;
+    cursor: pointer;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    background-color: #eaeaea;
+}
+
+.showR2{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.randomizationBodyR2{
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.bottombtncontainersR2{
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 10%;
+    background-color: #00000030;
+    justify-content: center;
+    align-items: center;
+}
+
+.randombtncontainerR2 button{
+    background-color: #f8f8f8;
+    color: #212121;
+}
+
+.resetbtncontainerR2 button{
+    background-color: #FF2C2C;
+}
+
+.BlockNamesR2:hover{
+    background-color: #007BFF;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* randomization1 end */
 
 /* posts feature start */
 
@@ -1153,12 +1433,17 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 50%;
     gap: 0.5rem;
     margin: 0.5rem 0rem;
 }
 
 .prefercontainer{
     justify-content: top;
+}
+
+.selectHodcontainer{
+    position: relative;
 }
 
 .postType {
@@ -1184,7 +1469,7 @@ body {
 
 .posttypecontainer{
     width: 100%;
-    height: 100%;
+    height: 50%;
     justify-content: center;
     align-items: flex-end;
 }
@@ -1226,8 +1511,8 @@ body {
 
 .inputSent i{
     transform: rotate(45deg);
-    width: 50%;
-    height: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1246,11 +1531,27 @@ body {
     overflow: auto;
 }
 
-.postImgvisible{
+.postImgvisible {
     height: 4rem;
     width: 4rem;
     margin-right: 1rem;
+    border: 0.5px solid black;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
 }
+
+.postImgvisible img,
+.postImgvisible canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
 
 .postfeatures{
     width: 2rem;
@@ -1266,9 +1567,46 @@ body {
     font-size: 2rem;
     font-weight: 300;
 }
+
+.postsfiles .postimages{
+    display: none;
+}
+.hodlist{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: -85%;
+    width: 80%;
+    height: auto;
+    background-color: #eaeaea;
+}
+
+.HodListOptionsContainer{
+    padding: 0.5rem 1rem;
+    width: 100%;
+    height: 2rem;
+    border-radius: none;
+}
+
+.HodListOptionsContainer p{
+    width: 100%;
+    height: 100%;
+    color: #212121;
+}
+
+.inputSent i:hover{
+    cursor: pointer;
+    background-color: #00000030;
+    border-radius: 50%;
+}
+.HodListOptionsContainer:hover{
+    background-color: #007BFF;
+    transition: background-color 0.2s ease-in-out;
+}
 .postfeatures:hover{
      background-color: #aeaeae;
      transition: background-color 0.2s ease-in-out;
+     cursor: pointer;
 }
 /* posts feature ends */
 

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="staticBody">
-        <div class="header">
+        <header class="header">
             <div class="companyLogoContainer">
                 <img  class="CompanyLogo" src="./images/EDMS LOGO for main screen.png">
             </div>
@@ -35,7 +35,7 @@
             <div class="tool">
                 <i class="fa-solid fa-bars js_bars"></i>
             </div>
-        </div>
+        </header>
         <div class="adminBody">
             <div class="homePage">
                 <div class="staticals">
@@ -157,20 +157,20 @@
                 </div>
             </div>
             <div class="placement">
-                <div class="placementHeading">
+                <header class="placementHeading">
                     <div class="placementHeadingTitle">
                         <h5>Welcome To Election Duty Placement System</h5>
                     </div>
                     <div class="randomizormenucontainer">
-                        <select name="randomizorsmenu" id="randomizorHeading" class="randomizationlist">
-                                    <option value="" class="rdmopt">select randomization</option>
+                        <select name="randomizorsmenu" id="randomizorHeading" class="randomizationlist" disabled>
+                                    <option value="placementContainer" class="rdmopt">Randomization data</option>
                                     <option value="Randomization1" class="rdmopt">Randomization 1</option>
-                                    <option value="Randomization1" class="rdmopt">Randomization 2</option>
-                                    <option value="Randomization1" class="rdmopt">Randomization 3</option>
+                                    <option value="Randomization2" class="rdmopt">Randomization 2</option>
+                                    <option value="Randomization3" class="rdmopt">Randomization 3</option>
                         </select>
                     </div>
-                </div>
-                <div class="placementContainer">
+                </header>
+                <div class="placementContainer rnp">
                     <div class="SelectElectionSection">
                         <div class="processMapPage1">
                             <div class="circlestart"></div>
@@ -323,24 +323,79 @@
                                 <button class="nextBtn" disabled>Next</button>
                             </div>
                         </div>
-                        <div class="alertbg hidden">
-                                <div class="alertbox">
-                                <div class="alertheading">
-                                    <i class="fa-solid fa-xmark crossmark"></i>
-                                    <h3></h3>
-                                    
-                                </div>
-                                <div class="alertmsg">
-                                </div>
-                                <div class="alertconfirm">
-                                    <button>Confirm</button>
-                                </div>
+                    </div>
+                </div>
+                <div class="Randomization1 hidden rnp">
+                    <div class="ElectionData">
+                        <div class="electionTypeContainerR">
+                            <label for="randomizorElectionType" class="placement_labels RandomET">Type of Election For Randomization</label>
+                            <input type="text" id="randomizorElectionType" class="placementInput randomElectioninput" disabled>
+                        </div>
+                        <div class="SelectSectionsR">
+                                <label for="randomizationBlockData" class="placement_labels RandomBlock">Select Block For Randomization</label>
+                                <input type="text" id="randomizationBlockData" class="placementInput randomBlockinput">
+                            <div class="dynamicrandomBlocklistcontainer">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="randomizationBody">
+                    </div>
+                    <div class="bottombtncontainers">
+                        <div class="centerboxcontainerR">
+                            <div class="savebtncontainerR">
+                                <button disabled> Save </button>
+                            </div>
+                            <div class="randombtncontainerR">
+                                <button disabled>Randomize</button>
+                            </div>
+                            <div class="resetbtncontainerR">
+                                <button  disabled> Reset All </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="randomization1Container">
-                    hii
+                <div class="Randomization2 hidden rnp">
+                    <div class="ElectionDataR2">
+                        <div class="electiondatacentreContainer">
+                            <label for = "electionBlockR2" class= "placement_labels electionblockR2LABEL">Select Election Block</label>
+                            <input id="electionBlockR2" class="placementInput  R2BlockInput" placeholder="select block for Randomisation">
+                            <div class="dynamicR2blockContainer">
+                            </div>
+                    </div>
+                       
+                    </div>
+                    <div class="randomizationBodyR2"></div>
+                    <div class="bottombtncontainersR2">
+                        <div class="centerboxcontainerR2">
+                            <div class="savebtncontainerR2">
+                                <button disabled> Save </button>
+                            </div>
+                            <div class="randombtncontainerR2">
+                                <button disabled>Randomize</button>
+                            </div>
+                            <div class="resetbtncontainerR2">
+                                <button  disabled> Reset All </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Randomization3 hidden rnp">
+                    hii3
+                </div>
+                <div class="alertbg hidden">
+                    <div class="alertbox">
+                        <div class="alertheading">
+                            <i class="fa-solid fa-xmark crossmark"></i>
+                            <h3></h3>
+                            
+                        </div>
+                        <div class="alertmsg">
+                        </div>
+                        <div class="alertconfirm">
+                            <button>Confirm</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="Post">
@@ -349,21 +404,21 @@
                     <div class="prefences">
                             <div class="prefercontainer">
                             <label for="prefer" class="placement_labels">Type</label>
-                            <select id="prefer" class="placementInput">
+                            <select id="prefer" class="placementInput postingTypes">
                                 <option value="All">All</option>
                                 <option value="specific">specific</option>
                             </select>
                             </div>
-                           <div class="selectHodcontainer">
+                           <div class="selectHodcontainer hidden">
                             <label for="Hods" class="placement_labels ptl">Select Hod for Post</label>
-                            <input id="Hods" class="placementInput" placeholder="enter hod name">
-                            <div class="hodlist"></div>
+                            <input id="Hods" class="placementInput hodInput" placeholder="enter hod name">
+                            <div class="hodlist hidden"></div>
                            </div>
                     </div>
                     <div class="postType">
                         <div class="posttypecontainer">
                             <label for="postsTypes" class="placement_labels PtLevel">Level of Attention</label>
-                            <select id="postsTypes" class="placementInput">
+                            <select id="postsTypes" class="placementInput priorityList">
                             <option value="Informational">Informational</option>
                             <option value="Low Priority">Low Priority</option>
                             <option value="High Priority">High Priority</option>
@@ -377,7 +432,7 @@
                     <div class="postfield">  
                         <div class="postinput">
                             <textarea name="postinfo" id="dmInputPost" class="postsinputfield" placeholder="Write a Message"></textarea>
-                            <img src="" alt="" class="postImgvisible hidden">
+                            <div class="postImgvisible hidden"></div>
                             <div class="inputSent">
                                 <i class="fa-solid fa-paper-plane"></i>
                             </div>
@@ -385,6 +440,7 @@
                         <div class="postfeatures">
                             <div class="postsfiles">
                                 <i class="fa-solid fa-plus"></i>
+                                <input type="file" class="postimages">
                             </div>
                             <div class="postsSent"></div>
                         </div>
@@ -397,6 +453,7 @@
         </div>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="CollectorDashboard.js"></script>
 </body>
 </html>

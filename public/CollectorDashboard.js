@@ -645,7 +645,6 @@ async showblockList(){
             if(data.success){
                 this.electionBlocklist.innerHTML = ""
                 data.result.forEach((data)=>{
-                    console.log(data);
                     this.electionBlocklist.innerHTML +=`
                     <div class="BlockNames">${data.ElectionBlocks}</div>
                     ` ;
@@ -1546,17 +1545,744 @@ createExtraList(current, p) {
                     pop.style.opacity = "0";
                 }, 3000);
         } catch (error) {
-            
+         if (error.response) {
+            console.log("Error:", error.response.data.message); // server responded with error
+        } else {
+            console.log("Error:", error.message); // other errors (network etc.)
+        } 
         }
     }
 }
 
-class RANDOMIZATION1{
+class RANDOMISATION1{
     constructor(){
+        this.RandomizationdataConatainer = document.querySelector(".placementContainer");
+        this.randomizordropdown = document.querySelector(".randomizationlist");
+        this.alertbg = document.querySelector(".alertbg");
+        this.alertmsg = document.querySelector(".alertmsg");
+        this.alertconfirm = document.querySelector(".alertconfirm button");
+        this.alertboxheading = document.querySelector(".alertheading h3");
+        this.alertbtn = document.querySelector(".alertconfirm button");
+        this.ET = document.querySelector(".electiontype");
+        this.randomBlock = document.querySelector(".randomBlockinput");
+        this.randomElectioninput = document.querySelector(".randomElectioninput");
+        this.dynamicblock = document.querySelector(".dynamicrandomBlocklistcontainer");
+        this.RANDOMISATIONBtn = document.querySelector(".randombtncontainerR button");
+        this.RANDOMISATIONSAVEBtn = document.querySelector(".savebtncontainerR button");
+        this.RANDOMISATIONRESET  = document.querySelector(".resetbtncontainerR button")
+        this.randomisationbody = document.querySelector(".randomizationBody");
+        this.pop = document.querySelector(".PopUPMessageContainer");
+        this.rnpages = document.querySelectorAll(".rnp");
+        this.currentpageR = null;
+        this.actiontype = null;
+        this.EMP0 = [];
+        this.EMP1 = [];
+        this.EMP2 = [];
+        this.EMP3 = [];
+        this.PS = [];
+        this.EXTRA_EMP = [];
+        this.dynamicrandomiseData1 = [];
+        this.alertactionhandlers ={
+            Randomization1 : ()=>{
+                this.randmizor1check();
+            },
+
+            placementContainer : () =>{
+                this.randomizationpage1()
+            },
+            startRandomization1 : ()=>{
+                this.randomizationpage1();
+            },
+            resetrandomisedataAll : () =>{
+                this.resetrandomisedata();
+            },
+            ResetNone : ()=>{
+                this.randomizordropdown.disabled = false;
+                this.alertbg.classList.add("hidden");
+            }
+        }
+        this.init();
+    }
+
+    init(){
+        this.randomizordropdown.addEventListener("change",()=>this.openrandomization());
+        this.alertbtn.addEventListener("click",()=>this.callalert(this.actiontype));
+        this.ET.addEventListener("change",()=>{
+            this.randomizordropdown.disabled = false;
+            this.randomElectioninput.value = this.ET.value;
+        });
+        this.randomBlock.addEventListener("click",()=>this.showblockdata());
+        this.dynamicblock.addEventListener("click",(event)=>{
+            if(event.target.classList.contains("BlockNamesR")){
+                this.randomBlock.value = event.target.textContent;
+                this.randomBlock.disabled = false;
+                this.RANDOMISATIONBtn.disabled = false;
+                const index = document.querySelectorAll(".BlockNamesR");
+                index.forEach((block)=>{
+                    block.classList.remove("show");
+                });
+            }
+        });
+
+        this.RANDOMISATIONBtn.addEventListener("click",()=>{
+            this.randomisationEmployees();
+        });
+
+        this.RANDOMISATIONSAVEBtn.addEventListener("click",()=>{
+            this.saveRandomisationblockdata();
+        })
+        this.RANDOMISATIONRESET.addEventListener("click",()=>{
+            this.resetRandomiseDataAlert();
+        })
+    }
+
+    openrandomization(){
+        this.actiontype = this.randomizordropdown.value;
+        this.currentpageR = this.randomizordropdown.value;
+        this.callalert(this.actiontype);
+    }
+
+    callalert(action){
+          if(this.alertactionhandlers[action] && action !== null){
+            this.alertactionhandlers[action]();
+        }
+    }
+
+async randmizor1check(){
+    try {
+        const url = `/CheckPollingAndPostData`;
+            const response = await axios.get(url,{
+                params : {
+                    ET : this.ET.value
+                }
+            });
+            const data = response.data;
+            if(data.success){
+                await this.checkdynamicrandomisation1data();
+                this.showRandomixorAlert(data.success,data.message,data.requiredPosts,data.availableEmployees);
+            }
+    } catch (error) {
+        if (error.response) {
+            const data = error.response.data;
+            console.log("Error:", error.response.data.message); // server responded with error
+            this.showRandomixorAlert(data.success,data.message,data.requiredPosts,data.availableEmployees);
+        } else {
+            console.log("Error:", error.message); // other errors (network etc.)
+        } 
+    }
+
+    }
+
+    showRandomixorAlert(success,message,requiredPosts,availableposts){
+        if(success){
+            this.alertboxheading.innerText = "Start Randomization 1";
+            this.alertmsg.innerHTML =`<p><strong>⚠️${message}?⚠️</strong></p>
+                                        <p>This action will:</p>
+                                        <p>1: Start The Session</p>
+                                        <p>2: Work on Pre-Existing Election Data If New Data is Not Set</p>
+                                        <p><strong>This cannot be undone.</strong></p>
+                                        <p>required posts for this randomization : ${requiredPosts}</P>
+                                        <p>Available Post for this Randomization : ${availableposts}</p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "startRandomization1";
+        }else{
+            this.alertboxheading.innerText = "Required Randomization Data";
+            this.alertmsg.innerHTML=`<p><strong>⚠️${message}?</strong></p>
+                                        <p>required posts for this randomization : ${requiredPosts}</P>
+                                        <p>Available Post for this Randomization : ${availableposts}</p>
+                                        <p><strong>please contanct HODS or Re-Enter the data</strong></p>
+                                        <p>press continue to close?</p>
+                                        `;
+            this.randomizordropdown.disabled = true;
+            this.actiontype = "ResetNone";
+        }
+        this.alertbg.classList.remove("hidden");
+    }
+
+async checkdynamicrandomisation1data(){
+    try {
+        const url = `/checkPreExistingData`;
+
+        const response = await axios.get(url,{
+            params : {ET : this.ET.value}
+        });
+
+        const data = response.data;
+        if(data.success){
+           this.insertdynamicrandomdata(data.data);
+           this.dynamicrandomiseData1 = data.data;
+        }
+        } catch (error) {
+        if (error.response) {
+            console.log("Error:", error.response.data.message); // server responded with error
+        } else {
+            console.log("Error:", error.message); // other errors (network etc.)
+        }  
+        }
+    }
+
+    insertdynamicrandomdata(data){
+        if (this.randomisationbody.querySelector(".randomizedatacontainer")) {
+            console.log("HIT");
+            return;
+        }
+
+
+        data.forEach((data)=>{
+            this.randomisationbody.innerHTML +=
+                        `
+                         <div class = "randomizedatacontainer">
+                            <div class = "blockName">
+                                <div class = "blockNameHeading">
+                                    Block Name 
+                                </div>
+                                <div class = "blockNamecontent">
+                                ${data.ElectionBlock}
+                                </div>
+                            </div>
+                            <div class = "psName">
+                                <div class = "psNameHeading">
+                                    Polling Station
+                                </div>
+                                <div class = "psNamecontent">
+                                ${data.PS}
+                                </div>
+                            </div>
+                            <div class = "AllDataContainer">
+                                <div class = "AllDataHeading">
+                                    All Data
+                                </div>
+                                <div class = "AllDatacontent">
+                                ${data.P0} , ${data.P1} , ${data.P2} , ${data.P3} , ${data.Extra5Percent}
+                                </div>
+                            </div>
+                        </div>
+                        `;
+            this.RANDOMISATIONRESET.disabled = false;
+        });
+    }
+
+    randomizationpage1(){
+        this.rnpages.forEach((page)=>{
+            if(page.classList.contains(this.currentpageR)){
+                page.classList.remove("hidden");
+            }else{
+                page.classList.add("hidden");
+            }
+        })
+        this.alertbg.classList.add("hidden");
+    }
+
+    async showblockdata() {
+        this.randomBlock.disabled = true;
+        this.randomBlock.value = "";
+    try {
+        const url = `/blockList`;
+        const response = await axios.get(url, {
+            params: { Election: this.randomElectioninput.value }
+        });
+
+        const data = response.data;
+
+        if (data.success) {
+            this.dynamicblock.innerHTML = "";
+
+            data.result.forEach((data, index) => {
+                const div = document.createElement("div");
+                div.className = "BlockNamesR";
+                div.textContent = data.ElectionBlocks;
+
+                this.dynamicblock.appendChild(div);
+
+                // Animate after it's in the DOM
+                setTimeout(() => {
+                    div.classList.add("show");
+                    }, 10 + index * 50);
+                });
+            }
+        } catch (err) {
+            console.error("Error loading block list:", err);
+        }
+    }
+
+async  randomisationEmployees(){
+        try {
+            const url = `/Randomisation1`;
+            const response = await axios.get(url,{
+                params : {
+                    ET : this.randomElectioninput.value,
+                    Block : this.randomBlock.value
+                }
+            });
+
+            const data = response.data;
+
+            if(data.success){
+                this.EMP0 = data.EMPP0,
+                this.EMP1 = data.EMPP1,
+                this.EMP2 = data.EMPP2,
+                this.EMP3 = data.EMPP3,
+                this.PS = data.ps,
+                this.EXTRA_EMP = data.EXTRA_EMP
+                this.showrandomisationvalues(data.success ,data.message, this.PS, this.EMP0 , this.EMP1 , this.EMP2 , this.EMP3 , this.EXTRA_EMP , this.randomBlock.value);
+            }
+        } catch (error) {
+            if(error.response){
+                const data = error.response.data;
+                this.showrandomisationvalues(data.success ,data.message ,this.PS, this.EMP0 , this.EMP1 , this.EMP2 , this.EMP3 , this.EXTRA_EMP , this.randomBlock.value);
+            }else {
+            console.log("Error:", error.message); // other errors (network etc.)
+            } 
+        }
+    }
+
+    showrandomisationvalues(success , message , ps , p0 , p1 , p2 , p3 , extra, block ){
+        if(success){
+
+            const parentcontainer = this.randomisationbody?.querySelectorAll(".randomizedatacontainer");
+
+            parentcontainer.forEach((container)=>{
+                if(container.querySelector(".blockNamecontent").textContent.trim() === block){
+                    container.remove();
+                }
+            });
+             this.randomisationbody.innerHTML +=
+                        `
+                         <div class = "randomizedatacontainer">
+                            <div class = "blockName">
+                                <div class = "blockNameHeading">
+                                    Block Name 
+                                </div>
+                                <div class = "blockNamecontent">
+                                ${block}
+                                </div>
+                            </div>
+                            <div class = "psName">
+                                <div class = "psNameHeading">
+                                    Polling Station
+                                </div>
+                                <div class = "psNamecontent">
+                                ${ps}
+                                </div>
+                            </div>
+                            <div class = "AllDataContainer">
+                                <div class = "AllDataHeading">
+                                    All Data
+                                </div>
+                                <div class = "AllDatacontent">
+                                ${p0} , ${p1} , ${p2} , ${p3} , ${extra}
+                                </div>
+                            </div>
+                        </div>
+                        `;
+            this.RANDOMISATIONSAVEBtn.disabled = false;
+            return;
+        }else{
+            this.alertboxheading.innerText = "Required Randomization Data";
+            this.alertmsg.innerHTML=`<p><strong>⚠️${message}?</strong></p>
+                                        <p><strong>please contanct HODS or Re-Enter the data</strong></p>
+                                        <p>press continue to close?</p>
+                                        `;
+            this.actiontype = "ResetNone";
+            this.randomBlock.value = "";
+            this.randomizordropdown.disabled = true;
+            this.alertbg.classList.remove("hidden");
+        }
+    }
+
+async saveRandomisationblockdata(){
+    try {
+        if(this.randomBlock.value  === ""){
+            this.alertboxheading.innerText = "failed  To Insert Data ";
+            this.alertmsg.innerHTML=`   <p><strong>⚠️ data block is empty ⚠️</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "ResetNone";
+            this.alertbg.classList.remove("hidden");
+            throw new error("data block is empty");
+        }
+        const url = `/saveRandomisation1`;
+
+        const response = await axios.post(url,{
+                    ET : this.randomElectioninput.value,
+                    Block : this.randomBlock.value,
+                    EMP0 : this.EMP0,
+                    EMP1 : this.EMP1,
+                    EMP2 : this.EMP2,
+                    EMP3 : this.EMP3,
+                    EXTRA : this.EXTRA_EMP
+        });
+
+        const data = response.data;
+        if(data.success){
+            this.RANDOMISATIONRESET.disabled = false;
+            this.pop.textContent = `${data.Block} Data Inserted Successfully`;
+            this.pop.style.opacity = "1";
+            setTimeout(() => {
+                this.pop.style.opacity = "0";
+            }, 3000);
+        }
+    } catch (error) {
+        if(error.response){
+            const data = error.response.data;
+            this.alertboxheading.innerText = "failed  To Insert Data ";
+            this.alertmsg.innerHTML=`   <p><strong>⚠️ ${data}⚠️</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "ResetNone";
+            this.alertbg.classList.remove("hidden");
+        }else {
+            console.log("Error:", error.message); // other errors (network etc.)
+            } 
         
+        }
+    }
+
+resetRandomiseDataAlert(){
+
+    if(this.dynamicrandomiseData1.length > 0){
+        this.alertboxheading.innerText = "Reset All Randomisation Data ";
+            this.alertmsg.innerHTML=`   <p><strong>⚠️ Are you sure you want to reset this data? ⚠️</strong></p>
+                                        <p>This action will:</p>
+                                        <p>1: Clear the preset data on this page</p>
+                                        <p>2: If Backend Data Exist then it will Permanently delete the associated data from the server</p>
+                                        <p><strong>This cannot be undone.</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "resetrandomisedataAll";
+    }else{
+        console.log(this.dynamicrandomiseData1);
+        this.alertboxheading.innerText = "Data Not Found ";
+        this.alertmsg.innerHTML=`   <p><strong>⚠️ No Data Exist for Reset ⚠️</strong></p>
+                                    <p>Please Insert Data First to Reset</p>
+                                    <p>Do you want to continue?</p>
+                                    `;
+        this.actiontype = "ResetNone";
+    }
+    this.alertbg.classList.remove("hidden");
+    }
+
+async resetrandomisedata(){
+    try {
+        const url = `/resetrandomisedata`;
+        const response = await axios.delete(url,{
+            params :{ET : this.ET.value}
+        });
+
+        const data = response.data;
+
+        if(data.success){
+            this.randomisationbody.innerHTML = "";
+            this.pop.textContent = `${this.ET.value} Data Deleted Successfully`;
+            this.pop.style.opacity = "1";
+            setTimeout(() => {
+                this.pop.style.opacity = "0";
+            }, 3000);
+            this.alertbg.classList.add("hidden");
+        }
+    } catch (error) {
+        if(error.response){
+                const data = error.response.data;
+                this.alertboxheading.innerText = "Data Not Found ";
+                this.alertmsg.innerHTML=`   <p><strong>⚠️ ${data} ⚠️</strong></p>
+                                            <p>Do you want to continue?</p>
+                                            `;
+                this.actiontype = "ResetNone";
+                this.alertbg.classList.remove("hidden");
+
+            }else {
+            console.log("Error:", error.message); // other errors (network etc.)
+            } 
+        }
+    }
+}
+
+class RANDOMISATION2{
+    constructor(){
+    this.randomizordropdown = document.querySelector(".randomizationlist");
+    this.alertbg = document.querySelector(".alertbg");
+    this.alertmsg = document.querySelector(".alertmsg");
+    this.alertconfirm = document.querySelector(".alertconfirm button");
+    this.alertboxheading = document.querySelector(".alertheading h3");
+    this.alertbtn = document.querySelector(".alertconfirm button");
+    this.ET = document.querySelector(".randomElectioninput");
+    this.pop = document.querySelector(".PopUPMessageContainer");
+    this.rnpages = document.querySelectorAll(".rnp");
+    this.BlockinputR2 = document.querySelector(".R2BlockInput");
+    this.dynamicblocklist = document.querySelector(".dynamicR2blockContainer");
+    this.init();
+    this.currentpageR2 = null;
+    this.actiontype = null ;
+    this.alertactionhandlers = {
+        Randomization2 : ()=>{
+            console.log("clicked randomisation2");
+            this.checkRandomisation1data();
+
+        },
+
+        startRandomization2 : ()=>{
+          this.randomizationpage2();
+        },
+        ResetNone : ()=>{
+                this.randomizordropdown.disabled = false;
+                this.alertbg.classList.add("hidden");
+        },
+     }
+    }
+    init(){
+        this.randomizordropdown.addEventListener("change",()=>this.openrandomization());
+        this.alertbtn.addEventListener("click",()=>this.callalert(this.actiontype));
+        this.BlockinputR2.addEventListener("click",()=>this.showdynamiclist());
+        this.dynamicblocklist.addEventListener("click",(event)=>{
+            
+            if(event.target.classList.contains("BlockNamesR2")){
+            this.BlockinputR2.value = event.target.textContent;
+             this.BlockinputR2.disabled = false;
+            const blocknames = document.querySelectorAll(".BlockNamesR2");
+                blocknames.forEach((b)=>{
+                    b.classList.remove("showR2");
+                })
+            }
+        })
+    }
+    openrandomization(){
+        this.actiontype = this.randomizordropdown.value;
+        this.currentpageR2 = this.randomizordropdown.value;
+        this.callalert(this.actiontype);
+    }
+    callalert(action){
+          if(this.alertactionhandlers[action] && action !== null){
+            this.alertactionhandlers[action]();
+        }
+    }
+
+    randomizationpage2(){
+        this.rnpages.forEach((page)=>{
+            if(page.classList.contains(this.currentpageR2)){
+                page.classList.remove("hidden");
+            }else{
+                page.classList.add("hidden");
+            }
+        })
+        this.alertbg.classList.add("hidden");
+    }
+
+async checkRandomisation1data(){
+        try {
+            const url = `/checkrandomisation1Data`;
+            const response = await axios.get(url,{
+                params : { ET : this.ET.value}
+            });
+
+            const data = response.data;
+
+            if(data.success){
+                this.alertboxheading.innerText = "Start Randomization 2";
+                this.alertmsg.innerHTML =`<p><strong>⚠️${data.message}?⚠️</strong></p>
+                                            <p>This action will:</p>
+                                            <p>1: Start The Session</p>
+                                            <p>2: Work on Pre-Existing Election Data If New Data is Not Set</p>
+                                            <p><strong>This cannot be undone.</strong></p>
+                                            <p>Do you want to continue?</p>
+                                            `;
+                this.actiontype = "startRandomization2";
+                this.alertbg.classList.remove("hidden");
+            }
+        } catch (error) {
+            if (error.response) {
+            const data = error.response.data;
+            console.log("Error:", error.response.data.message); // server responded with error
+                this.alertboxheading.innerText = "Required Randomization Data";
+                this.alertmsg.innerHTML =`<p><strong>⚠️${data.message}?⚠️</strong></p>
+                                            <p> Please first start Randomisation 1 for the data </p>
+                                            <p>Do you want to continue?</p>
+                                            `;
+                this.actiontype = "ResetNone";
+                this.alertbg.classList.remove("hidden");
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+            } 
+        }
+    }
+
+async showdynamiclist(){
+    this.BlockinputR2.disabled = true;
+    this.BlockinputR2.value = "";
+    try {
+        const url = `/blockList`;
+        const response = await axios.get(url, {
+            params: { Election: this.ET.value }
+        });
+
+        const data = response.data;
+
+        if (data.success) {
+            this.dynamicblocklist.innerHTML = "";
+
+            data.result.forEach((data, index) => {
+                const div = document.createElement("div");
+                div.className = "BlockNamesR2";
+                div.textContent = data.ElectionBlocks;
+
+                this.dynamicblocklist.appendChild(div);
+
+                // Animate after it's in the DOM
+                setTimeout(() => {
+                    div.classList.add("showR2");
+                    }, 10 + index * 50);
+                });
+            }
+        } catch (err) {
+            console.error("Error loading block list:", err);
+        }
+    }
+
+    addblockdata(block){
+        block.forEach((b)=>{
+            this.BlockinputR2.value  =  b.textContent;
+        });
+    }
+
+}
+
+class Posting{
+    constructor(){
+        this.postingType = document.querySelector(".postingTypes");
+        this.hodlist = document.querySelector(".hodlist");
+        this.hodInput = document.querySelector(".hodInput");
+        this.priorityList = document.querySelector(".priorityList");
+        this.hodcontainer = document.querySelector(".selectHodcontainer");
+        this.postingimgbtn = document.querySelector(".postsfiles");
+        this.imginput = document.querySelector(".postimages");
+        this.previewimage = document.querySelector(".postImgvisible");
+        this.postBtn = document.querySelector(".inputSent i");
+        this.init();
+    }
+
+    init(){
+        this.postingType.addEventListener("change",()=>this.postingpreference());
+        this.hodInput.addEventListener("click", async ()=>{
+            await this.opendynamichodlist();
+            this.hodlist.classList.remove("hidden");
+        });
+
+        this.hodlist.addEventListener("click",(e)=>this.selectHod(e));
+        this.postingimgbtn.addEventListener("click",()=>{
+            this.imginput.click()
+        });
+        this.imginput.addEventListener("change",()=>this.postPreview());
+        this.postBtn.addEventListener("click",()=>this.postAinfo());
+        
+    }
+    postingpreference(){
+        this.hodcontainer.classList.toggle("hidden");
+    }
+async  opendynamichodlist(){
+    try {
+        const url = `/showHodList`;
+        const response = await axios.get(url);
+        const data = response.data;
+        const name = data.hoddata.map( name => name.adminName);
+        if(data.success){
+            this.hodInput.disabled = true;
+            if(!this.hodlist.querySelector(".HodListOptionsContainer p")){
+                 name.forEach((name)=>{
+                   this.hodlist.innerHTML +=`
+                    <div class ="HodListOptionsContainer">
+                            <p>${name}</p>
+                    </div>`;
+                });
+            }
+        }
+    } catch (error) {
+        if (error.response) {
+            console.log("Error:", error.response.data.message); // server responded with error
+        } else {
+            console.log("Error:", error.message); // other errors (network etc.)
+        } 
+    }
+    }
+
+    selectHod(e){
+        if(e.target.matches(".HodListOptionsContainer p")){
+            const name = e.target.textContent;
+            this.hodInput.value = name;
+            this.hodInput.disabled = false;
+            this.hodlist.classList.add("hidden");
+        }
+    }
+
+        postPreview() {
+        const file = this.imginput.files[0];
+        const previewContainer = this.previewimage;
+
+        // Clear previous preview
+        previewContainer.innerHTML = "";
+
+        if (file) {
+            const fileType = file.type;
+
+            if (fileType.startsWith("image/")) {
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.style.maxWidth = "100px";
+                img.style.height = "auto";
+                previewContainer.appendChild(img);
+            } 
+            else if (fileType === "application/pdf") {
+                const fileReader = new FileReader();
+                fileReader.onload = function() {
+                    const typedarray = new Uint8Array(this.result);
+
+                    pdfjsLib.getDocument({ data: typedarray }).promise.then(function(pdf) {
+                        pdf.getPage(1).then(function(page) {
+                            const scale = 0.5;
+                            const viewport = page.getViewport({ scale: scale });
+
+                            const canvas = document.createElement("canvas");
+                            const context = canvas.getContext("2d");
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            const renderContext = {
+                                canvasContext: context,
+                                viewport: viewport
+                            };
+
+                            page.render(renderContext).promise.then(function() {
+                                previewContainer.appendChild(canvas);
+                            });
+                        });
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
+            } 
+            else {
+                const fileInfo = document.createElement("p");
+                fileInfo.textContent = `Selected file: ${file.name}`;
+                previewContainer.appendChild(fileInfo);
+            }
+
+            previewContainer.classList.remove("hidden");
+        }
+    }
+
+async postAinfo(){
+    try {
+        const url = `/post`;
+        const response = await axios.post(url,{
+
+        });
+    } catch (error) {
+        
+    }
     }
 }
 new HOD();
 new VIEWEMPLOYEE();
 new NAVBAR();
 new ELECTIONPLACEMENT();
+new RANDOMISATION1();
+new RANDOMISATION2();
+new Posting();
