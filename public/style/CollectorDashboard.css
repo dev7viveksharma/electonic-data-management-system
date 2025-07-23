@@ -1188,11 +1188,48 @@ body {
 .Randomization1 .randomizationBody{
     width: 100%;
     height: 70%;
+    overflow-y: auto; /* scroll BOTH child containers together */
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.savedtablecontentcontainerR1 , .tablecontainerR1{
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0rem;
+}
+
+.savedtableheadingR1{
+    display: flex;
+    width: 100%;
+    height: 4rem;
     justify-content: center;
     align-items: center;
+    align-self: flex-start; /* override parent's center alignment */
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    background-color: #00000030;
+    color: #4CAF50;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+.savedcontenttableR1{
+    width: 100%;
+    height: calc(100% - 4rem);
+    display: flex;
     flex-direction: column;
-    overflow: auto;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000030;
+    border-bottom-left-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
 }
 
 .randomizedatacontainer{
@@ -1205,7 +1242,7 @@ body {
     flex-direction: row;
     box-sizing: border-box;
     background-color: #f8f8f8;
-    margin: 1rem 1rem;
+    margin: 1rem 0rem;
 }
 
 .blockName , .psName , .AllDataContainer  {
@@ -1236,11 +1273,11 @@ body {
 }
 
 .blockNamecontent{
-    border-left: none;
+    border: none;
 }
 
 .AllDatacontent{
-    border-right: none;
+    border: none;
 }
 
 .bottombtncontainers{
@@ -1254,7 +1291,7 @@ body {
     align-items: center;
 }
 
-.centerboxcontainerR , .centerboxcontainerR2 {
+.centerboxcontainerR , .centerboxcontainerR2 , .centerboxcontainerR3 {
     width: 50%;
     height: 100%;
     display: flex;
@@ -1263,7 +1300,7 @@ body {
     align-items: center;
 }
 
-.savebtncontainerR , .randombtncontainerR , .resetbtncontainerR , .savebtncontainerR2 , .randombtncontainerR2 , .resetbtncontainerR2{
+.savebtncontainerR , .randombtncontainerR , .resetbtncontainerR , .savebtncontainerR2 , .randombtncontainerR2 , .resetbtncontainerR2 , .savebtncontainerR3 , .randombtncontainerR3 , .resetbtncontainerR3{
     width: 50%;
     height: 100%;
     display: flex;
@@ -1272,7 +1309,7 @@ body {
     
 }
 
-.savebtncontainerR button , .randombtncontainerR button , .resetbtncontainerR button , .savebtncontainerR2 button , .randombtncontainerR2 button , .resetbtncontainerR2 button{
+.savebtncontainerR button , .randombtncontainerR button , .resetbtncontainerR button , .savebtncontainerR2 button , .randombtncontainerR2 button , .resetbtncontainerR2 button , .savebtncontainerR3 button , .randombtncontainerR3 button , .resetbtncontainerR3 button{
     width: 8rem;
     height: 3rem;
     background-color: #4CAF50;
@@ -1359,14 +1396,117 @@ body {
 .randomizationBodyR2{
     width: 100%;
     height: 70%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.savedtablecontainerR2 , .tablecontainerR2 {
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.savedtableheading {
+    display: flex;
+    width: 100%;
+    height: 4rem;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start; /* override parent's center alignment */
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    background-color: #00000030;
+    color: #4CAF50;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.contenttableR2 {
+    width: 100% ;
+    height: calc(100% - 4rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000030;
+    border-bottom-left-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+}
+.dynamicDataListR2{
+    width: 95%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: 0.5px solid black;
+    border-radius: 0.8rem;
+    background-color: #eaeaea;
+    margin : 1rem 0rem;
+}
+
+.R2ListHeadingContainer , .R2ListBodyContainer{ 
+    height: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.R2ListHeadingContainer{
+ border-bottom: 0.5px solid black;
+}
+
+.R2ListBodyContainer{
+    height: calc(100% - 2rem);
+}
+ 
+.blocknameHeadingR2 , .PsNameHeadingR2 , .P0HeadingR2 , .P1HeadingR2 , .P2HeadingR2 , .P3HeadingR2 , .PercentExtraHeadingR2{
+    height: 100%;
+    width: calc(100% / 7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.blocknameHeadingR2,  .PsNameHeadingR2 , .P0HeadingR2 , .P1HeadingR2 , .P2HeadingR2 , .P3HeadingR2{
+    border-right:0.5px solid black ;
+ }
+
+ .blocknameR2 , .PsNameR2 , .P0R2 , .P1R2 , .P2R2 , .P3R2 , .PercentExtraR2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: calc(100% / 7);
+    box-sizing: border-box;
+ } 
+
+.blocknameR2 , .PsNameR2 , .P0R2 , .P1R2 , .P2R2 , .P3R2{
+    border-right: 0.5px solid black;
+}
+
+
+
+.PSR2 , .P0R2inner , .P1R2inner , .P2R2inner , .P3R2inner {
+    width : 100%;
+    height: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    overflow: auto;
 }
-
-.bottombtncontainersR2{
+.bottombtncontainersR2 , .bottombtncontainersR3{
     display: flex;
     position: fixed;
     bottom: 0;
@@ -1377,22 +1517,187 @@ body {
     align-items: center;
 }
 
-.randombtncontainerR2 button{
+.randombtncontainerR2 button , .randombtncontainerR3 button{
     background-color: #f8f8f8;
     color: #212121;
 }
 
-.resetbtncontainerR2 button{
+.resetbtncontainerR2 button , .resetbtncontainerR3 button{
     background-color: #FF2C2C;
 }
 
-.BlockNamesR2:hover{
+.BlockNamesR2:hover , .BlockNamesR3:hover{
     background-color: #007BFF;
     transition: background-color 0.2s ease-in-out;
 }
 
-/* randomization1 end */
+/* randomization2 end */
 
+
+/* randomisation3 start */
+.Randomization3{
+    display: flex;
+    flex-direction: column;
+}
+.ElectionDataR3{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.electionblockR23LABEL{
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    outline: none;
+}
+
+.dynamicR3blockContainer{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: auto;
+    top : 6rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.BlockNamesR3{
+    width:100%;
+    height: 2rem;
+    cursor: pointer;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    background-color: #eaeaea;
+}
+
+.showR3{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.randomizationBodyR3{
+    width: 100%;
+    height: 70%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.savedtablecontainerR3 , .tablecontainerR3 {
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.savedtablecontainerR3 .savedtableheading {
+    display: flex;
+    width: 100%;
+    height: 4rem;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start; /* override parent's center alignment */
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    background-color: #00000030;
+    color: #4CAF50;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.contenttableR3 {
+    width: 100% ;
+    height: calc(100% - 4rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000030;
+    border-bottom-left-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+}
+
+.dynamicDataListR3{
+    width: 95%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: 0.5px solid black;
+    border-radius: 0.8rem;
+    background-color: #eaeaea;
+    margin : 1rem 0rem;
+}
+
+.R3ListHeadingContainer , .R3ListBodyContainer{ 
+    height: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.R3ListHeadingContainer{
+ border-bottom: 0.5px solid black;
+}
+
+.R3ListBodyContainer{
+    height: calc(100% - 2rem);
+}
+ 
+.blocknameHeadingR3 , .PsNameHeadingR3 , .P0HeadingR3 , .P1HeadingR3 , .P2HeadingR3 , .P3HeadingR3 , .PercentExtraHeadingR3{
+    height: 100%;
+    width: calc(100% / 7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.blocknameHeadingR3,  .PsNameHeadingR3 , .P0HeadingR3 , .P1HeadingR3 , .P2HeadingR3 , .P3HeadingR3{
+    border-right:0.5px solid black ;
+ }
+
+ .blocknameR3 , .PsNameR3 , .P0R3 , .P1R3 , .P2R3 , .P3R3 , .PercentExtraR3{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: calc(100% / 7);
+    box-sizing: border-box;
+ } 
+
+.blocknameR3 , .PsNameR3 , .P0R3 , .P1R3 , .P2R3 , .P3R3{
+    border-right: 0.5px solid black;
+}
+
+
+
+.PSR3 , .P0R3inner , .P1R3inner , .P2R3inner , .P3R3inner , .EXTRA5R3{
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* randomisation3 end */
 /* posts feature start */
 
 .Post{

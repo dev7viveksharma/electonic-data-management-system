@@ -1,4 +1,3 @@
-
 class NAVBAR{
     constructor(){
     this.Tabs = document.querySelectorAll(".jsbtn");
@@ -1570,7 +1569,9 @@ class RANDOMISATION1{
         this.RANDOMISATIONBtn = document.querySelector(".randombtncontainerR button");
         this.RANDOMISATIONSAVEBtn = document.querySelector(".savebtncontainerR button");
         this.RANDOMISATIONRESET  = document.querySelector(".resetbtncontainerR button")
-        this.randomisationbody = document.querySelector(".randomizationBody");
+        this.randomisationbody = document.querySelector(".randomizationBody .tablecontainerR1");
+        this.savedcontainermainR1 = document.querySelector(".savedtablecontentcontainerR1");
+        this.savedcontainerparentR1 = document.querySelector(".savedtablecontentcontainerR1 .savedcontenttableR1");
         this.pop = document.querySelector(".PopUPMessageContainer");
         this.rnpages = document.querySelectorAll(".rnp");
         this.currentpageR = null;
@@ -1723,14 +1724,13 @@ async checkdynamicrandomisation1data(){
     }
 
     insertdynamicrandomdata(data){
-        if (this.randomisationbody.querySelector(".randomizedatacontainer")) {
-            console.log("HIT");
+        if (this.savedcontainerparentR1.querySelector(".randomizedatacontainer")) {
             return;
         }
 
 
         data.forEach((data)=>{
-            this.randomisationbody.innerHTML +=
+            this.savedcontainerparentR1.innerHTML +=
                         `
                          <div class = "randomizedatacontainer">
                             <div class = "blockName">
@@ -1760,6 +1760,7 @@ async checkdynamicrandomisation1data(){
                         </div>
                         `;
             this.RANDOMISATIONRESET.disabled = false;
+            this.savedcontainermainR1.classList.remove("hidden");
         });
     }
 
@@ -1917,6 +1918,21 @@ async saveRandomisationblockdata(){
         const data = response.data;
         if(data.success){
             this.RANDOMISATIONRESET.disabled = false;
+            const unsavedblock = this.randomisationbody.querySelectorAll(".tablecontainerR1 .randomizedatacontainer");
+            const savedblock = this.savedcontainerparentR1.querySelectorAll(".randomizedatacontainer");
+            unsavedblock.forEach((ublock)=>{
+                if(ublock.querySelector(".blockNamecontent").textContent.trim() === data.Block){
+                    savedblock.forEach((sblock)=>{
+                        if(sblock.querySelector(".blockNamecontent").textContent.trim() === data.Block){
+                            sblock.remove()
+                        }
+                    });
+                    
+                    this.savedcontainerparentR1.appendChild(ublock);
+                    this.savedcontainermainR1.classList.remove("hidden");
+                    this.dynamicrandomiseData1.push(data.Block);   
+                }
+            });
             this.pop.textContent = `${data.Block} Data Inserted Successfully`;
             this.pop.style.opacity = "1";
             setTimeout(() => {
@@ -1973,7 +1989,10 @@ async resetrandomisedata(){
         const data = response.data;
 
         if(data.success){
+            this.dynamicrandomiseData1 = [];
+            this.savedcontainerparentR1.innerHTML = "";
             this.randomisationbody.innerHTML = "";
+            this.savedcontainermainR1.classList.add("hidden");
             this.pop.textContent = `${this.ET.value} Data Deleted Successfully`;
             this.pop.style.opacity = "1";
             setTimeout(() => {
@@ -2000,6 +2019,7 @@ async resetrandomisedata(){
 
 class RANDOMISATION2{
     constructor(){
+    this.R2MainBody = document.querySelector(".Randomization2");
     this.randomizordropdown = document.querySelector(".randomizationlist");
     this.alertbg = document.querySelector(".alertbg");
     this.alertmsg = document.querySelector(".alertmsg");
@@ -2011,12 +2031,20 @@ class RANDOMISATION2{
     this.rnpages = document.querySelectorAll(".rnp");
     this.BlockinputR2 = document.querySelector(".R2BlockInput");
     this.dynamicblocklist = document.querySelector(".dynamicR2blockContainer");
+    this.randomisation2Btn = document.querySelector(".randombtncontainerR2 button");
+    this.randomisebodyR2 = document.querySelector(".tablecontainerR2");
+    this.savedcontainerparent = document.querySelector(".savedtablecontainerR2");
+    this.saveddatacontainer = document.querySelector(".savedtablecontainerR2 .contenttableR2");
+    this.randomisation2Savebtn = document.querySelector(".savebtncontainerR2 button");
+    this.randomisation2resetbtn = document.querySelector(".resetbtncontainerR2 button");
+    this.pop = document.querySelector(".PopUPMessageContainer");
     this.init();
     this.currentpageR2 = null;
     this.actiontype = null ;
+    this.dataGroup = [];
+    this.dynamicrandomiseData2 = [];
     this.alertactionhandlers = {
         Randomization2 : ()=>{
-            console.log("clicked randomisation2");
             this.checkRandomisation1data();
 
         },
@@ -2024,6 +2052,10 @@ class RANDOMISATION2{
         startRandomization2 : ()=>{
           this.randomizationpage2();
         },
+        resetallRandomisation2 : ()=>{
+            this.cleanR2Page();
+            this.resetRandomisation2();
+        },  
         ResetNone : ()=>{
                 this.randomizordropdown.disabled = false;
                 this.alertbg.classList.add("hidden");
@@ -2035,16 +2067,19 @@ class RANDOMISATION2{
         this.alertbtn.addEventListener("click",()=>this.callalert(this.actiontype));
         this.BlockinputR2.addEventListener("click",()=>this.showdynamiclist());
         this.dynamicblocklist.addEventListener("click",(event)=>{
-            
             if(event.target.classList.contains("BlockNamesR2")){
             this.BlockinputR2.value = event.target.textContent;
              this.BlockinputR2.disabled = false;
-            const blocknames = document.querySelectorAll(".BlockNamesR2");
+             this.randomisation2Btn.disabled = false ;
+             const blocknames = document.querySelectorAll(".BlockNamesR2");
                 blocknames.forEach((b)=>{
                     b.classList.remove("showR2");
-                })
+                });
             }
-        })
+        });
+        this.randomisation2Btn.addEventListener("click",()=>{this.startRandomisation2()});
+        this.randomisation2Savebtn.addEventListener("click",()=>this.saveRandomisation2blockdata());
+        this.randomisation2resetbtn.addEventListener("click",()=>this.resetRandomisation2Alert());
     }
     openrandomization(){
         this.actiontype = this.randomizordropdown.value;
@@ -2088,6 +2123,7 @@ async checkRandomisation1data(){
                                             `;
                 this.actiontype = "startRandomization2";
                 this.alertbg.classList.remove("hidden");
+                await this.checkpreExistingDataR2();
             }
         } catch (error) {
             if (error.response) {
@@ -2106,6 +2142,106 @@ async checkRandomisation1data(){
         }
     }
 
+async checkpreExistingDataR2() {
+  try {
+    const url = `/checkdataR2`;
+    const response = await axios.get(url, {
+      params: { ET: this.ET.value }
+    });
+    const data = response.data;
+
+    if (data.success) {
+      const flatData = data.group;
+      this.dynamicrandomiseData2 = data.group;
+
+      if (this.saveddatacontainer.querySelector(".dynamicDataListR2")) return;
+
+      // Group by ElectionBlock
+      const grouped = {};
+      flatData.forEach(item => {
+        if (!grouped[item.ElectionBlock]) {
+          grouped[item.ElectionBlock] = {
+            Extra5Percent: item.Extra5Percent,
+            records: []
+          };
+        }
+        grouped[item.ElectionBlock].records.push(item);
+      });
+
+      // Loop each block group
+      Object.entries(grouped).forEach(([blockName, { Extra5Percent, records }]) => {
+        const html = `
+          <div class="dynamicDataListR2">
+            <div class="R2ListHeadingContainer">
+              <div class="blocknameHeadingR2">Block Name</div>
+              <div class="PsNameHeadingR2">Polling Station Name</div>
+              <div class="P0HeadingR2">P0</div>
+              <div class="P1HeadingR2">P1</div>
+              <div class="P2HeadingR2">P2</div>
+              <div class="P3HeadingR2">P3</div>
+              <div class="PercentExtraHeadingR2">5% Extra Employees</div>
+            </div>
+            <div class="R2ListBodyContainer">
+              <div class="blocknameR2">${blockName}</div>
+              <div class="PsNameR2"></div>
+              <div class="P0R2"></div>
+              <div class="P1R2"></div>
+              <div class="P2R2"></div>
+              <div class="P3R2"></div>
+              <div class="PercentExtraR2">${Extra5Percent}</div>
+            </div>
+          </div>
+        `;
+
+        this.saveddatacontainer.innerHTML += html;
+
+        const dynamicblocks = this.saveddatacontainer.querySelectorAll(".dynamicDataListR2");
+        const newblock = dynamicblocks[dynamicblocks.length - 1];
+
+        const psdiv = newblock.querySelector(".PsNameR2");
+        const P0div = newblock.querySelector(".P0R2");
+        const P1div = newblock.querySelector(".P1R2");
+        const P2div = newblock.querySelector(".P2R2");
+        const P3div = newblock.querySelector(".P3R2");
+
+        records.forEach(val => {
+          const divPS = document.createElement("div");
+          const divP0 = document.createElement("div");
+          const divP1 = document.createElement("div");
+          const divP2 = document.createElement("div");
+          const divP3 = document.createElement("div");
+
+          divPS.className = `PSR2`;
+          divP0.className = `P0R2inner`;
+          divP1.className = `P1R2inner`;
+          divP2.className = `P2R2inner`;
+          divP3.className = `P3R2inner`;
+
+          divPS.textContent = val.PS;
+          divP0.textContent = val.P0;
+          divP1.textContent = val.P1;
+          divP2.textContent = val.P2;
+          divP3.textContent = val.P3;
+
+          psdiv.appendChild(divPS);
+          P0div.appendChild(divP0);
+          P1div.appendChild(divP1);
+          P2div.appendChild(divP2);
+          P3div.appendChild(divP3);
+        });
+
+        newblock.classList.remove("hidden");
+      });
+
+      this.savedcontainerparent.classList.remove("hidden");
+      this.randomisation2resetbtn.disabled = false;
+      
+    }
+  } catch (error) {
+    console.error("Error loading pre-existing data:", error);
+  }
+}
+
 async showdynamiclist(){
     this.BlockinputR2.disabled = true;
     this.BlockinputR2.value = "";
@@ -2119,7 +2255,6 @@ async showdynamiclist(){
 
         if (data.success) {
             this.dynamicblocklist.innerHTML = "";
-
             data.result.forEach((data, index) => {
                 const div = document.createElement("div");
                 div.className = "BlockNamesR2";
@@ -2129,9 +2264,10 @@ async showdynamiclist(){
 
                 // Animate after it's in the DOM
                 setTimeout(() => {
-                    div.classList.add("showR2");
+                    div.classList.toggle("showR2");
                     }, 10 + index * 50);
                 });
+
             }
         } catch (err) {
             console.error("Error loading block list:", err);
@@ -2144,8 +2280,520 @@ async showdynamiclist(){
         });
     }
 
+async startRandomisation2(){
+    try {
+        
+        const url = `Radomisation2`;
+        const response = await axios.get(url,{
+            params :{
+                ET : this.ET.value,
+                block : this.BlockinputR2.value
+            }
+        });
+
+        const data = response.data;
+
+        if(data.success){
+            this.dataGroup = data.groups
+            this.showdatalist(data.groups ,  data.extra , this.BlockinputR2.value ,  data.PS);
+            this.randomisation2Savebtn.disabled = false;
+        }
+    } catch (error) {
+        
+    }
+    }
+
+    showdatalist(group , extra , block , ps){
+        const parentcontainer = this.randomisebodyR2?.querySelectorAll(".dynamicDataListR2 ");
+
+            parentcontainer.forEach((container)=>{
+                if(container.querySelector(".blocknameR2").textContent.trim() === block){
+                    container.remove();
+                }
+            });
+      
+            const html  =` 
+                                       <div class="dynamicDataListR2 hidden">
+                                        <div class="R2ListHeadingContainer">
+                                            <div class="blocknameHeadingR2">
+                                                Block Name
+                                            </div>
+                                            <div class="PsNameHeadingR2">
+                                                Polling Station Name
+                                            </div>
+                                            <div class="P0HeadingR2">
+                                                P0
+                                            </div>
+                                            <div class="P1HeadingR2">
+                                                P1
+                                            </div>
+                                            <div class="P2HeadingR2">
+                                                P2
+                                            </div>
+                                            <div class="P3HeadingR2">
+                                                P3
+                                            </div>
+                                            <div class="PercentExtraHeadingR2">
+                                                5% Extra Employees
+                                            </div>
+                                        </div>  
+                                        <div class="R2ListBodyContainer">
+                                            <div class="blocknameR2">
+                                             ${block}
+                                            </div>
+                                            <div class="PsNameR2">
+                                                
+                                            </div>
+                                            <div class="P0R2">
+                                            
+                                            </div>
+                                            <div class="P1R2">
+                                            
+                                            </div>
+                                            <div class="P2R2">
+                                            
+                                            </div>
+                                            <div class="P3R2">
+                                            
+                                            </div>
+                                            <div class="PercentExtraR2">
+                                                ${extra}
+                                            </div>
+                                        </div>
+                                    </div>
+                            `;
+
+
+                this.randomisebodyR2.innerHTML += html;
+                const dynamicblock = this.randomisebodyR2?.querySelectorAll(".dynamicDataListR2");
+                const newblock = dynamicblock[dynamicblock.length - 1];
+                const psdiv = newblock.querySelector(".PsNameR2");
+                const P0div = newblock.querySelector(".P0R2");
+                const P1div = newblock.querySelector(".P1R2");
+                const P2div = newblock.querySelector(".P2R2");
+                const P3div = newblock.querySelector(".P3R2");
+
+
+            group.forEach((val ,  index)=>{
+                const divPS = document.createElement("div");
+                const divP0 = document.createElement("div");
+                const divP1 = document.createElement("div");
+                const divP2 = document.createElement("div");
+                const divP3 = document.createElement("div");
+                divPS.className = `PSR2`;
+                divP0.className = `P0R2inner`;
+                divP1.className = `P1R2inner`;
+                divP2.className = `P2R2inner`;
+                divP3.className = `P3R2inner`;
+
+                divPS.textContent = ps[index];
+                divP0.textContent = val.P0;
+                divP1.textContent = val.P1;
+                divP2.textContent = val.P2;
+                divP3.textContent = val.P3;
+
+                psdiv.appendChild(divPS);
+                P0div.appendChild(divP0);
+                P1div.appendChild(divP1);
+                P2div.appendChild(divP2);
+                P3div.appendChild(divP3);
+
+            }); 
+
+            newblock.classList.remove("hidden");
+            
+    }
+
+async  saveRandomisation2blockdata(){
+        try {
+            const url = `/saveRandomisation2`;
+            const response = await axios.post(url,{
+                ET : this.ET.value,
+                block : this.BlockinputR2.value,
+                data : this.dataGroup,
+            });
+
+            const data = response.data;
+            if(data.success){
+            const unsavedblock = this.randomisebodyR2.querySelectorAll(".dynamicDataListR2");
+            const savedblock = this.saveddatacontainer.querySelectorAll(".dynamicDataListR2");
+            unsavedblock.forEach((ublock)=>{
+                if(ublock.querySelector(".blocknameR2").textContent.trim() === data.block){
+                    savedblock.forEach((sblock)=>{
+                        if(sblock.querySelector(".blocknameR2").textContent.trim() === data.block){
+                            sblock.remove()
+                        }
+                    });
+                    
+                    this.saveddatacontainer.appendChild(ublock);
+                    this.savedcontainerparent.classList.remove("hidden");
+                }
+            });
+            this.randomisation2resetbtn.disabled = false;
+            this.pop.textContent = `${data.block} Data Inserted Successfully`;
+            this.pop.style.opacity = "1";
+            setTimeout(() => {
+                this.pop.style.opacity = "0";
+            }, 3000);
+            this.dynamicrandomiseData2.push(this.dataGroup);
+            }
+        } catch (error) {
+            
+        }
+    }
+    resetRandomisation2Alert(){
+        if(this.dynamicrandomiseData2.length > 0){  
+           this.alertboxheading.innerText = "Reset All Randomisation Data ";
+           this.alertmsg.innerHTML=`   <p><strong>⚠️ Are you sure you want to reset this data? ⚠️</strong></p>
+                                        <p>This action will:</p>
+                                        <p>1: Clear the preset data on this page</p>
+                                        <p>2: If Backend Data Exist then it will Permanently delete the associated data from the server</p>
+                                        <p><strong>This cannot be undone.</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "resetallRandomisation2";
+        }else{
+            this.alertboxheading.innerText = "Data Not Found ";
+            this.alertmsg.innerHTML=`   <p><strong>⚠️ No Data Exist for Reset ⚠️</strong></p>
+                                        <p>Please Insert Data First to Reset</p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "ResetNone";
+        }
+         
+            this.alertbg.classList.remove("hidden");
+    }
+
+
+      cleanR2Page(){
+
+      }
+
+async resetRandomisation2(){
+        try {
+            const url = `/resetallRandomisation2`;
+            const response = await axios.delete(url,{
+                params : {
+                    ET : this.ET.value
+                }
+            });
+            const data = response.data;
+            if(data.success){
+                this.dynamicrandomiseData2 = [];
+                this.saveddatacontainer.innerHTML = "";
+                this.randomisebodyR2.innerHTML = ""; 
+                this.alertbg.classList.add("hidden");
+                this.savedcontainerparent.classList.add("hidden");
+                this.pop.textContent = `${data.message}`;
+                this.pop.style.opacity = "1";
+                setTimeout(() => {
+                    this.pop.style.opacity = "0";
+                }, 3000);
+                this.randomisation2Savebtn.disabled = true;
+            }
+        } catch (error) {
+            
+        }
+    }
 }
 
+class RANDOMISATION3{
+    constructor(){
+        this.randomizordropdown = document.querySelector(".randomizationlist");
+        this.alertbg = document.querySelector(".alertbg");
+        this.alertmsg = document.querySelector(".alertmsg");
+        this.alertconfirm = document.querySelector(".alertconfirm button");
+        this.alertboxheading = document.querySelector(".alertheading h3");
+        this.alertbtn = document.querySelector(".alertconfirm button");
+        this.ET = document.querySelector(".randomElectioninput");
+        this.pop = document.querySelector(".PopUPMessageContainer");
+        this.rnpages = document.querySelectorAll(".rnp");
+        this.BlockinputR3 = document.querySelector(".R3BlockInput");
+        this.dynamicblocklistR3 = document.querySelector(".dynamicR3blockContainer");
+        this.mainparent = document.querySelector(".randomizationBodyR3");
+        this.savedparentcontainerR3 = document.querySelector(".savedtablecontainerR3");
+        this.randomisation3Btn = document.querySelector(".randombtncontainerR3 button");
+        this.randomisation3saveBtn = document.querySelector(".savebtncontainerR3 button");
+        this.randomisation3resetBtn = document.querySelector(".resetbtncontainerR3 button");
+        this.saveddatacontainerR3 = document.querySelector(".savedtablecontainerR3 .contenttableR3");
+        this.unsavedatacontainerR3 = document.querySelector(".tablecontainerR3"); 
+        this.init();
+        this.dataBlocks = [];
+        this.actiontype = null ;
+        this.dynamicrandomiseData3 = [{block : [],ps : [],id : []}];
+        this.alertactionhandlers = {
+            Randomization3 : ()=>{
+                this.checkRandomisation2data();
+
+            },
+
+            startRandomization3 : ()=>{
+            this.randomizationpage3();
+            },
+            resetallRandomisation3 : ()=>{
+                this.cleanR3Page();
+                this.resetRandomisation3();
+            },  
+            ResetNone : ()=>{
+                    this.randomizordropdown.disabled = false;
+                    this.alertbg.classList.add("hidden");
+            },
+        }
+    }
+    init(){
+        this.randomizordropdown.addEventListener("change",()=>{
+            this.openrandomizationForR3();
+        });
+        this.alertbtn.addEventListener("click",()=>this.callalert(this.actiontype));
+        this.BlockinputR3.addEventListener("click",()=>this.dynamicR3blockContainer());
+        this.dynamicblocklistR3.addEventListener("click",(event)=>{
+            if(event.target.classList.contains("BlockNamesR3")){
+             this.BlockinputR3.value = event.target.textContent;
+             this.BlockinputR3.disabled = false;
+             this.randomisation3Btn.disabled = false ;
+             const blocknames = document.querySelectorAll(".BlockNamesR3");
+                blocknames.forEach((b)=>{
+                    b.classList.remove("showR3");
+                });
+            }
+        });
+
+        this.randomisation3Btn.addEventListener("click",()=>this.startRandomisation3());
+        this.randomisation3saveBtn.addEventListener("click",()=>this.saveRandomisation3blockdata());
+    }
+
+    openrandomizationForR3(){
+        this.actiontype = this.randomizordropdown.value;
+        this.currentpageR2 = this.randomizordropdown.value;
+        this.callalert(this.actiontype);
+    }
+
+    callalert(action){
+          if(this.alertactionhandlers[action] && action !== null){
+            this.alertactionhandlers[action]();
+        }
+    }
+
+    async checkRandomisation2data(){
+        try {
+            const url = `/checkrandomise2data`;
+            console.log(this.ET.value);
+            const response = await axios.get(url,{
+                params : {
+                    ET : this.ET.value
+                }
+            });
+            const data = response.data;
+            if(data.success){
+                this.dataBlocks = data.block;
+                this.alertboxheading.innerText = "Start Randomization 3";
+                this.alertmsg.innerHTML =`<p><strong>⚠️${data.message}?⚠️</strong></p>
+                                            <p>This action will:</p>
+                                            <p>1: Start The Session</p>
+                                            <p>2: Work on Pre-Existing Election Data If New Data is Not Set</p>
+                                            <p><strong>This cannot be undone.</strong></p>
+                                            <p>Do you want to continue?</p>
+                                            `;
+                this.actiontype = "startRandomization3";
+                this.alertbg.classList.remove("hidden");
+            }
+            } catch (error) {
+                if (error.response) {
+                const data = error.response.data;
+                console.log("Error:", error.response.data.message); // server responded with error
+                    this.alertboxheading.innerText = "Required Randomization 2 Data";
+                    this.alertmsg.innerHTML =`<p><strong>⚠️${data.message}?⚠️</strong></p>
+                                                <p> Please first start Randomisation 2 for the data </p>
+                                                <p>Do you want to continue?</p>
+                                                `;
+                    this.actiontype = "ResetNone";
+                    this.alertbg.classList.remove("hidden");
+                } else {
+                    console.log("Error:", error.message); // other errors (network etc.)
+                } 
+            }
+        }
+
+        randomizationpage3(){
+            this.rnpages.forEach((page)=>{
+                if(page.classList.contains(this.currentpageR2)){
+                    page.classList.remove("hidden");
+                }else{
+                    page.classList.add("hidden");
+                }
+            })
+            this.alertbg.classList.add("hidden");
+        }
+        dynamicR3blockContainer(){
+            this.BlockinputR3.disabled = true;
+            this.BlockinputR3.value = "";
+            this.dynamicblocklistR3.innerHTML = "";
+            this.dataBlocks.forEach((block , index)=>{
+                const div = document.createElement("div");
+                div.className = "BlockNamesR3";
+                div.textContent = block;
+
+                this.dynamicblocklistR3.appendChild(div);
+
+                // Animate after it's in the DOM
+                setTimeout(() => {
+                    div.classList.add("showR3");
+                    }, 10 + index * 50);
+            });
+
+        }
+async  startRandomisation3(){
+    try {
+            const url = `/Randomisation3`;
+            console.log(this.BlockinputR3.value , this.ET.value);
+            const response = await axios.get(url,{
+                params :{
+                    ET : this.ET.value,
+                    block : this.BlockinputR3.value
+                }
+            });
+            const data = response.data;
+    
+            if(data.success){
+                const parentcontainer = this.mainparent?.querySelectorAll(".dynamicDataListR3");
+    
+                parentcontainer.forEach((container)=>{
+                    if(container.querySelector(".blocknameR3").textContent.trim() === data.block){
+                        container.remove();
+                    }
+                });
+                this.unsavedatacontainerR3.innerHTML += `
+                     <div class="dynamicDataListR3 hidden">
+                        <div class="R3ListHeadingContainer">
+                            <div class="blocknameHeadingR3">
+                                Block Name
+                            </div>
+                            <div class="PsNameHeadingR3">
+                                Polling Station Name
+                            </div>
+                            <div class="P0HeadingR3">
+                                P0
+                            </div>
+                            <div class="P1HeadingR3">
+                                P1
+                            </div>
+                            <div class="P2HeadingR3">
+                                P2
+                            </div>
+                            <div class="P3HeadingR3">
+                                P3
+                            </div>
+                            <div class="PercentExtraHeadingR3">
+                                5% Extra Employees
+                            </div>
+                        </div>  
+                        <div class="R3ListBodyContainer">
+                            <div class="blocknameR3">
+                                ${data.block}
+                            </div>
+                            <div class="PsNameR3">
+                                
+                            </div>
+                            <div class="P0R3">
+                            
+                            </div>
+                            <div class="P1R3">
+                            
+                            </div>
+                            <div class="P2R3">
+                            
+                            </div>
+                            <div class="P3R3">
+                            
+                            </div>
+                            <div class="PercentExtraR3">
+                            </div>
+                        </div>
+                    </div>
+                `;
+    
+                const parent = this.unsavedatacontainerR3.querySelectorAll(".dynamicDataListR3 ");
+                const first = parent[parent.length - 1];
+                const psdiv = first.querySelector(".PsNameR3");
+                const P0div = first.querySelector(".P0R3");
+                const P1div = first.querySelector(".P1R3");
+                const P2div = first.querySelector(".P2R3");
+                const P3div = first.querySelector(".P3R3");
+                const extra5percent = first.querySelector(".PercentExtraR3");
+    
+                data.randomisedata.forEach((data)=>{
+                    const divPS = document.createElement("div");
+                    const divP0 = document.createElement("div");
+                    const divP1 = document.createElement("div");
+                    const divP2 = document.createElement("div");
+                    const divP3 = document.createElement("div");
+                    divPS.className = `PSR3`;
+                    divP0.className = `P0R3inner`;
+                    divP1.className = `P1R3inner`;
+                    divP2.className = `P2R3inner`;
+                    divP3.className = `P3R3inner`;
+    
+                    divPS.textContent = data.pollingStation;
+                    divP0.textContent = data.P0;
+                    divP1.textContent = data.P1;
+                    divP2.textContent = data.P2;
+                    divP3.textContent = data.P3;
+    
+                    psdiv.appendChild(divPS);
+                    P0div.appendChild(divP0);
+                    P1div.appendChild(divP1);
+                    P2div.appendChild(divP2);
+                    P3div.appendChild(divP3);
+                }); 
+                
+                data.extra.forEach((ex)=>{
+                    const extra = document.createElement("div");
+                    extra.className = `EXTRA5R3`;
+                    extra.textContent = ex;
+                    extra5percent.appendChild(extra);
+                });
+                this.dynamicrandomiseData3 = [{
+                    block: [data.block],
+                    ps: data.randomisedata.map(d => d.pollingStation),
+                    id: data.randomisedata.map(d => d.id)
+                }];
+    
+                console.log(this.dynamicrandomiseData3);
+                first.classList.remove("hidden");
+                this.randomisation3saveBtn.disabled = false;
+            }
+        } catch (error) {
+          if(error.response){
+                const data = error.response.data;
+                 this.alertboxheading.innerText = "Required Randomization Data";
+                this.alertmsg.innerHTML=`<p><strong>⚠️${message}?</strong></p>
+                                            <p><strong>please contanct HODS or Re-Enter the data</strong></p>
+                                            <p>press continue to close?</p>
+                                            `;
+                this.actiontype = "ResetNone";
+                this.BlockinputR3.value = "";
+                this.randomizordropdown.disabled = true;
+                this.alertbg.classList.remove("hidden");
+            }else {
+            console.log("Error:", error.message); // other errors (network etc.)
+            } 
+    }
+    }
+
+   async saveRandomisation3blockdata(){
+        try {
+            const url = `/saveRandomisation3`;
+            const response = await axios.post(url,{
+                ET : this.ET.value,
+                data : this.dynamicrandomiseData3,
+            });
+
+            const data = response.data;
+        } catch (error) {
+            
+        }
+    }
+}
 class Posting{
     constructor(){
         this.postingType = document.querySelector(".postingTypes");
@@ -2285,4 +2933,5 @@ new NAVBAR();
 new ELECTIONPLACEMENT();
 new RANDOMISATION1();
 new RANDOMISATION2();
+new RANDOMISATION3();
 new Posting();

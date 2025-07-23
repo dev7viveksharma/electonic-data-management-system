@@ -388,7 +388,7 @@ async function extradesignationfetch(post, ET, block) {
 
 function fetch1Employees(p , total , block){
     return new Promise((resolve , reject)=>{
-        const url = `select Employee_code from employee_data where Designation In (?) and varified = "Varified" and Assembly_Constituency_of_Residence != ? and Assembly_Constituency_of_Workplace != ? order by RAND() LIMIT ${total};`
+        const url = `select Employee_code from employee_data where Designation In (?) and varified = "Varified" and Assembly_Constituency_of_Residence != ? and Assembly_Constituency_of_Workplace != ? and Gender = 'male' and Differently_abled = 'No' order by RAND() LIMIT ${total};`
         connection.query(url , [p,block,block],(err,result)=>{
             if(err) return reject(err);
 
@@ -485,6 +485,7 @@ router.post("/saveRandomisation1", async (req,res)=>{
 
         const deletesuccess1 = await deleteblockEmp(ET , Block);
         const deletesuccess2 = await deleteblockExtraEmp(ET , Block);
+        const deleteR2data = await deleteblockR2EMP(ET , Block);
 
         if(deletesuccess1 && deletesuccess2){
             const insertsuccess1 = await insertblockEmp(ET , Block , EMP0 , EMP1 , EMP2 , EMP3 );
@@ -539,6 +540,18 @@ const deleteblockExtraEmp = ((ET , Block ,)=>{
         });
     });
 });
+
+const deleteblockR2EMP = ((ET,Block)=>{
+     return new Promise((resolve , reject )=>{
+        const url = ` delete from randomisation2 where ElectionName = ? and ElectionBlock = ? `;
+        
+        connection.query(url,[ET , Block],(err,result)=>{
+            if(err) return reject(err);
+
+            resolve(true);
+        });
+    });
+})
 
 const insertblockEmp = ((ET , Block , EMP0 , EMP1 , EMP2 , EMP3)=>{
     return new Promise((resolve , reject )=>{
