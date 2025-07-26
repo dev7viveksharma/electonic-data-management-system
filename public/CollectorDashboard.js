@@ -1,19 +1,38 @@
 class NAVBAR{
     constructor(){
     this.Tabs = document.querySelectorAll(".jsbtn");
-    this.Init();
+    this.dropMenu = document.querySelector(".js_dropMenu");
+    this.bar = document.querySelector(".js_bars");
     this.home = document.querySelector(".homePage");
+    this.profile = document.querySelector(".Profile");
+    this.logoutBtn = document.querySelector(".logout");
+    this.backicon = document.querySelector(".js_backicon");
+    this.editSection = document.querySelector(".DM_profile");
+    this.Password = this.editSection.querySelector(".DM_Password");
+    this.adminName = this.editSection.querySelector(".DM_FullName");
+    this.mobile = this.editSection.querySelector(".DM_Mobileno");
+    this.email = this.editSection.querySelector(".DM_EmailAddress");
+    this.District = this.editSection.querySelector(".DM_District");
+    this.editBtn = this.editSection.querySelector(".DMeditbtn");
+    this.Init();
     this.active = null;
     this.activeNav = null;
     }
 
     Init(){
+        this.DMProfile();
         this.Tabs.forEach((tabs)=>{
             tabs.addEventListener("click",()=>{
             const activetab = tabs.getAttribute("data-tab");
             this.showpages(tabs,activetab);
             });
         });
+        this.bar.addEventListener("click",(event)=>this.showdropmenu(event));
+        this.logoutBtn.addEventListener("click",(event)=>this.backtologin(event));
+        this.profile.addEventListener("click",()=>this.showadmineditpage());
+        this.backicon.addEventListener("click",()=>this.hideAdminEdit());
+
+
     }
     showpages(tabs,navItem){
         if(this.active){
@@ -35,6 +54,59 @@ class NAVBAR{
         this.activeNav = tabs;
 
 
+    }
+
+    showdropmenu(){
+        this.dropMenu.classList.toggle("drop");
+        this.bar.classList.toggle("active");
+    }
+
+    backtologin(){
+    // Clear token from localStorage
+    localStorage.removeItem('Name');
+
+    // Redirect to login
+    window.location.href = 'http://localhost:8080/logout';
+    }
+
+    showadmineditpage(){
+        this.editSection.style.right = "0rem";
+        this.showdropmenu();
+    }
+    hideAdminEdit(){
+        this.editSection.style.right = "-20rem";
+        this.showdropmenu();
+    }
+
+      async DMProfile(){
+        const empdesignation = localStorage.getItem("District");
+        const username = localStorage.getItem('Name');
+        this.adminName.textContent = username;
+        this.District.textContent = empdesignation;
+        try {
+            const id = localStorage.getItem("userid");
+            const url = '/Admindata';
+            const response = await axios.get(url,{ params: { adminid: id }});
+
+            const admindata = response.data.result;
+            const list = admindata.map(admin=>({
+                mnum : admin.adminMobileNo,
+                ademail :admin.adminEmail
+            }));
+
+            for(let i of list){
+            this.mobile.textContent = i.mnum;
+            this.email.textContent = i.ademail;
+            }
+
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+                
+            }
+        }
     }
 }
 
@@ -1572,6 +1644,7 @@ class RANDOMISATION1{
         this.randomisationbody = document.querySelector(".randomizationBody .tablecontainerR1");
         this.savedcontainermainR1 = document.querySelector(".savedtablecontentcontainerR1");
         this.savedcontainerparentR1 = document.querySelector(".savedtablecontentcontainerR1 .savedcontenttableR1");
+        this.downloadR1 = document.querySelector(".downloadR1");
         this.pop = document.querySelector(".PopUPMessageContainer");
         this.rnpages = document.querySelectorAll(".rnp");
         this.currentpageR = null;
@@ -1631,10 +1704,12 @@ class RANDOMISATION1{
 
         this.RANDOMISATIONSAVEBtn.addEventListener("click",()=>{
             this.saveRandomisationblockdata();
-        })
+        });
         this.RANDOMISATIONRESET.addEventListener("click",()=>{
             this.resetRandomiseDataAlert();
-        })
+        });
+
+        this.downloadR1.addEventListener("click",()=>this.downloadRandomiseDataR1());
     }
 
     openrandomization(){
@@ -1725,7 +1800,7 @@ async checkdynamicrandomisation1data(){
 
     insertdynamicrandomdata(data){
         if (this.savedcontainerparentR1.querySelector(".randomizedatacontainer")) {
-            return;
+            this.savedcontainerparentR1.innerHTML = "";
         }
 
 
@@ -2015,6 +2090,46 @@ async resetrandomisedata(){
             } 
         }
     }
+
+    downloadRandomiseDataR1(){
+         const opt = {
+            margin: [1.5, 0.5, 0.5, 0.5],  // Top, left, bottom, right
+            filename: 'Randomisation1.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+            html2pdf()
+            .set(opt)
+            .from(this.savedcontainerparentR1)
+            .toPdf()
+            .get('pdf')
+            .then(function (pdf) {
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                // 🔹 Heading
+                pdf.setFontSize(16);
+                pdf.text("Randomisation 1 Report", pageWidth / 2, 0.75, { align: "center" });
+
+                // 🔹 Date (Top-right)
+                const today = new Date().toLocaleDateString();
+                pdf.setFontSize(10);
+                pdf.text(`Date: ${today}`, pageWidth - 1.5, 1.05);
+
+                // 🔹 Description
+                pdf.setFontSize(11);
+                pdf.text("This document contains randomly allocated election duty data.", 0.75, 1.35);
+
+                // 🔹 Bottom-right footer text
+                pdf.setFontSize(10);
+                const footerText = "Report generated by EDMS";
+                const textWidth = pdf.getTextWidth(footerText);
+                pdf.text(footerText, pageWidth - textWidth - 0.5, pageHeight - 0.5);  // 0.5 inch from bottom-right
+            })
+            .save();
+    }
 }
 
 class RANDOMISATION2{
@@ -2038,6 +2153,7 @@ class RANDOMISATION2{
     this.randomisation2Savebtn = document.querySelector(".savebtncontainerR2 button");
     this.randomisation2resetbtn = document.querySelector(".resetbtncontainerR2 button");
     this.pop = document.querySelector(".PopUPMessageContainer");
+    this.downloadR2 = document.querySelector(".downloadR2");
     this.init();
     this.currentpageR2 = null;
     this.actiontype = null ;
@@ -2053,7 +2169,6 @@ class RANDOMISATION2{
           this.randomizationpage2();
         },
         resetallRandomisation2 : ()=>{
-            this.cleanR2Page();
             this.resetRandomisation2();
         },  
         ResetNone : ()=>{
@@ -2080,6 +2195,7 @@ class RANDOMISATION2{
         this.randomisation2Btn.addEventListener("click",()=>{this.startRandomisation2()});
         this.randomisation2Savebtn.addEventListener("click",()=>this.saveRandomisation2blockdata());
         this.randomisation2resetbtn.addEventListener("click",()=>this.resetRandomisation2Alert());
+        this.downloadR2.addEventListener("click",()=>this.downloadRandomiseDataR2());
     }
     openrandomization(){
         this.actiontype = this.randomizordropdown.value;
@@ -2154,7 +2270,9 @@ async checkpreExistingDataR2() {
       const flatData = data.group;
       this.dynamicrandomiseData2 = data.group;
 
-      if (this.saveddatacontainer.querySelector(".dynamicDataListR2")) return;
+      if (this.saveddatacontainer.querySelector(".dynamicDataListR2")){ 
+        return;
+      }
 
       // Group by ElectionBlock
       const grouped = {};
@@ -2239,6 +2357,8 @@ async checkpreExistingDataR2() {
     }
   } catch (error) {
     console.error("Error loading pre-existing data:", error);
+    this.saveddatacontainer.innerHTML="";
+    this.savedcontainerparent.classList.add("hidden");
   }
 }
 
@@ -2406,6 +2526,15 @@ async startRandomisation2(){
 
 async  saveRandomisation2blockdata(){
         try {
+            if(this.BlockinputR2.value  === ""){
+                this.alertboxheading.innerText = "failed To Insert Data ";
+                this.alertmsg.innerHTML=`   <p><strong>⚠️ data block is empty ⚠️</strong></p>
+                                            <p>Do you want to continue?</p>
+                                            `;
+                this.actiontype = "ResetNone";
+                this.alertbg.classList.remove("hidden");
+                throw new error("data block is empty");
+            }
             const url = `/saveRandomisation2`;
             const response = await axios.post(url,{
                 ET : this.ET.value,
@@ -2465,9 +2594,6 @@ async  saveRandomisation2blockdata(){
     }
 
 
-      cleanR2Page(){
-
-      }
 
 async resetRandomisation2(){
         try {
@@ -2495,6 +2621,46 @@ async resetRandomisation2(){
             
         }
     }
+
+    downloadRandomiseDataR2(){
+         const opt = {
+            margin: [1.5, 0.5, 0.5, 0.5],  // Top, left, bottom, right
+            filename: 'Randomisation2.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+            html2pdf()
+            .set(opt)
+            .from(this.saveddatacontainer)
+            .toPdf()
+            .get('pdf')
+            .then(function (pdf) {
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                // 🔹 Heading
+                pdf.setFontSize(16);
+                pdf.text("Randomisation 2 Report", pageWidth / 2, 0.75, { align: "center" });
+
+                // 🔹 Date (Top-right)
+                const today = new Date().toLocaleDateString();
+                pdf.setFontSize(10);
+                pdf.text(`Date: ${today}`, pageWidth - 1.5, 1.05);
+
+                // 🔹 Description
+                pdf.setFontSize(11);
+                pdf.text("This document contains randomly allocated election duty data.", 0.75, 1.35);
+
+                // 🔹 Bottom-right footer text
+                pdf.setFontSize(10);
+                const footerText = "Report generated by EDMS";
+                const textWidth = pdf.getTextWidth(footerText);
+                pdf.text(footerText, pageWidth - textWidth - 0.5, pageHeight - 0.5);  // 0.5 inch from bottom-right
+            })
+            .save();
+    }
 }
 
 class RANDOMISATION3{
@@ -2517,10 +2683,12 @@ class RANDOMISATION3{
         this.randomisation3resetBtn = document.querySelector(".resetbtncontainerR3 button");
         this.saveddatacontainerR3 = document.querySelector(".savedtablecontainerR3 .contenttableR3");
         this.unsavedatacontainerR3 = document.querySelector(".tablecontainerR3"); 
+        this.downloadR3 = document.querySelector(".downloadR3");
         this.init();
         this.dataBlocks = [];
         this.actiontype = null ;
-        this.dynamicrandomiseData3 = [{block : [],ps : [],id : []}];
+        this.dynamicrandomiseData3 = [];
+        this.saveddata =  [{block : [],ps : [],id : []}]
         this.alertactionhandlers = {
             Randomization3 : ()=>{
                 this.checkRandomisation2data();
@@ -2533,7 +2701,7 @@ class RANDOMISATION3{
             resetallRandomisation3 : ()=>{
                 this.cleanR3Page();
                 this.resetRandomisation3();
-            },  
+            }, 
             ResetNone : ()=>{
                     this.randomizordropdown.disabled = false;
                     this.alertbg.classList.add("hidden");
@@ -2560,6 +2728,8 @@ class RANDOMISATION3{
 
         this.randomisation3Btn.addEventListener("click",()=>this.startRandomisation3());
         this.randomisation3saveBtn.addEventListener("click",()=>this.saveRandomisation3blockdata());
+        this.randomisation3resetBtn.addEventListener("click",()=>this.checkRandomData3forReset());
+        this.downloadR3.addEventListener("click",()=>this.downloadRandomiseDataR3());
     }
 
     openrandomizationForR3(){
@@ -2596,6 +2766,7 @@ class RANDOMISATION3{
                                             `;
                 this.actiontype = "startRandomization3";
                 this.alertbg.classList.remove("hidden");
+                await this.checkpreExistingDataR3();
             }
             } catch (error) {
                 if (error.response) {
@@ -2613,6 +2784,119 @@ class RANDOMISATION3{
                 } 
             }
         }
+
+
+    async checkpreExistingDataR3(){
+        try {
+            const response = await axios.get(`/checkdataR3`,{
+                params : {
+                    ET : this.ET.value,
+                }
+            });
+            const data = response.data;
+            
+            if(data.success){
+            const flatData = data.group;
+            const grouped = {};
+
+            if(this.saveddatacontainerR3.querySelector(".dynamicDataListR3")){
+              return;  
+            } 
+                
+            flatData.forEach(item => {
+            if (!grouped[item.ElectionBlock]){
+                grouped[item.ElectionBlock] = {
+                    records: []
+                };
+            }
+                grouped[item.ElectionBlock].records.push(item);
+            });
+
+      // Loop each block group
+      Object.entries(grouped).forEach(([blockName, {  records }]) => {
+        const html = `
+          <div class="dynamicDataListR3">
+            <div class="R3ListHeadingContainer">
+              <div class="blocknameHeadingR3">Block Name</div>
+              <div class="PsNameHeadingR3">Polling Station Name</div>
+              <div class="P0HeadingR3">P0</div>
+              <div class="P1HeadingR3">P1</div>
+              <div class="P2HeadingR3">P2</div>
+              <div class="P3HeadingR3">P3</div>
+              <div class="PercentExtraHeadingR3">5% Extra Employees</div>
+            </div>
+            <div class="R2ListBodyContainer">
+              <div class="blocknameR3">${blockName}</div>
+              <div class="PsNameR3"></div>
+              <div class="P0R3"></div>
+              <div class="P1R3"></div>
+              <div class="P2R3"></div>
+              <div class="P3R3"></div>
+              <div class="PercentExtraR3"></div>
+            </div>
+          </div>
+        `;
+
+        this.saveddatacontainerR3.innerHTML += html;
+
+        const dynamicblocks = this.saveddatacontainerR3.querySelectorAll(".dynamicDataListR3");
+        const newblock = dynamicblocks[dynamicblocks.length - 1];
+
+        const psdiv = newblock.querySelector(".PsNameR3");
+        const P0div = newblock.querySelector(".P0R3");
+        const P1div = newblock.querySelector(".P1R3");
+        const P2div = newblock.querySelector(".P2R3");
+        const P3div = newblock.querySelector(".P3R3");
+        const extras = newblock.querySelector(".PercentExtraR3");
+        records.forEach(val => {
+          const divPS = document.createElement("div");
+          const divP0 = document.createElement("div");
+          const divP1 = document.createElement("div");
+          const divP2 = document.createElement("div");
+          const divP3 = document.createElement("div");
+
+          divPS.className = `PSR3`;
+          divP0.className = `P0R3inner`;
+          divP1.className = `P1R3inner`;
+          divP2.className = `P2R3inner`;
+          divP3.className = `P3R3inner`;
+
+          divPS.textContent = val.PS;
+          divP0.textContent = val.P0;
+          divP1.textContent = val.P1;
+          divP2.textContent = val.P2;
+          divP3.textContent = val.P3;
+
+          psdiv.appendChild(divPS);
+          P0div.appendChild(divP0);
+          P1div.appendChild(divP1);
+          P2div.appendChild(divP2);
+          P3div.appendChild(divP3);
+        });
+
+        data.extradata.forEach((ex)=>{
+        const extra = document.createElement("div");
+        extra.className = `EXTRA5R3`;
+        if(newblock.querySelector('.blocknameR3').textContent.trim() === ex.ElectionBlock){
+            extra.textContent = ex.Extra5Percent;
+            extras.appendChild(extra);
+        }
+        });
+
+        newblock.classList.remove("hidden");
+        this.dynamicrandomiseData3.push(data.group);
+      });
+      this.savedparentcontainerR3.classList.remove("hidden");
+      this.randomisation3saveBtn.disabled = true;
+      this.randomisation3resetBtn.disabled = false;
+            
+            }
+        } catch (error) {
+            console.error("Error loading pre-existing data:", error);
+            this.saveddatacontainerR3.innerHTML = "";
+            this.savedparentcontainerR3.classList.add("hidden");
+        }
+    }
 
         randomizationpage3(){
             this.rnpages.forEach((page)=>{
@@ -2655,7 +2939,7 @@ async  startRandomisation3(){
             const data = response.data;
     
             if(data.success){
-                const parentcontainer = this.mainparent?.querySelectorAll(".dynamicDataListR3");
+                const parentcontainer = this.unsavedatacontainerR3?.querySelectorAll(".dynamicDataListR3");
     
                 parentcontainer.forEach((container)=>{
                     if(container.querySelector(".blocknameR3").textContent.trim() === data.block){
@@ -2752,7 +3036,7 @@ async  startRandomisation3(){
                     extra.textContent = ex;
                     extra5percent.appendChild(extra);
                 });
-                this.dynamicrandomiseData3 = [{
+                this.saveddata = [{
                     block: [data.block],
                     ps: data.randomisedata.map(d => d.pollingStation),
                     id: data.randomisedata.map(d => d.id)
@@ -2782,17 +3066,159 @@ async  startRandomisation3(){
 
    async saveRandomisation3blockdata(){
         try {
+            if(this.BlockinputR3.value  === ""){
+                this.alertboxheading.innerText = "failed To Insert Data ";
+                this.alertmsg.innerHTML=`   <p><strong>⚠️ data block is empty ⚠️</strong></p>
+                                            <p>Do you want to continue?</p>
+                                            `;
+                this.actiontype = "ResetNone";
+                this.alertbg.classList.remove("hidden");
+                throw new error("data block is empty");
+            }
             const url = `/saveRandomisation3`;
             const response = await axios.post(url,{
                 ET : this.ET.value,
-                data : this.dynamicrandomiseData3,
+                data : this.saveddata,
             });
 
             const data = response.data;
+
+            if(data.success){
+                const unsavedblock = this.unsavedatacontainerR3.querySelectorAll(".dynamicDataListR3");
+                const savedblock = this.savedparentcontainerR3.querySelectorAll(".dynamicDataListR3");
+                unsavedblock.forEach((ublock)=>{
+                    if(ublock.querySelector(".blocknameR3").textContent.trim() === data.block[0]){
+                        savedblock.forEach((sblock)=>{
+                            if(sblock.querySelector(".blocknameR3").textContent.trim() === data.block[0]){
+                                sblock.remove();
+                            }
+                            console.log("y");
+                        });
+
+                        console.log("g");
+                        this.saveddatacontainerR3.appendChild(ublock);
+                        this.savedparentcontainerR3.classList.remove("hidden");
+                        this.dynamicrandomiseData3.push(data.block[0]);   
+                    }
+                });
+                console.log("x");
+                this.randomisation3resetBtn.disabled = false;
+                this.pop.textContent = `${data.block} Data Inserted Successfully`;
+                this.pop.style.opacity = "1";
+                setTimeout(() => {
+                    this.pop.style.opacity = "0";
+                }, 3000);
+            }
         } catch (error) {
-            
+             if(error.response){
+            const data = error.response.data;
+            this.alertboxheading.innerText = "failed  To Insert Data ";
+            this.alertmsg.innerHTML=`   <p><strong>⚠️ ${data}⚠️</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "ResetNone";
+            this.alertbg.classList.remove("hidden");
+        }else {
+            console.log("Error:", error.message); // other errors (network etc.)
+            } 
         }
     }
+
+    checkRandomData3forReset(){
+        if(this.dynamicrandomiseData3.length > 0 ){
+            this.alertboxheading.innerText = "Reset All Randomisation Data ";
+            this.alertmsg.innerHTML=`   <p><strong>⚠️ Are you sure you want to reset this data? ⚠️</strong></p>
+                                        <p>This action will:</p>
+                                        <p>1: Clear the preset data on this page</p>
+                                        <p>2: If Backend Data Exist then it will Permanently delete the associated data from the server</p>
+                                        <p><strong>This cannot be undone.</strong></p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "resetallRandomisation3";
+        }else{
+            this.alertboxheading.innerText = "Data Not Found ";
+            this.alertmsg.innerHTML=`   <p><strong>⚠️ No Data Exist for Reset ⚠️</strong></p>
+                                        <p>Please Insert Data First to Reset</p>
+                                        <p>Do you want to continue?</p>
+                                        `;
+            this.actiontype = "ResetNone";
+        }
+         
+            this.alertbg.classList.remove("hidden");
+    }
+
+    cleanR3Page(){
+        this.saveddatacontainerR3.innerHTML = "";
+        this.savedparentcontainerR3.classList.add("hidden");
+    }
+
+async resetRandomisation3(){
+    try {
+        const response = await axios.delete(`/resetallRandomisation3`,{
+            params : {
+                ET : this.ET.value,
+            }
+        });
+        const data = response.data;
+        if(data.success){
+            this.dynamicrandomiseData3 = [];
+            this.alertbg.classList.add("hidden");
+            this.BlockinputR3.value = "";
+            this.pop.textContent = `${data.message}`;
+            this.pop.style.opacity = "1";
+            this.randomisation3saveBtn.disabled = true;
+            this.randomisation3Btn.disabled = true;
+            this.randomisation3resetBtn.disabled = true;
+            setTimeout(() => {
+                this.pop.style.opacity = "0";
+            }, 3000);
+        }
+    } catch (error) {
+        
+    }
+    }
+
+      downloadRandomiseDataR3(){
+         const opt = {
+            margin: [1.5, 0.5, 0.5, 0.5],  // Top, left, bottom, right
+            filename: 'Randomisation3.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+            html2pdf()
+            .set(opt)
+            .from(this.saveddatacontainerR3)
+            .toPdf()
+            .get('pdf')
+            .then(function (pdf) {
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                // 🔹 Heading
+                pdf.setFontSize(16);
+                pdf.text("Randomisation 3 Report", pageWidth / 2, 0.75, { align: "center" });
+
+                // 🔹 Date (Top-right)
+                const today = new Date().toLocaleDateString();
+                pdf.setFontSize(10);
+                pdf.text(`Date: ${today}`, pageWidth - 1.5, 1.05);
+
+                // 🔹 Description
+                pdf.setFontSize(11);
+                pdf.text("This document contains randomly allocated election duty data.", 0.75, 1.35);
+
+                // 🔹 Bottom-right footer text
+                pdf.setFontSize(10);
+                const footerText = "Report generated by EDMS";
+                const textWidth = pdf.getTextWidth(footerText);
+                pdf.text(footerText, pageWidth - textWidth - 0.5, pageHeight - 0.5);  // 0.5 inch from bottom-right
+            })
+            .save();
+    }
+
+    
 }
 class Posting{
     constructor(){

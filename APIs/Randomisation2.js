@@ -249,7 +249,10 @@ const deletedR2 = (ET , Block)=>{
     return new Promise((resolve , reject)=>{
             connection.query(` delete from randomisation2 where ElectionName = ? and ElectionBlock = ? `,[ET,Block],(err,result)=>{
                 if(err) return reject(err);
-                resolve(true);
+                connection.query(` delete from randomisation3 where ElectionName = ? and ElectionBlock = ? `,[ET,Block],(err,result)=>{
+                    if(err) return reject(err);
+                    resolve(true);
+                });
             });
     });
 }
@@ -261,7 +264,6 @@ router.get("/checkdataR2", async (req, res) => {
         const ps = await callps(blockdata);
         const group = await callR2data(ET, blockdata);
         const extra = await callR2extradata(ET, blockdata);
-        console.log(group, extra, ps)
         const data = mergeRandomisationData(group, extra, ps);
 
         if (ps.length > 0 && group.length > 0 && data.length > 0) {
@@ -383,9 +385,10 @@ function mergeRandomisationData(randomise1data, extraRandomiseData, psList) {
 router.delete("/resetallRandomisation2", async (req , res)=>{
 const {ET} = req.query;
 try {
-    const success1 = await deleteALLR2(ET); 
+    const success1 = await deleteALLR2(ET);
+    const success2 = await deleteR3(ET);  
 
-    if(success1){
+    if(success1 && success2){
         res.status(200).json({
             success : true,
             message : "Radomisation 2 Data Deleted Succesfully"
@@ -400,6 +403,16 @@ try {
 const deleteALLR2 = (ET) =>{
     return new Promise((resolve , reject)=>{
         connection.query(`DELETE FROM randomisation2 WHERE ElectionName = ?`,[ET],(err,result)=>{
+            if(err) return(err);
+
+            resolve(true);
+        });
+    });
+}
+
+const deleteR3 = (ET) =>{
+    return new Promise((resolve , reject)=>{
+        connection.query(`DELETE FROM randomisation3 WHERE ElectionName = ?`,[ET],(err,result)=>{
             if(err) return(err);
 
             resolve(true);

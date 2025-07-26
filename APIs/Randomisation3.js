@@ -185,4 +185,169 @@ const startrandmisation3 = (ps , id , ET) =>{
   
 }
 
+
+
+router.post("/saveRandomisation3",async(req,res)=>{
+    const {ET , data } = req.body;
+    const { block, ps, id } = data[0];
+    try {
+        const deletedata = await deleteBlockData(ET , block);
+        if(deletedata){
+        const insertdata = await insertBlockdata(ET , block , ps , id);
+        if(insertdata){
+            res.status(200).json({ success: true, block : block });
+        }
+        }else{
+            res.json({
+                success : false,
+                message : "deletion is not completed "
+            })
+        }
+        
+    } catch (error) {
+            console.error("Error in /saveRandomisation3:", error.message);
+            res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
+const deleteBlockData = (ET , block) =>{
+    return new Promise((resolve , reject)=>{
+        connection.query(`delete from randomisation3 where ElectionName = ? and ElectionBlock = ?`,[ET , block],(err,result)=>{
+            if(err) return reject(err);
+            resolve(true);
+        });
+    });
+}
+
+const insertBlockdata = (ET, block, ps, id) => {
+    return new Promise((resolve, reject) => {
+        // Prepare insert queries for each ps-id pair
+        const values = [];
+
+        for (let i = 0; i < ps.length; i++) {
+            values.push([ET, block, ps[i], id[i]]);
+        }
+
+        const sql = `INSERT INTO randomisation3 (ElectionName, ElectionBlock, PS , R2id) VALUES ?`;
+
+        connection.query(sql, [values], (err, result) => {
+            if (err) return reject(err);
+            resolve(true);
+        });
+    });
+}
+
+router.delete("/resetallRandomisation3", async (req,res)=>{
+    const {ET} = req.query;
+    try {
+        const success1 = await deleteALLR3(ET); 
+    
+        if(success1){
+            res.status(200).json({
+                success : true,
+                message : "Radomisation 3 Data Deleted Succesfully"
+            });
+        }
+    } catch (error) {
+         console.error("Database error:", err.message);
+         return res.status(500).json({ success: false, message: "Database error" });
+    }
+    });
+    
+    const deleteALLR3 = (ET) =>{
+        return new Promise((resolve , reject)=>{
+            connection.query(`DELETE FROM randomisation3 WHERE ElectionName = ?`,[ET],(err,result)=>{
+                if(err) return(err);
+    
+                resolve(true);
+            });
+        });
+    }
+
+
+router.get("/checkdataR3",async (req , res)=>{
+        const {ET} = req.query;
+        try {
+            const ids = await getallids(ET);
+            const group = await getallgroupdata(ids , ET );
+            const extradata = await fetchextra(ET);
+            console.log(ids , group , extradata);
+            // const data = mergeRandomisationData(group, extradata);
+             if (ids.length > 0 && group.length > 0) {
+                
+                res.status(200).json({
+                    success: true,
+                    group,
+                    extradata,
+                });
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "data is not available"
+                });
+            }
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({
+                success: false,
+                message: "Server error",
+                error
+            });
+        }
+    });
+
+const getallids = (ET) =>{
+    return new Promise((resolve , reject)=>{
+        connection.query(`select PS , R2id from randomisation3 where ElectionName = ? `,[ET],(err , result)=>{
+            if(err) return reject(err);
+
+            resolve(result);
+        });
+    });
+}
+
+const getallgroupdata = async (ids, et) => {
+  try {
+    const idList = ids.map(i => i.R2id); // extract list of IDs: ['101', '100', '99']
+
+    const [rows] = await connection.promise().query(
+      `SELECT id, P0, P1, P2, P3, ElectionBlock FROM randomisation2 WHERE ElectionName = ? AND id IN (?)`,
+      [et, idList]
+    );
+
+    // Create a map from R2id to PS
+    const psMap = {};
+    ids.forEach(item => {
+      psMap[item.R2id] = item.PS;
+    });
+
+    // Merge each matched row with the correct PS
+    const mergedResults = rows.map(row => ({
+      ...row,
+      PS: psMap[row.id] || null
+    }));
+
+    return mergedResults;
+
+  } catch (err) {
+    console.error("Error in getallgroupdata:", err.message);
+    return [];
+  }
+};
+
+
+
+const fetchextra = (et) =>{
+    return new Promise((resolve , reject)=>{
+        connection.query(`select ElectionBlock , Extra5Percent from randomisation5percentextra1 where ElectionName = ? `,[et],(err , result)=>{
+            if(err) return reject(err);
+
+            resolve(result);
+        });
+    });
+}
+
 module.exports = router;

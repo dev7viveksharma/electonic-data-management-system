@@ -26,7 +26,7 @@
                     </button>
                 </div>
                 <div class="ElectionPlacement">
-                    <button class="hodBtn jsbtn" data-tab="placement" type="button">Start placement</button>
+                    <button class="hodBtn jsbtn" data-tab="placement" type="button">Randomisation</button>
                 </div>
                 <div class="posts">
                     <button class="hodBtn jsbtn" data-tab="Post" type="button">Posts</button>
@@ -36,6 +36,44 @@
                 <i class="fa-solid fa-bars js_bars"></i>
             </div>
         </header>
+        <div class="drop-menu js_dropMenu">
+            <ul>
+                <li class="Profile">Profile</li>
+                <li>About Us</li>
+                <li class="logout">Log-out</li>
+            </ul>
+        </div>
+        <div class="DM_profile">
+            <div class="profileBar">
+                <i class="fa-solid fa-arrow-left js_backicon"></i>
+                <h3 class="adminprofile">DM Profile</h3>
+            </div>
+            <div class="ProfileDetails ">
+            <div class="adminNamedm  js_adminSection">
+                <p class="profilenamesdm">Full Name</p>
+                <p class="DM_FullName">name</p>
+            </div>
+            <div class="adminMobileNum  js_adminSection">
+                <p class="profilenamesdm">Mobile Number</p>
+                <p class="DM_Mobileno">+91</p> 
+            </div>
+            <div class="AdminEmail js_adminSection">
+                <p class="profilenamesdm">DM Email</p>
+                <p class="DM_EmailAddress">@email</p>  
+            </div>
+            <div class="Adminpass js_adminSection">
+                <p class="profilenamesdm">DM Password</p>
+                <p class="DM_Password">Password</p> 
+            </div>
+            <div class="AdminDistrict js_adminSection">
+                <p class="profilenamesdm">DM District</p>
+                <p class="DM_District">District</p> 
+            </div>
+            </div>
+            <div class="buttonSection">
+                <button class="DMeditbtn" type="button">Edit</button>
+            </div>
+        </div>
         <div class="adminBody">
             <div class="homePage">
                 <div class="staticals">
@@ -179,10 +217,11 @@
                                 <p>Select Area and polls</p>
                             </div>
                             <div class="line2"></div>
+                            <div class="line3"></div>
                             <div class="EmpSelectionBox">
                                 <p>Select Employees for Duties</p>
                             </div>
-                            <div class="line3"></div>
+                            <div class="line4"></div>
                             <div class="circleend"></div>
                         </div>
                         <div class="inActive phase ">
@@ -342,7 +381,8 @@
                     <div class="randomizationBody">
                         <div class="savedtablecontentcontainerR1 hidden">
                             <div class="savedtableheadingR1">
-                                Saved tables
+                                <h3>Saved tables</h3>
+                                <button class="downloadR1" download>Download <i class="fa-solid fa-download"></i></button>
                             </div>
                             <div class="savedcontenttableR1">
 
@@ -378,8 +418,9 @@
                     </div>
                     <div class="randomizationBodyR2">
                         <div class="savedtablecontainerR2 hidden">
-                            <div class="savedtableheading ">
-                                Saved Tables
+                            <div class="savedtableheadingR2 ">
+                                 <h3>Saved tables</h3>
+                                <button class="downloadR2" download>Download <i class="fa-solid fa-download"></i></button>
                             </div>
                             <div class="contenttableR2"></div>
                         </div>
@@ -411,8 +452,9 @@
                     </div>
                        <div class="randomizationBodyR3">
                         <div class="savedtablecontainerR3 hidden">
-                            <div class="savedtableheading ">
-                                Saved Tables
+                            <div class="savedtableheadingR3">
+                                 <h3>Saved tables</h3>
+                                 <button class="downloadR3" download>Download <i class="fa-solid fa-download"></i></button>
                             </div>
                             <div class="contenttableR3"></div>
                         </div>
@@ -502,6 +544,7 @@
             </div>
         </div>
     </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="CollectorDashboard.js"></script>

@@ -21,7 +21,6 @@ try {
             connection.query(url,[ET],(err,result)=>{
                 if(err)return reject(err);
                 const ids = result.map(ids => ids.id);
-                console.log(ids);
                 resolve(ids);
             });
         });
@@ -486,8 +485,9 @@ router.post("/saveRandomisation1", async (req,res)=>{
         const deletesuccess1 = await deleteblockEmp(ET , Block);
         const deletesuccess2 = await deleteblockExtraEmp(ET , Block);
         const deleteR2data = await deleteblockR2EMP(ET , Block);
+        const deleteR3data = await deleteblockR3EMP(ET , Block);
 
-        if(deletesuccess1 && deletesuccess2){
+        if(deletesuccess1 && deletesuccess2 && deleteR2data && deleteR3data){
             const insertsuccess1 = await insertblockEmp(ET , Block , EMP0 , EMP1 , EMP2 , EMP3 );
             const insertsuccess2 = await insertextra5Percent(ET , Block , EXTRA );
 
@@ -551,7 +551,19 @@ const deleteblockR2EMP = ((ET,Block)=>{
             resolve(true);
         });
     });
-})
+});
+
+const deleteblockR3EMP = ((ET,Block)=>{
+     return new Promise((resolve , reject )=>{
+        const url = ` delete from randomisation3 where ElectionName = ? and ElectionBlock = ? `;
+        
+        connection.query(url,[ET , Block],(err,result)=>{
+            if(err) return reject(err);
+
+            resolve(true);
+        });
+    });
+});
 
 const insertblockEmp = ((ET , Block , EMP0 , EMP1 , EMP2 , EMP3)=>{
     return new Promise((resolve , reject )=>{
@@ -702,7 +714,17 @@ router.delete("/resetrandomisedata",async (req , res)=>{
                     if(err){ 
                         return reject(err);
                     }
-                    resolve(true);
+                    connection.query(`delete from randomisation2 where ElectionName = ?`,[ET],(err,result)=>{
+                    if(err){ 
+                        return reject(err);
+                    }
+                        connection.query(`delete from randomisation3 where ElectionName = ?`,[ET],(err,result)=>{
+                            if(err){ 
+                                return reject(err);
+                            }
+                            resolve(true);
+                        });
+                    });
                 });
             });
         });
