@@ -91,6 +91,8 @@ class LOGIN {
         this.password = document.querySelector(".js_login_password");
         this.loginBtn = document.querySelector(".js_login_btn");
         this.email = document.querySelector(".js_signup_email");
+        this.pop = document.querySelector(".Popups .popMessage");
+        this.popupbody = document.querySelector(".Popups")
         this.init();
     }
 
@@ -122,7 +124,7 @@ class LOGIN {
             message.style.color = "red";
             message.style.margin = "0";
             message.style.fontSize = "0.8rem";
-            this.loginBtn.insertAdjacentElement("beforebegin",message);
+            this.password.insertAdjacentElement("afterend",message);
         }else{
             const url = "http://localhost:8080/login";
             try{
@@ -134,15 +136,37 @@ class LOGIN {
                 console.log("Identified:", this.gmailornumber.value);
                 console.log("Password:", this.password.value);
                 const data = await response.data;
-                if(data.success){
+                if(data.success && data.status !== "Block"){
                     localStorage.setItem("userid", data.userid); 
                     localStorage.setItem("username", data.username);
                     localStorage.setItem("admindesignation",data.AdminDesignation); 
                     window.location.href = "dashboard.html"; // Redirect after saving user info
                 }
+                if(data.success && data.status === "Block"){
+                        this.pop.style.backgroundColor = "#FF2C2C";
+                        this.pop.textContent = `${data.message}`;
+                        
+                        // FIX: Ensure it starts with opacity 1 every time
+                        this.pop.style.opacity = "1";
+                        this.popupbody.style.opacity = "1";
+
+                        setTimeout(() => {
+                            this.pop.style.opacity = "0";
+                        }, 7000);
+                }
+
+
             }catch (err) {
                 if (err.response) {
                     console.error("Server Error:", err.response.data.message);
+                        const message = document.createElement("span");
+                        const error = document.querySelector("#loginerror");
+                        message.id= "loginerror";
+                        message.textContent = `${err.response.data.message}`;
+                        message.style.color = "red";
+                        message.style.margin = "0";
+                        message.style.fontSize = "0.8rem";
+                        this.password.insertAdjacentElement("afterend",message);
                     
                 } else if (err.request) {
                     console.error("Network Error:", err.request);

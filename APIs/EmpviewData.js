@@ -43,7 +43,7 @@ router.get("/headNonVarifiedEmployee",(req,res)=>{
 
 
 router.get("/Hods",(req,res)=>{
-    const q = `SELECT adminName , adminEmail , adminMobileNo , adminDesignation FROM adminsignup`
+    const q = `SELECT adminName , adminEmail , adminMobileNo , adminDesignation , status FROM adminsignup`
     connection.query(q,(err,result)=>{
         if (err) {
             console.error("Database error:", err.message);

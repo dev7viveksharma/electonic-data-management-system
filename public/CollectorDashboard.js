@@ -14,6 +14,7 @@ class NAVBAR{
     this.email = this.editSection.querySelector(".DM_EmailAddress");
     this.District = this.editSection.querySelector(".DM_District");
     this.editBtn = this.editSection.querySelector(".DMeditbtn");
+    this.companylogo = document.querySelector(".companyLogoContainer .CompanyLogo");
     this.Init();
     this.active = null;
     this.activeNav = null;
@@ -31,6 +32,10 @@ class NAVBAR{
         this.logoutBtn.addEventListener("click",(event)=>this.backtologin(event));
         this.profile.addEventListener("click",()=>this.showadmineditpage());
         this.backicon.addEventListener("click",()=>this.hideAdminEdit());
+        this.editBtn.addEventListener("click",()=>this.editProfile());
+        this.companylogo.addEventListener("click",()=>{
+            window.location.href = "/Home";
+        });
 
 
     }
@@ -78,25 +83,28 @@ class NAVBAR{
         this.showdropmenu();
     }
 
-      async DMProfile(){
+    async DMProfile(){
         const empdesignation = localStorage.getItem("District");
-        const username = localStorage.getItem('Name');
+        const username = localStorage.getItem('dmname');
         this.adminName.textContent = username;
         this.District.textContent = empdesignation;
         try {
-            const id = localStorage.getItem("userid");
-            const url = '/Admindata';
-            const response = await axios.get(url,{ params: { adminid: id }});
+            const id = localStorage.getItem("dmId");
+            const url = '/DMdata';
+            const response = await axios.get(url,{ params: { id: id }});
 
-            const admindata = response.data.result;
-            const list = admindata.map(admin=>({
-                mnum : admin.adminMobileNo,
-                ademail :admin.adminEmail
+            const data = response.data.result;
+            const list = data.map(dm =>({
+                mnum : dm.MobileNumber,
+                email : dm.Email,
+                Password : dm.Password,
             }));
+            console.log(username , empdesignation , id);
 
             for(let i of list){
             this.mobile.textContent = i.mnum;
-            this.email.textContent = i.ademail;
+            this.email.textContent = i.email;
+            this.Password.textContent = i.Password
             }
 
         } catch (error) {
@@ -108,6 +116,80 @@ class NAVBAR{
             }
         }
     }
+
+     editProfile(){
+        if(!this.isedit){
+                this.inputName = document.createElement("input");
+                this.inputEmail = document.createElement("input");
+                this.inputNum = document.createElement("input");
+                this.inputpassword = document.createElement("input");
+
+                this.inputName.classList = "editableinputFieldName";
+                this.inputEmail.classList = "editableinputFieldEmail";
+                this.inputNum.classList = "editableinputFieldNumber";
+                this.inputpassword.classList = "editableinputFieldPassword";
+
+                this.inputName.value = this.adminName.textContent;
+                this.inputEmail.value = this.email.textContent;
+                this.inputNum.value = this.mobile.textContent;
+                this.inputpassword.value = this.Password.textContent;
+
+                this.inputName.type = "text";
+                this.inputEmail.type = "email";
+                this.inputNum.type = "tel";
+                this.inputpassword.type = "text";
+
+                this.originalname = this.adminName.textContent;
+                this.originalnum = this.mobile.textContent;
+                this.originalmail = this.email.textContent;
+                this.originalpassword = this.Password.textContent;
+                
+                this.adminName.replaceWith(this.inputName);
+                this.mobile.replaceWith(this.inputNum);
+                this.email.replaceWith(this.inputEmail);
+                this.Password.replaceWith(this.inputpassword);
+                this.editBtn.textContent = "Done";
+                this.isedit = true;
+        }else{
+            try {
+                const adminname = document.createElement("p");
+                const adminmail = document.createElement("p");
+                const adminmnum = document.createElement("p");
+                const adminPassword = document.createElement("p");
+
+                adminmnum.classList = "DM_Mobileno";
+                adminmail.classList = "DM_EmailAddress";
+                adminname.classList = "DM_FullName";
+                adminPassword.classList = "DM_Password";
+
+                adminname.textContent = this.inputName.value;
+                adminmail.textContent = this.inputEmail.value;
+                adminmnum.textContent = this.inputNum.value;
+                adminPassword.textContent = this.inputpassword.value;
+
+                this.inputName.replaceWith(adminname);
+                this.inputEmail.replaceWith(adminmail);
+                this.inputNum.replaceWith(adminmnum);
+                this.inputpassword.replaceWith(adminPassword);
+
+                this.adminName = adminname;
+                this.email = adminmail;
+                this.mobile = adminmnum;
+                this.Password = adminPassword;
+
+                this.editBtn.textContent = "Edit";
+                this.isedit = false;
+
+
+            } catch (error){
+                if (error.response) {
+                    console.log("Error:", error.response.data.message); // server responded with error
+                } else {
+                    console.log("Error:", error.message); // other errors (network etc.)
+                }
+            } 
+        }
+    }
 }
 
 class HOD {
@@ -116,17 +198,26 @@ class HOD {
         this.innercontainer = document.querySelector(".listOfHODs");
         this.searchbox = document.querySelector(".HodSearch");
         this.searchbtn = document.querySelector(".hodsearchBtn");
+        this.pop = document.querySelector(".PopUPMessageContainer");
         this.init();
     }
     init(){
-        this.showHods();
+        this.showHods()
         this.arrowfunction(this.dropdownArrow);
         this.searchbox.addEventListener("input",()=>this.searchEmployeesdata(this.innercontainer));
         this.searchbtn.addEventListener("click",()=>this.searchEmployeesdata(this.innercontainer));
-    }
-    showHods(){
+        this.innercontainer.addEventListener("click", async (event) => {
+        const target = event.target;
+
+        // Check if the clicked element is a button inside .block_Unblock inside .HodList
+            if (target.tagName === "BUTTON" && target.closest(".HodList") && target.closest(".block_Unblock")) {
+                await this.HodblockUnblock(target); // or pass more info if needed
+            }
+        });
+
 
     }
+
 
     arrowfunction(arrow){
         const List = arrow.closest('.Hod_heading')?.querySelector('.listOfHODs');
@@ -138,14 +229,16 @@ class HOD {
 
 async showHods(){
         try {
-            const url = `http://localhost:8080/Hods`
+            const url = `/Hods`
             const response = await axios.get(url);
             let data = response.data.result;
+            console.log(data);
              let Heads = data.map(hods=>({
               hodname : hods.adminName,
               hodemail : hods.adminEmail,
               hodmnum : hods.adminMobileNo,
-              hodDesignation : hods.adminDesignation
+              hodDesignation : hods.adminDesignation,
+              status : hods.status
             }));
             this.createhHODlist(Heads);
         } catch (error) {
@@ -168,7 +261,7 @@ async showHods(){
                     </div>
                     <div class="hod_email">
                         <p>Hod Email Address</p>
-                        <p class="empDepartment">${data.hodemail}</p>
+                        <p class="empEmail">${data.hodemail}</p>
                     </div>
                     <div class="hod_mobileNumber">
                         <p>Hod Mobile Number</p>
@@ -180,7 +273,7 @@ async showHods(){
                     </div>
                 </div>
                 <div class="block_Unblock">
-                    <button class="block_UnblockBtn" type="button">Block</button>
+                    <button class="block_UnblockBtn" type="button">${data.status}</button>
                 </div>
             </div>
             `;
@@ -198,6 +291,40 @@ async showHods(){
                 list.classList.remove("hidden");
             }
         });    
+    }
+
+async  HodblockUnblock(button){
+        try {
+            const hodCard = button.closest(".HodList");
+
+            // Now get all the dynamic data from within this .HodList
+            const empName = hodCard.querySelector(".hod_name .empName")?.textContent.trim();
+            const empEmail = hodCard.querySelector(".hod_email .empEmail")?.textContent.trim();
+            const empMobile = hodCard.querySelector(".hod_mobileNumber .empMNum")?.textContent.trim();
+            const empDesignation = hodCard.querySelector(".hod_department .empDepartment")?.textContent.trim();
+ 
+
+        const response = await axios.post(`/blockHods`,{
+                        action : button.textContent,
+                        empEmail,
+                        empName,
+                        empMobile,
+                        empDesignation
+                    });
+
+        const data = response.data;
+        if(data.success){
+            button.textContent = data.action;
+             this.pop.textContent = `${data.name} is now ${data.action}`;
+                this.pop.style.opacity = "1";
+                setTimeout(() => {
+                    this.pop.style.opacity = "0";
+                }, 3000);
+        }
+        } catch (error) {
+            
+        }
+
     }
 }
 
@@ -2142,7 +2269,6 @@ class RANDOMISATION2{
     this.alertboxheading = document.querySelector(".alertheading h3");
     this.alertbtn = document.querySelector(".alertconfirm button");
     this.ET = document.querySelector(".randomElectioninput");
-    this.pop = document.querySelector(".PopUPMessageContainer");
     this.rnpages = document.querySelectorAll(".rnp");
     this.BlockinputR2 = document.querySelector(".R2BlockInput");
     this.dynamicblocklist = document.querySelector(".dynamicR2blockContainer");
@@ -3231,6 +3357,8 @@ class Posting{
         this.imginput = document.querySelector(".postimages");
         this.previewimage = document.querySelector(".postImgvisible");
         this.postBtn = document.querySelector(".inputSent i");
+        this.postmessage  = document.querySelector(".postsinputfield");
+        this.pop = document.querySelector(".PopUPMessageContainer");
         this.init();
     }
 
@@ -3343,14 +3471,23 @@ async  opendynamichodlist(){
     }
 
 async postAinfo(){
-    try {
-        const url = `/post`;
-        const response = await axios.post(url,{
-
-        });
-    } catch (error) {
-        
-    }
+        if(this.postmessage.value === "" && this.imginput.files.length === 0){
+            this.pop.textContent = `Please Provide Data to sentNothing to send! Please type something or attach a file.`;
+            this.pop.style.opacity = "1";
+            setTimeout(() => {
+                this.pop.style.opacity = "0";
+            }, 5000);
+            return;
+        }
+        try {
+            const url = `/Uploadpost`;
+            const response = await axios.post(url,{
+                message : this.postmessage.value,
+                
+            });
+        } catch (error) {
+            
+        }
     }
 }
 new HOD();

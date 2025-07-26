@@ -823,6 +823,9 @@ async CreateEmpAccount(){
                 if(data.success){
                     this.form.reset();
                     this.empDepartment();
+                    const viewemp = new VIEWEMPLOYEE();
+                    viewemp.varifiedData()
+                    viewemp.NonVarifiedData();
                     this.form.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
             }catch(err){

@@ -41,10 +41,12 @@ body {
 }
 
 .CompanyLogo{
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     display: block;
-    object-fit:fill; 
+    object-fit:contain; 
+    margin-left: 0.5rem;
+    cursor: pointer;
 }
 
 .username{
@@ -83,9 +85,8 @@ body {
     right:-30%;
     width: 10rem;
     height: fit-content;
-    border-left: 0.5px solid black ;
-    border-right: 0.5px solid black ;
-    border-bottom: 0.5px solid black ;
+    border: 0.5px solid black;
+    border-top: 1px solid black;
     transition: right 0.5s ease;
     z-index: 2;
 }
@@ -173,11 +174,13 @@ body {
     height: calc(100% - 5rem);
 }
 
-.PopUPMessageContainer{
+.PopUPMessageContainer {
     position: absolute;
-    top : 0;
-    right: 40%;
-    width: 20rem;
+    top: 0;
+    left: 50%; /* Center from left */
+    transform: translateX(-50%); /* Adjust back by 50% of its width */
+    min-width: 20rem;
+    width: auto;
     height: 4rem;
     background-color: #4CAF50;
     display: flex;
@@ -193,6 +196,7 @@ body {
     border: 0.5px solid black;
 }
 
+
 .homePage , .hod , .employeesList , .placement , .Post{
     position: absolute;
     width: 100%;
@@ -201,38 +205,48 @@ body {
     pointer-events: none;
 }
 
+.homePage{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: none;
+}
+
 .staticals , .votinglist{
     display: flex;
-    flex-direction: row;
-    width: 100%;
     height: 50%;
-    border: 1px solid black;
-    padding: 0rem 3rem;
     justify-content: center;
     align-items: center;
+    padding: 1rem 3rem;
+    gap: 3rem;
+    flex-wrap: wrap;
 }
 
 
-.HODNumbers , .EmployeesNumber{
-    width: 15rem;
+.HODNumbers, .EmployeesNumber, .ElectionTypes, .voters {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 22rem;
     height: 18rem;
-    border: 1px solid black;
-    margin: 0rem 8rem;
-    background-color: #00000030;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border-radius: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.ElectionTypes , .voters{
-    width: 25rem;
-    height: 18rem;
-    border: 1px solid black;
-    margin: 0rem 3rem;
-    background-color: #00000030;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border-radius: 1.2rem;
+.ElectionTypes, .voters{
+   width: 32rem; 
+}
+
+.HODNumbers:hover, .EmployeesNumber:hover, .ElectionTypes:hover, .voters:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -252,28 +266,77 @@ body {
 }
 
 
-
+.drop-menu ul li:hover{
+    background-color: #484848;
+    cursor: pointer;
+}
 /* HOME STARTS */
 
-.HEADTitle , .EmpTitle , .VoterTitle, .ElectiveTitle{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 3rem;
-    border-top-left-radius: 1.2rem;
-    border-top-right-radius: 1.2rem;
+.HEADTitle, .EmpTitle, .VoterTitle, .ElectiveTitle {
+    background-color: #ffffffcc;
     backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    background-color:#ececec;
-    border-bottom:1px solid #484848;
+    color: #1a1a1a;
+    padding: 0.8rem;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Inside Card Container */
+.Cardcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1.2rem;
+    flex-grow: 1;
+}
+
+/* Individual Stat Blocks */
+.NoofHeads, .headactive {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    color: #333;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.NoofHeads h3, .headactive h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.NoofHeads p, .headactive p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+
+/* Hover Effects */
+.NoofHeads:hover, .headactive:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Blinking Animation */
+@keyframes blink {
+    0% , 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Apply to numbers only */
+.NoofHeads p, .headactive p {
+    animation: blink 2s infinite;
 }
 
 /* HOME ENDS */
 /* EDIT Profile */
-.DM_profile{
+.DM_profile {
     position: absolute;
-    right:-20rem;
+    right: -20rem;
     top: 0;
     width: 20rem;
     height: 30rem;
@@ -285,7 +348,10 @@ body {
     margin: 0;
     transition: right 0.5s ease-in-out;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
+
 
 
 .profileBar{
@@ -317,60 +383,101 @@ body {
     border-radius: 50%;
 }
 
-.ProfileDetails{
+.ProfileDetails {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    padding: 0rem 1rem 0rem 1rem;
-    height: calc(100% - 9rem);
+    justify-content: space-between; /* Even vertical spacing */
+    padding: 1.5rem 1rem;
+    box-sizing: border-box;
+    overflow: none;
+    gap: 1.2rem; /* More space between rows */
 }
 
-.js_adminSection{
+
+.js_adminSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 2.5rem; /* Increased row height */
+    padding: 0.25rem 0;
+}
+
+
+.profilenamesdm {
+    font-weight: 600;
+    flex: 0 0 7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1rem;
+    margin-right: 1.5rem ;
+}
+
+
+.DM_FullName,
+.DM_Mobileno,
+.DM_EmailAddress,
+.DM_Password,
+.DM_District,
+.editableinputFieldName,
+.editableinputFieldEmail,
+.editableinputFieldNumber,
+.editableinputFieldPassword {
+    flex: 1;
+    text-align: left;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.editableinputFieldName,
+.editableinputFieldEmail,
+.editableinputFieldNumber,
+.editableinputFieldPassword{
+    outline: none;
+    border: 2px solid #007BFF;
+    border-radius: 1rem;
+    background-color: transparent;
+    box-sizing: border-box;
+    margin-right: 1rem;
     width: 100%;
     height: 2rem;
-    display: flex;
-    flex-direction: row;
-    margin: 1.5rem 0rem;
+    padding: 0rem 0.2rem;
 }
 
-.profilenamesdm{
-    display:flex;
-    align-items: center;
-    width: 50%;
-    height: 100%;
-    font-weight: 600;
-    margin-right: 1rem;
-}
 
-.DM_FullName ,.DM_Mobileno , .DM_EmailAddress , .DM_Password , .DM_District ,.editableinputFieldName,.editableinputFieldEmail,.editableinputFieldNumber{
-    display: flex;
-    width: 50%;
-    height: 100%;
-    align-items: center;
-    outline: none;
-    background-color: none;
-}
 
-.buttonSection{
+.buttonSection {
     width: 100%;
     height: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid black;
-    background-color: #f9f9f9;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: transparent; /* To keep transparent look */
+    padding: 0.5rem;
+    box-sizing: border-box;
 }
 
-.admineditbtn{
-    height: 2rem;
-    width: 6rem;
+
+.DMeditbtn {
+    height: 2.5rem;
+    width: 8rem;
     background-color: #007BFF;
     color: white;
     font-size: 1rem;
     font-weight: 600;
-    border: 0.1rem solid black;
+    border: 1px solid black;
     border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
 
+.DMeditbtn:hover {
+    cursor: pointer;
+    background-color: #0056b3;
 }
 
 .js_backicon:hover{
@@ -378,10 +485,6 @@ body {
     background-color: #2d2d2d;
 }
 
-.admineditbtn:hover{
-    color: #eaeaea;
-    cursor: pointer;
-}
 
 /* EDIT Profile  end*/
 
@@ -652,7 +755,7 @@ body {
     height: 100%;
 }
 
-.empcode , .empName , .empMNum , .empDepartment {
+.empcode , .empName , .empMNum , .empDepartment , .empEmail {
     margin-top: 0.5rem;
 }
 
@@ -2113,6 +2216,22 @@ body {
      background-color: #aeaeae;
      transition: background-color 0.2s ease-in-out;
      cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .staticals, .votinglist {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .HODNumbers, .EmployeesNumber, .ElectionTypes, .voters {
+        width: 90%;
+        height: auto;
+    }
+
+    .Cardcontainer {
+        flex-direction: column;
+    }
 }
 /* posts feature ends */
 

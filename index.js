@@ -17,6 +17,7 @@ const varifyemp = require("./APIs/varifyemp");
 const adminview = require("./APIs/adminData");
 const empdatashow = require("./APIs/EmpviewData");
 const dmlogin = require("./APIs/DmLogin");
+const dmdata = require("./APIs/DMData.js");
 const phase1 = require("./APIs/phase1");
 const phase2 = require("./APIs/phase2");
 const post = require("./APIs/post");
@@ -29,6 +30,12 @@ app.use('/documents',express.static(path.join(__dirname,'data/documents')));
 app.use(cors({
     origin:'http://localhost:8080'
 }));
+
+app.get("/Home", (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/CollectorDashboard.html'));
+});
+
+
 
 
 
@@ -90,7 +97,7 @@ app.post("/login",(req,res)=>{
 
         const isEmail = identified.includes("@");
         let query = isEmail
-            ? "SELECT * FROM adminsignup WHERE adminEmail = ?"
+            ? "SELECT * FROM adminsignup WHERE adminEmail = ? "
             : "SELECT * FROM adminsignup WHERE adminMobileNo = ?";
 
         // Execute the query and get the rows
@@ -108,7 +115,11 @@ app.post("/login",(req,res)=>{
                 return res.status(401).json({ success: false, message: "Incorrect password" });
             }
 
-            res.json({ success: true, message: "Login successful", userid: user.adminId, username: user.adminName  , AdminDesignation: user.adminDesignation});
+            if(rows[0].status === `Block`){
+                return res.status(200).json({success : true ,  status : rows[0].status , message : `Access denied. ${rows[0].adminName} is blocked By the Authority`})
+            }
+
+            res.json({ success: true, message: "Login successful", status : rows[0].status , userid: user.adminId, username: user.adminName  , AdminDesignation: user.adminDesignation});
         });
 
     } catch (err) {
@@ -116,6 +127,8 @@ app.post("/login",(req,res)=>{
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
+
 
 app.use("/",logout_routes);
 app.use("/",profileImages);
@@ -126,6 +139,7 @@ app.use("/",varifyemp);
 app.use("/",adminview);
 app.use("/",empdatashow);
 app.use("/",dmlogin);
+app.use("/",dmdata);
 app.use("/",phase1);
 app.use("/",phase2);
 app.use("/",post);
