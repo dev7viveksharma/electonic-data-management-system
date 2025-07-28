@@ -198,6 +198,32 @@ body{
     position: relative;
 }
 
+
+.EmpCode .signupinput{
+    margin: 0.5rem 0rem;
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 1rem;
+    color: #00008B;
+}
+.password-wrapper{
+    position: relative;
+}
+
+.toggle-password{
+    position: absolute;
+    display: flex;
+    top: 50%;
+    right: 35%;
+    width: 2rem;
+    height: 2rem;
+}
+
+.toggle-password i{
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+}
 .officeDropDown{
     position:absolute;
     width: 100%;
@@ -230,3 +256,6 @@ body{
     cursor: pointer;
 }
 
+.hidden{
+    display: none;
+}

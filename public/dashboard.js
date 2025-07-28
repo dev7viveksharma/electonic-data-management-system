@@ -560,6 +560,7 @@ class SIGNUP{
     const selected = document.querySelector('input[name="disabled"]:checked');
 
     if (selected && selected.value === "yes") {
+        console.log("hit");
         document.querySelector(".disability").classList.remove("hidden");
         document.querySelector(".percentage_of_diability").classList.remove("hidden");
         document.querySelector(".certificate").classList.remove("hidden");

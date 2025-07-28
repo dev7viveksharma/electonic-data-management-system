@@ -24,6 +24,7 @@ const post = require("./APIs/post");
 const Randomization = require("./APIs/randomization");
 const Randomization2 = require("./APIs/Randomisation2");
 const Randomization3 = require("./APIs/Randomisation3.js");
+const editProfile = require("./APIs/EditEmployee.js");
 const { Certificate } = require("crypto");
 app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 app.use('/documents',express.static(path.join(__dirname,'data/documents')));
@@ -149,6 +150,7 @@ app.use("/",post);
 app.use("/",Randomization);
 app.use("/",Randomization2);
 app.use("/",Randomization3);
+app.use("/",editProfile);
 app.listen(port,(req,res)=>{
     console.log("server has been started");
 });

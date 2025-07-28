@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/style/EmployessFormEdit.css">
 </head>
 <body>
@@ -28,7 +29,7 @@
                 <div class="detail-container line">
                 <div class="EmpCode">
                     <p class = "signup-details">Employee code</P>
-                    <p class="signup-input"></p>
+                    <p class="signupinput"></p>
                 </div>
                 <div class="Emp_photo">
                 <div class="preview">
@@ -48,8 +49,13 @@
                     <input type="number" class="signup-input mobile_number js_emp_form" id="mobileNumber" name="mobile_number" placeholder="+91">
                 </div>
                 <div class="password">
-                    <label for="EmpPassword"class="signup-details">Employee password</label>
-                    <input type="password" class="signup-input js_password js_emp_form" id="EmpPassword" name="s_password">
+                    <div class="password-wrapper errorp">
+                        <label for="EmpPassword"class="signup-details">Employee password</label>
+                        <input type="password" class="signup-input js_password js_emp_form" id="EmpPassword" name="s_password">
+                        <span class="toggle-password">
+                            <i class="fa-regular fa-eye toggle-eye"></i>
+                        </span>
+                    </div>
                 </div>
                 <div class="date_of_birth">
                     <label for="dob "class="signup-details">Date Of Birth</label>
@@ -913,6 +919,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="EmployeesEditForm.js"></script>
+    <script type="module" src="/EmployeesEditForm.JS"></script>
 </body>
 </html>
