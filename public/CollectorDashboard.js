@@ -3359,6 +3359,7 @@ class Posting{
         this.postBtn = document.querySelector(".inputSent i");
         this.postmessage  = document.querySelector(".postsinputfield");
         this.pop = document.querySelector(".PopUPMessageContainer");
+        this.fileLocation = null
         this.init();
     }
 
@@ -3419,6 +3420,7 @@ async  opendynamichodlist(){
         const file = this.imginput.files[0];
         const previewContainer = this.previewimage;
 
+
         // Clear previous preview
         previewContainer.innerHTML = "";
 
@@ -3472,23 +3474,71 @@ async  opendynamichodlist(){
 
 async postAinfo(){
         if(this.postmessage.value === "" && this.imginput.files.length === 0){
-            this.pop.textContent = `Please Provide Data to sentNothing to send! Please type something or attach a file.`;
+            this.pop.textContent = `Nothing to send! Please type something or attach a file.`;
             this.pop.style.opacity = "1";
             setTimeout(() => {
                 this.pop.style.opacity = "0";
             }, 5000);
             return;
         }
+        if(this.imginput.files[0]){
+           this.fileLocation = await this.RouteFile(this.imginput.files[0]);
+        }
+        const dmid = localStorage.getItem("dmId");
         try {
             const url = `/Uploadpost`;
             const response = await axios.post(url,{
                 message : this.postmessage.value,
+                file : this.fileLocation,
+                type : this.postingType.value,
+                hod : this.hodInput.value,
+                priority : this.priorityList.value,
+                id : dmid
                 
             });
+
+            const data = response.data;
+
+            if(data.success){
+                this.pop.textContent = `${data.message}`;
+                this.pop.style.opacity = "1";
+                setTimeout(() => {
+                    this.pop.style.opacity = "0";
+                }, 2000);
+                this.postmessage.value = "";
+                this.imginput.value = "";  
+                this.previewimage.removeAttribute("href");  
+            }
         } catch (error) {
             
         }
     }
+
+async RouteFile(route){
+    try {
+        console.log(route);
+        const url = `/uploadPostfile`;
+        const formData = new FormData();
+        formData.append("postFile", route);  // route = file object
+
+        const response = await axios.post(url, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+
+        const data = response.data;
+        if(data.success){
+            console.log("Upload success:", data); 
+            return data.filePath;
+        }
+
+        
+    } catch (error) {
+        console.error("Upload error:", error);
+    }
+}
+
 }
 new HOD();
 new VIEWEMPLOYEE();

@@ -18,8 +18,8 @@ class TOPBAR{
         this.privatechatcontainer = document.querySelector(".privatePosts");
         this.personalchathead = document.querySelector(".personalchatting_heading")
         this.isedit = false;
-        this.init();
         this.showname();
+        this.init();
     }
     init(){
         this.bar.addEventListener("click",(event)=>this.showdropmenu(event));
@@ -823,9 +823,8 @@ async CreateEmpAccount(){
                 if(data.success){
                     this.form.reset();
                     this.empDepartment();
-                    const viewemp = new VIEWEMPLOYEE();
-                    viewemp.varifiedData()
-                    viewemp.NonVarifiedData();
+                    viewempRelaod.varifiedData()
+                    viewempRelaod.NonVarifiedData();
                     this.form.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
             }catch(err){
@@ -847,6 +846,7 @@ class VIEWEMPLOYEE{
         this.dropdownArrow = document.querySelectorAll(".dropdownArrow");
         this.searchbox = document.querySelector(".empSearch");
         this.searchbtn = document.querySelector(".searchBtn");
+        this.editListenerAttached = false;
         this.init();
     }
     init(){
@@ -860,8 +860,18 @@ class VIEWEMPLOYEE{
 
         this.searchbox.addEventListener("input",()=>this.searchEmployeesdata(this.VarifiedDataContainer,this.NonVarifiedDataContainer));
         this.searchbtn.addEventListener("click",()=>this.searchEmployeesdata(this.VarifiedDataContainer,this.NonVarifiedDataContainer));
-        
-    }
+        if(!this.editListenerAttached){
+             this.NonVarifiedDataContainer.addEventListener("click",(event)=>{
+                const btn = event.target.closest(".editBtn button");
+                console.log("event listener triggered");
+                if(btn){
+                    this.editEmpProfile(btn);
+                }
+            });
+            this.editListenerAttached = true;
+        }
+       
+    }     
 
     async varifiedData(){
         try {
@@ -1119,11 +1129,245 @@ class VIEWEMPLOYEE{
             }
         });
     }
+
+    editEmpProfile(editbtn){
+        const code = editbtn.closest(".EmployeeList").querySelector(".empcode").textContent;
+        localStorage.setItem("employeeCode" ,code);
+        window.location.href = `views/EmployeesEditForm.html`;
+    }
 }
 
+class PublicPosts{
+    constructor(){
+        this.parent = document.querySelector(".pubpost");
+        this.actioncolor = null;
+        this.actionhandler = {
+            Informational :() =>{
+                return "2196F330";
+            },
+            LowPriority :() =>{
+                 return "4CAF5030"
+            },
+            HighPriority :() =>{
+                 return "FF980030"
+            },
+            Critical :() =>{
+                 return "F4433630"
+            }
+        }
+        this.init();
+    }
+    async init(){
+        await this.loadPublicPosts();
+    }
 
+async loadPublicPosts() {
+    const CACHE_DURATION = 5 * 10 * 1000; // 5 minutes
+    const cached = localStorage.getItem("cachedPublicPosts");
+    const cachedTime = localStorage.getItem("cachedPublicPostsTime");
+
+    if (cached && cachedTime && (Date.now() - cachedTime < CACHE_DURATION)) {
+        console.log("✅ Loaded from cache");
+        const posts = JSON.parse(cached);
+        this.renderPosts(posts);
+        return;
+    }
+
+    try {
+        const url = `/FetchPosts`;
+        const response = await axios.get(url,{
+            params : {
+                value : 'All',
+                hodname : 'none'
+            }
+        });
+        const data = response.data;
+
+        if (data.success) {
+        const posts = data.finalPosts;
+
+        // Store in cache
+        localStorage.setItem("cachedPublicPosts", JSON.stringify(posts));
+        localStorage.setItem("cachedPublicPostsTime", Date.now());
+
+        console.log("🌐 Fetched from backend");
+        this.renderPosts(posts);
+        } else {
+        console.error("❌ Backend response failed");
+        }
+    } catch (error) {
+        console.error("❌ Fetch error:", error);
+        }
+    }
+
+    renderPosts(posts) {
+        posts.forEach(post => {
+
+            this.parent.innerHTML += `
+                    <div class="chat-message-box">
+                            <div class="profiletabs">
+                                <img src="./images/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" alt="User" class="profile-pic" />
+                            </div>
+                        
+                       
+                        <div class="message-content">
+                             <p class = "post_dmname">${post.Name}</p>
+                            <div class="message-text">
+                                ${post.message !== "None" ? post.message : ""}
+                            </div>
+
+                            <!-- This is the file/image container -->
+                            <div class="message-file">
+                            <!-- Image -->
+                            ${post.File !== "None" ? this.renderFile(post.File):""}
+                            </div>
+
+                            <div class="message-meta">
+                            <span class="message-date">${new Date(post.sent_at).toLocaleDateString()}</span>
+                            <span class="message-time">${new Date(post.sent_at).toLocaleTimeString()}</span>
+                            </div>
+
+                        </div>
+                    </div>`;
+                    this.actioncolor = post.Priority.replace(/\s/g, "");;
+                    let color = this.actionhandler[this.actioncolor](); // returns hex like 'FF9800'
+                    let lastBox = this.parent.querySelectorAll(".chat-message-box");
+                    lastBox[lastBox.length - 1].style.backgroundColor = `#${color}`;       
+        });
+    }
+
+    renderFile(file) { 
+        if (file.endsWith(".pdf")) {
+            return `<a href="${file}"  target="_blank" class="attached-file">📄 View PDF</a>`;
+        }else if(file.endsWith(".jpeg") || file.endsWith(".jpg")){
+            return `<img src="${file}" class="attached-image" >`;
+        }else{
+            const frame = document.querySelector(".message-file");
+            frame.classList.add("hidden");
+        }
+    }
+
+
+}
+
+class PrivatePosts{
+    constructor(){
+        this.parent = document.querySelector(".privatePosts .privatechats");
+        this.actioncolor = null;
+        this.actionhandler = {
+            Informational :() =>{
+                return "2196F330"
+            },
+            LowPriority :() =>{
+                 return "4CAF5030"
+            },
+            HighPriority :() =>{
+                 return "FF980030"
+            },
+            Critical :() =>{
+                 return "F4433630"
+            }
+        }
+        this.init();
+    }
+    async init(){
+        await this.loadPublicPosts();
+    }
+
+async loadPublicPosts() {
+    const CACHE_DURATION = 5 * 10 * 1000; // 5 minutes
+    const cached = localStorage.getItem("cachedPrivatePosts");
+    const cachedTime = localStorage.getItem("cachedPrivatePostsTime");
+
+    if (cached && cachedTime && (Date.now() - cachedTime < CACHE_DURATION)) {
+        console.log("✅ Loaded from cache");
+        const posts = JSON.parse(cached);
+        this.renderPosts(posts);
+        return;
+    }
+
+    try {
+        const url = `/FetchPosts`;
+        const hodname = localStorage.getItem("username");
+        
+        const response = await axios.get(url,{
+            params : {
+                value : 'Specific',
+                hodname : hodname
+            }
+        });
+        const data = response.data;
+
+        if (data.success) {
+        const posts = data.finalPosts;
+
+        // Store in cache
+        localStorage.setItem("cachedPrivatePosts", JSON.stringify(posts));
+        localStorage.setItem("cachedPrivatePostsTime", Date.now());
+
+        console.log("🌐 Fetched from backend");
+        this.renderPosts(posts);
+        } else {
+        console.error("❌ Backend response failed");
+        }
+    } catch (error) {
+        console.error("❌ Fetch error:", error);
+        }
+    }
+
+    renderPosts(posts) {
+        posts.forEach(post => {
+
+            this.parent.innerHTML += `
+                    <div class="chat-message-box">
+                            <div class="profiletabs">
+                                <img src="./images/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" alt="User" class="profile-pic" />
+                            </div>
+                        
+                       
+                        <div class="message-content">
+                             <p class = "post_dmname">${post.Name}</p>
+                            <div class="message-text">
+                                ${post.message !== "None" ? post.message : ""}
+                            </div>
+
+                            <!-- This is the file/image container -->
+                            <div class="message-file">
+                            <!-- Image -->
+                            ${post.File !== "None" ? this.renderFile(post.File):""}
+                            </div>
+
+                            <div class="message-meta">
+                            <span class="message-date">${new Date(post.sent_at).toLocaleDateString()}</span>
+                            <span class="message-time">${new Date(post.sent_at).toLocaleTimeString()}</span>
+                            </div>
+
+                        </div>
+                    </div>`;
+                    this.actioncolor = post.Priority.replace(/\s/g, "");;
+                    let color = this.actionhandler[this.actioncolor](); // returns hex like 'FF9800'
+                    let lastBox = this.parent.querySelectorAll(".chat-message-box");
+                    lastBox[lastBox.length - 1].style.backgroundColor = `#${color}`;       
+        });
+    }
+
+    renderFile(file) { 
+        if (file.endsWith(".pdf")) {
+            return `<a href="${file}"  target="_blank" class="attached-file">📄 View PDF</a>`;
+        }else if(file.endsWith(".jpeg") || file.endsWith(".jpg")){
+            return `<img src="${file}" class="attached-image" >`;
+        }else{
+            const frame = document.querySelector(".message-file");
+            frame.classList.add("hidden");
+        }
+    }
+
+
+}
 
 new TOPBAR();
 new SIDENAV()
 new SIGNUP();
-new VIEWEMPLOYEE();
+const viewempRelaod = new VIEWEMPLOYEE();
+new PublicPosts();
+new PrivatePosts();

@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body{
     margin: 0rem;
 }
@@ -7,7 +11,7 @@ body{
     width: 100vw;
     margin: 0rem;
     flex-wrap: wrap;
-    overflow: scroll;
+    overflow: auto;
 }
 .heading{
     display: flex;
@@ -19,36 +23,45 @@ body{
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
+    border-bottom: 1px solid black;
     z-index: 10;
 }
 .heading_sections{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .logoSection{
     height: 100%;
-    width: 10rem;
+    width: 15rem;
     padding: 0.5rem;
 }
 
 .logoSection img{
     display: block;
-    width: 80%;
-    height: 80%;
-    object-fit:fill; 
-    margin: 0.5rem  1rem 0rem 1rem;
+    width: 90%;
+    height: 90%;
+    object-fit:contain; 
     padding-left: 1rem;
 }
 
 .edit_heading{
+    position: absolute;
     display: flex;
     width:100%;
-    height: 2rem;
-    align-items: center;
+    height: 100%;
+    align-items: flex-end;
     justify-content: center;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    padding-bottom: 0.5rem;
+}
+
+.edit_heading h3{
+    display: flex;
+    font-size: 2rem;
+    font-weight: 700;
+    align-items: flex-end;
+    justify-content: center;
+    margin:0rem
 }
 
 .main{
@@ -98,9 +111,11 @@ body{
 .signup-input,
 .signup-selection {
   display: block;
-  width: 30rem;
+  width: 100%;              /* ✅ Responsive */
+  max-width: 30rem;         /* ✅ Optional limit */
   height: 2rem;
 }
+
 
 .signup-input:focus,
 .signup-selection:focus {

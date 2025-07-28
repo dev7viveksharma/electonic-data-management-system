@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Details</title>
-    <link rel="stylesheet" href="/electonic-data-management-system/public/style/EmployessFormEdit.css">
+    <link rel="stylesheet" href="/style/EmployessFormEdit.css">
 </head>
 <body>
     <div class="mainContainer">
         <div class="heading">
             <div class="heading_sections">
             <div class="logoSection">
-                <img src="/electonic-data-management-system/public/images/EDMS LOGO for main screen.png">
+                <img src="/images/EDMS LOGO for main screen.png">
             </div>
+             <div class="edit_heading">
+                <h3>Edit Employees Profile</h3>
             </div>
-            <div class="edit_heading">
-                <h4>Edit Employees Profile</h4>
-            </div>
-            
+            </div> 
         </div>
         <div class="main">
             <form class="signup-form">
@@ -28,12 +27,12 @@
                 </div>
                 <div class="detail-container line">
                 <div class="EmpCode">
-                    <label for="code" class = "signup-details">Employee code</label>
+                    <p class = "signup-details">Employee code</P>
                     <p class="signup-input"></p>
                 </div>
                 <div class="Emp_photo">
                 <div class="preview">
-                    <img id="previewImage" src="/electonic-data-management-system/public/images/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" alt="">
+                    <img id="previewImage" src="/images/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" alt="">
                 </div>
                 <div class="imageUpload">
                 <label for="empUpload" class="upload-box jsimg">upload</label>
@@ -49,8 +48,8 @@
                     <input type="number" class="signup-input mobile_number js_emp_form" id="mobileNumber" name="mobile_number" placeholder="+91">
                 </div>
                 <div class="password">
-                    <label for="password "class="signup-details">Employee password</label>
-                    <input type="password" class="signup-input js_password js_emp_form" id="password" name="s_password">
+                    <label for="EmpPassword"class="signup-details">Employee password</label>
+                    <input type="password" class="signup-input js_password js_emp_form" id="EmpPassword" name="s_password">
                 </div>
                 <div class="date_of_birth">
                     <label for="dob "class="signup-details">Date Of Birth</label>
@@ -683,9 +682,9 @@
                     </div>
     
                     <div class="department">
-                        <label for="organization" class="signup-details">Department/Organization</label>
-                        <select name="organization" id="organization" class="signup-selection js_emp_form js_department">
-                            <option value="" disabled selected>Select your department</option>
+                        <label for="organizations" class="signup-details">Department/Organization</label>
+                        <select name="organisation" id="organizations" class="signup-selection js_emp_form js_department">
+                            <option value="" disabled seorganizationslected>Select your department</option>
                             <option value="Tribal and Scheduled Caste, Backward Class, and Minority Development">Tribal and Scheduled Caste, Backward Class, and Minority Development</option>
                             <option value="Commissioner Land Records (Revenue and Disaster Management Department)">Commissioner Land Records (Revenue and Disaster Management Department)</option>
                             <option value="Higher Education Department">Higher Education Department</option>
@@ -913,5 +912,7 @@
         </form>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="EmployeesEditForm.js"></script>
 </body>
 </html>

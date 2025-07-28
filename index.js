@@ -27,6 +27,9 @@ const Randomization3 = require("./APIs/Randomisation3.js");
 const { Certificate } = require("crypto");
 app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 app.use('/documents',express.static(path.join(__dirname,'data/documents')));
+app.use('/PostFiles',express.static(path.join(__dirname, 'data/PostFiles')));
+app.use('/views', express.static(path.join(__dirname, 'views')));
+
 app.use(cors({
     origin:'http://localhost:8080'
 }));

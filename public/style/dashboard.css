@@ -273,6 +273,12 @@ body {
     line-height: 4rem;
 }
 
+.privatechats{
+    width: 100%;
+    height: calc(100% - 4rem);
+    overflow-y: auto;
+}
+
 .slideback{
     right: 0rem;
 }
@@ -345,7 +351,7 @@ body {
     flex-wrap: wrap;
 
 }
-.createEmployee , .View_Employee , .postsAll{
+.createEmployee , .View_Employee {
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -358,10 +364,7 @@ body {
     overflow-x: hidden;
 }
 
-.ShowEmployeeSignupPage{
-    opacity: 1;
-    pointer-events: all;
-}
+
 
 
 .signup {
@@ -798,9 +801,16 @@ body {
 /* View Employee Data End*/
 /* public posts */
 .postsAll{ 
+    position: absolute;
     display: flex;
-    box-sizing: border-box;
-    flex-direction: column;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+    flex-wrap: wrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    overflow: hidden;
 }
 .publicpostHeading{
     width : 100%;
@@ -823,12 +833,13 @@ body {
 .pubpost{
     width: 100%;
     min-height: 8rem;
-    height: auto;
+    height: 90%;
     margin: 1rem 2rem;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border: 0.5px solid black;
     border-radius: 0.8rem;
+    padding-bottom:5rem;
+    overflow: auto;
 }
 /* public posts end */
 
@@ -836,13 +847,102 @@ body {
   transform: rotate(180deg);
 }
 
+.chat-message-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background-color: #f0f0f0;
+  padding: 12px;
+  border-radius: 15px;
+  width: fit-content;
+  max-width: 35rem;
+  margin: 0.8rem 0.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.profiletabs{
+    display: flex;
+    flex-direction: column;
+}
 
-.hidden{
-    display: none;
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4CAF50;
+}
+
+.message-content {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  height: fit-content;
+  max-height: 100%;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 10px 15px;
+  flex-grow: 1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.post_dmname{
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.message-text {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.message-file {
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fafafa;
+}
+
+.attached-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0rem auto;
+}
+
+.attached-file {
+  display: inline-block;
+  padding: 10px;
+  font-size: 14px;
+  color: #1a73e8;
+  text-decoration: none;
+  background-color: #eef4ff;
+  border-radius: 6px;
+  margin-top: 5px;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+}
+
+.message-meta {
+  font-size: 11px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-message-box:hover {
+  transform: scale(1.01);
 }
 
 /* media propeties of page */
-
+.ShowEmployeeSignupPage{
+    opacity: 1;
+    pointer-events: all;
+}
 @media screen and (max-width: 768px) {
     .detail-container {
         grid-template-columns: 1fr; /* Stack the labels and inputs vertically */
@@ -859,4 +959,9 @@ body {
     .signup-details {
         font-size: 1rem; /* Adjust font size for mobile */
     }
+}
+
+
+.hidden{
+    display: none;
 }
