@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edms collector Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./style/CollectorDashboard.css">
+</head>
+<body>
+    <div class="staticBody">
+        <header class="header">
+            <div class="companyLogoContainer">
+                <img  class="CompanyLogo" src="./images/EDMS LOGO for main screen.png">
+            </div>
+            <div class="features">
+                <div class="departmentHead">
+                    <button class="hodBtn jsbtn" data-tab="hod" type="button">H.O.D</button>
+                </div>
+                <div class="employeesDetails">
+                    <button class="empBtn jsbtn" data-tab="employeesList" type="button">Employees</button>
+                </div>
+                <div class="Home">
+                    <button class="homeBtn jsbtn" data-tab="homePage" type="button">
+                        <i class="fa-solid fa-house"></i>
+                    </button>
+                </div>
+                <div class="ElectionPlacement">
+                    <button class="hodBtn jsbtn" data-tab="placement" type="button">Randomisation</button>
+                </div>
+                <div class="posts">
+                    <button class="hodBtn jsbtn" data-tab="Post" type="button">Posts</button>
+                </div>
+            </div>
+            <div class="tool">
+                <i class="fa-solid fa-bars js_bars"></i>
+            </div>
+        </header>
+        <div class="drop-menu js_dropMenu">
+            <ul>
+                <li class="Profile">Profile</li>
+                <li class="About_us">About Us</li>
+                <li class="logout">Log-out</li>
+            </ul>
+        </div>
+        <div class="DM_profile">
+            <div class="profileBar">
+                <i class="fa-solid fa-arrow-left js_backicon"></i>
+                <h3 class="adminprofile">DM Profile</h3>
+            </div>
+            <div class="ProfileDetails ">
+            <div class="adminNamedm  js_adminSection">
+                <p class="profilenamesdm">Full Name</p>
+                <p class="DM_FullName">name</p>
+            </div>
+            <div class="adminMobileNum  js_adminSection">
+                <p class="profilenamesdm">Mobile Number</p>
+                <p class="DM_Mobileno">+91</p> 
+            </div>
+            <div class="AdminEmail js_adminSection">
+                <p class="profilenamesdm">DM Email</p>
+                <p class="DM_EmailAddress">@email</p>  
+            </div>
+            <div class="Adminpass js_adminSection">
+                <p class="profilenamesdm">DM Password</p>
+                <p class="DM_Password">Password</p> 
+            </div>
+            <div class="AdminDistrict js_adminSection">
+                <p class="profilenamesdm">DM District</p>
+                <p class="DM_District">District</p> 
+            </div>
+            </div>
+            <div class="buttonSection">
+                <button class="DMeditbtn" type="button">Edit</button>
+            </div>
+        </div>
+        <div class="adminBody">
+            <div class="homePage ShowEmployeeSignupPage">
+                <div class="welcomebar">
+                    <h3>HI <span></span> , Welcome To EDMS</h3>
+                    
+                </div>
+                <div class="staticals">
+                    <div class="HODNumbers">
+                        <div class="HEADTitle">
+                            <h4>Number of Heads</h4>
+                        </div>
+                        <div class="Cardcontainer">
+                            <div class="NoofHeads">
+                                <h3>Number of Total Department heads</h3>
+                                <p>28</p>
+                            </div>
+                            <div class="headactive">
+                                <h3>Number of Active Department heads</h3>
+                                <p class="headsactivedata">00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="EmployeesNumber">
+                        <div class="EmpTitle">
+                            <h4>Number of Employees</h4>
+                        </div>
+                        <div class="Cardcontainer">
+                              <div class="NoofHeads">
+                                <h3>Number of Total Employees</h3>
+                                <p>14218</p>
+                            </div>
+                            <div class="headactive">
+                                <h3>Number of Active Employees</h3>
+                                <p class="empactivedata">00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="votinglist">
+                    <div class="ElectionTypes">
+                        <div class="ElectiveTitle">
+                            <h4>Elections(Overall)</h4>
+                        </div>
+                          <div class="Cardcontainer">
+                              <div class="NoofHeads">
+                                <h3>Types Of Elections in India</h3>
+                                <p>07</p>
+                            </div>
+                            <div class="headactive">
+                                <h3>Number of Elections Managed By EDMS</h3>
+                                <p class="NoofManagedelections">03</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="voters">
+                        <div class="VoterTitle">
+                            <h4> Voters in state(Overall)</h4>
+                        </div>
+                        <div class="Cardcontainer mapinsideContainer">
+                              <div class="NoofHeads">
+                                <h3>Total number of Voters in chhattisgarh</h3>
+                                <p>200041000</p>
+                            </div>
+                            <div class="headactive">
+                                <h3>Number of Voters in Surajpur</h3>
+                                <p>705,280</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hod">
+                <div class="Top_Search_Bar">
+                    <div class="SearchBar">
+                        <div class="searchField">
+                            <input type="text" placeholder="Search" name="searchbox" class="HodSearch">
+                        </div>
+                        <div class="hodsearchBtn">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                </div>
+                  <div class="Data_Field">
+                     <div class="Heads">
+                        <div class="Hod_heading">
+                            <div class="nameofComponent"><h3>Head of All Departments</h3></div>
+                            <div class="dropdownArrowHod"><i class="fa-solid fa-angle-down js_icon"></i></div>
+                        </div>
+                        <div class="listOfHODs">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="employeesList">
+                 <div class="Top_Search_Bar">
+                    <div class="SearchBar">
+                        <div class="searchField">
+                            <input type="text" placeholder="Search" name="searchbox" class="empSearch">
+                        </div>
+                        <div class="searchBtn">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="Data_Field">
+                     <div class="Varified_Employee">
+                        <div class="Varified_heading">
+                            <div class="nameofComponent"><h3>Varified Employees</h3></div>
+                            <div class="dropdownArrow"><i class="fa-solid fa-angle-down js_icon"></i></div>
+                        </div>
+                        <div class="listOfVarifiedEmployees">
+                        </div>
+                    </div>
+               
+                    <div class="NonVarified_Employee">
+                        <div class="NonVarified_heading">
+                              <div class="nameofComponent"><h3>Non-Varified Employees</h3></div>
+                            <div class="dropdownArrow"><i class="fa-solid fa-angle-down js_icon"></i></div>
+                        </div>
+                        <div class="listOfNonVarifiedEmployees">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="placement">
+                <header class="placementHeading">
+                    <div class="placementHeadingTitle">
+                        <h5>Welcome To Election Duty Placement System</h5>
+                    </div>
+                    <div class="randomizormenucontainer">
+                        <select name="randomizorsmenu" id="randomizorHeading" class="randomizationlist" disabled>
+                                    <option value="placementContainer" class="rdmopt">Randomisation data</option>
+                                    <option value="Randomization1" class="rdmopt">Randomisation 1</option>
+                                    <option value="Randomization2" class="rdmopt">Randomisation 2</option>
+                                    <option value="Randomization3" class="rdmopt">Randomisation 3</option>
+                        </select>
+                    </div>
+                </header>
+                <div class="placementContainer rnp">
+                    <div class="SelectElectionSection">
+                        <div class="processMapPage1">
+                            <div class="circlestart"></div>
+                            <div class="line1"></div>
+                            <div class="sectorbox">
+                                <p>Select Area and polls</p>
+                            </div>
+                            <div class="line2"></div>
+                            <div class="line3"></div>
+                            <div class="EmpSelectionBox">
+                                <p>Select Employees for Duties</p>
+                            </div>
+                            <div class="line4"></div>
+                            <div class="circleend"></div>
+                        </div>
+                        <div class="inActive phase ">
+                                <div class="errorcontainerp2">
+                                        <p class="postserror2"></p>
+                                </div>
+                                <div class="processingbox1">
+                                        <div class="Election_type">
+                                            <div class="electionTypeContainer">
+                                                <label for="ElectionType" class="placement_labels">Select Type of Election</label>
+                                                <select id="ElectionType" class="placementInput electiontype R1" required>
+                                                    <option value="" disabled selected>Select Election Type</option>
+                                                    <option value="Vidhan Sabha Elections">Vidhan Sabha Elections</option>
+                                                    <option value="Lok Sabha Elections">Lok Sabha Elections</option>
+                                                    <option value="Local Body Elections">Local Body Elections</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="SelectSections">
+                                            <div class="districtContainer">
+                                                <label for="DistrictSection" class="placement_labels blocklabel"></label>
+                                                <input type="text" id="DistrictSection" class=" ElectionBlocksinput R1 R2" placeholder="Please Select your block" >
+                                                <div class="electionBlocklist hidden">
+
+                                                </div>
+                                            </div>
+                                            <div class="NumberOfPolls">
+                                                <label for="Totalspollingplaces" class="pollinglabels">No. of Polling Booths</label>
+                                                <input type="number" name="Totalpolls" id="Totalspollingplaces" class="pollingNumbers R1 R2" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="Ps">
+                                            <div class="pollingStationList">
+                                                <label for="psList" class="placement_labels">Select Polling Stations</label>
+                                                <input type="text" class="placementInput psInput R1 R2" id="psList" placeholder="Select Number of Polling  Stations">
+                                                <div class="listofps hidden"></div>
+                                            </div>
+                                            <div class="numberofEMP">
+                                                    <label for="pollingEmpNumber" class="EmpNumlabels">No. of Employees Need</label>
+                                                    <input type="number" id="pollingEmpNumber" class="Empforpolls R1 R2" disabled>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="clearElection">
+                                    <button type="button" class="ResetElectionData">Reset All</button>
+                                </div>
+
+                        </div>
+                        <div class="inActive">
+                            <div class="processingbox2">
+                                <div class="typeElection emppagetype">
+                                    <label for="ElectionT" class="placement_labels ETLabel rempad"> </label>
+                                    <input id="ElectionT" class="placementInput ETInput hidden" disabled>
+                                </div>
+                                 <div class="errorcontainerp">
+                                    <p class="postserror"></p>
+                                </div>
+                                <div class="EmpDesignationBody">
+                                    <div class="P0Container">
+                                        <div class="P0Heading">
+                                            <h3>P0</h3>
+                                        </div>
+                                        <div class="P0BODY">
+                                            <div class="P0ADDNEW hidden">
+                                            
+                                           </div>
+                                        </div>
+                                        <div class="TotalP0">
+                                            <div class="totalcontainer">Total : </div>
+                                            <div class="ReqEmpNumbersP0"></div>
+                                        </div>
+                                    </div>
+                                    <div class="P1Container">
+                                        <div class="P1Heading">
+                                            <h3>P1</h3>
+                                        </div>
+                                        <div class="P1BODY">
+                                           <div class="P1ADDNEW hidden">
+                                            <div class="PLUSBORDER">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </div>
+                                           </div>
+                                        </div>
+                                        <div class="EXTRAP1"></div>
+                                        <div class="TotalP1">
+                                             <div class="totalcontainer">Total : </div>
+                                            <div class="ReqEmpNumbersP1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="P2Container">
+                                        <div class="P2Heading">
+                                            <h3>P2</h3>
+                                        </div>
+                                        <div class="P2BODY">
+                                            <div class="P2ADDNEW hidden">
+                                                <div class="PLUSBORDER">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </div>
+                                           </div>
+                                        </div>
+                                        <div class="EXTRAP2"></div>
+                                        <div class="TotalP2">
+                                             <div class="totalcontainer">Total : </div>
+                                            <div class="ReqEmpNumbersP2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="P3Container">
+                                        <div class="P3Heading">
+                                            <h3>P3</h3>
+                                        </div>
+                                        <div class="P3BODY">
+                                            <div class="P3ADDNEW hidden">
+                                                <div class="PLUSBORDER">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </div>
+                                           </div>
+                                        </div>
+                                        <div class="EXTRAP3"></div>
+                                        <div class="TotalP3">
+                                             <div class="totalcontainer">Total : </div>
+                                            <div class="ReqEmpNumbersP3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearAllBtn">
+                                    <Button class="clearAllPosts">Reset</Button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forwardBackwardbtn">
+                            <div class="backward">
+                                <button class="backbtn hidden">Back</button>
+                            </div>
+                            <div class="save">
+                                <button class="savebtn">Save</button>
+                            </div>
+                            <div class="forward">
+                                <button class="nextBtn" disabled>Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Randomization1 hidden rnp">
+                    <div class="ElectionData">
+                        <div class="electionTypeContainerR">
+                            <label for="randomizorElectionType" class="placement_labels RandomET">Type of Election For Randomization</label>
+                            <input type="text" id="randomizorElectionType" class="placementInput randomElectioninput" disabled>
+                        </div>
+                        <div class="SelectSectionsR">
+                                <label for="randomizationBlockData" class="placement_labels RandomBlock">Select Block For Randomization</label>
+                                <input type="text" id="randomizationBlockData" class="placementInput randomBlockinput">
+                            <div class="dynamicrandomBlocklistcontainer">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="randomizationBody">
+                        <div class="savedtablecontentcontainerR1 hidden">
+                            <div class="savedtableheadingR1">
+                                <h3>Saved tables</h3>
+                                <button class="downloadR1" download>Download <i class="fa-solid fa-download"></i></button>
+                            </div>
+                            <div class="savedcontenttableR1">
+
+                            </div>
+                        </div>
+                        <div class="tablecontainerR1">
+
+                        </div>
+                    </div>
+                    <div class="bottombtncontainers">
+                        <div class="centerboxcontainerR">
+                            <div class="savebtncontainerR">
+                                <button disabled> Save </button>
+                            </div>
+                            <div class="randombtncontainerR">
+                                <button disabled>Randomize</button>
+                            </div>
+                            <div class="resetbtncontainerR">
+                                <button  disabled> Reset All </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Randomization2 hidden rnp">
+                    <div class="warningmessage">
+                        
+                    </div>
+                    <div class="ElectionDataR2">
+                        <div class="electiondatacentreContainer">
+                            <label for = "electionBlockR2" class= "placement_labels electionblockR2LABEL">Select Election Block</label>
+                            <input id="electionBlockR2" class="placementInput  R2BlockInput" placeholder="select block for Randomisation">
+                            <div class="dynamicR2blockContainer">
+                            </div>
+                    </div>
+                       
+                    </div>
+                    <div class="randomizationBodyR2">
+                        <div class="savedtablecontainerR2 hidden">
+                            <div class="savedtableheadingR2 ">
+                                 <h3>Saved tables</h3>
+                                <button class="downloadR2" download>Download <i class="fa-solid fa-download"></i></button>
+                            </div>
+                            <div class="contenttableR2"></div>
+                        </div>
+                        <div class="tablecontainerR2">
+                        </div>
+                    </div>
+                    <div class="bottombtncontainersR2">
+                        <div class="centerboxcontainerR2">
+                            <div class="savebtncontainerR2">
+                                <button disabled> Save </button>
+                            </div>
+                            <div class="randombtncontainerR2">
+                                <button disabled>Randomize</button>
+                            </div>
+                            <div class="resetbtncontainerR2">
+                                <button  disabled> Reset All </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Randomization3 hidden rnp">
+                    <div class="ElectionDataR3">
+                        <div class="electiondatacentreContainer">
+                            <label for = "electionBlockR3" class= "placement_labels electionblockR23LABEL">Select Election Block</label>
+                            <input id="electionBlockR3" class="placementInput  R3BlockInput" placeholder="select block for Randomisation">
+                            <div class="dynamicR3blockContainer">
+                            </div>
+                        </div>
+                    </div>
+                       <div class="randomizationBodyR3">
+                        <div class="savedtablecontainerR3 hidden">
+                            <div class="savedtableheadingR3">
+                                 <h3>Saved tables</h3>
+                                 <button class="downloadR3" download>Download <i class="fa-solid fa-download"></i></button>
+                            </div>
+                            <div class="contenttableR3"></div>
+                        </div>
+                        <div class="tablecontainerR3">
+                        </div>
+                    </div>
+                    <div class="bottombtncontainersR3">
+                        <div class="centerboxcontainerR3">
+                            <div class="savebtncontainerR3">
+                                <button disabled> Save </button>
+                            </div>
+                            <div class="randombtncontainerR3">
+                                <button disabled>Randomize</button>
+                            </div>
+                            <div class="resetbtncontainerR3">
+                                <button  disabled> Reset All </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alertbg hidden">
+                    <div class="alertbox">
+                        <div class="alertheading">
+                            <i class="fa-solid fa-xmark crossmark"></i>
+                            <h3></h3>
+                            
+                        </div>
+                        <div class="alertmsg">
+                        </div>
+                        <div class="alertconfirm">
+                            <button>Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Post">
+                <div class="infosarea">
+                    <div class="infos">
+                    <div class="prefences">
+                            <div class="prefercontainer">
+                            <label for="prefer" class="placement_labels">Type</label>
+                            <select id="prefer" class="placementInput postingTypes">
+                                <option value="All">All</option>
+                                <option value="Specific">Specific</option>
+                            </select>
+                            </div>
+                           <div class="selectHodcontainer hidden">
+                            <label for="Hods" class="placement_labels ptl">Select Hod for Post</label>
+                            <input id="Hods" class="placementInput hodInput" placeholder="enter hod name">
+                            <div class="hodlist hidden"></div>
+                           </div>
+                    </div>
+                    <div class="postType">
+                        <div class="posttypecontainer">
+                            <label for="postsTypes" class="placement_labels PtLevel">Level of Attention</label>
+                            <select id="postsTypes" class="placementInput priorityList">
+                            <option value="Informational">Informational</option>
+                            <option value="Low Priority">Low Priority</option>
+                            <option value="High Priority">High Priority</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="postfieldsarea">
+                    <div class="postfield">  
+                        <div class="postinput">
+                            <textarea name="postinfo" id="dmInputPost" class="postsinputfield" placeholder="Write a Message"></textarea>
+                            <div class="postImgvisible hidden"></div>
+                            <div class="inputSent">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </div>
+                        </div>
+                        <div class="postfeatures">
+                            <div class="postsfiles">
+                                <i class="fa-solid fa-plus"></i>
+                                <input type="file" class="postimages">
+                            </div>
+                            <div class="postsSent"></div>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+            <div class="PopUPMessageContainer">
+            </div>
+        </div>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="CollectorDashboard.js"></script>
+</body>
+</html>

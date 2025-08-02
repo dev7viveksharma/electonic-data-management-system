@@ -25,23 +25,19 @@ const Randomization = require("./APIs/randomization");
 const Randomization2 = require("./APIs/Randomisation2");
 const Randomization3 = require("./APIs/Randomisation3.js");
 const editProfile = require("./APIs/EditEmployee.js");
+const empcountdata = require("./APIs/homepagedata.js");
 const { Certificate } = require("crypto");
 app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 app.use('/documents',express.static(path.join(__dirname,'data/documents')));
 app.use('/PostFiles',express.static(path.join(__dirname, 'data/PostFiles')));
-app.use('/views', express.static(path.join(__dirname, 'views')));
-
+app.use('/Assets', express.static('Assets'));
 app.use(cors({
     origin:'http://localhost:8080'
 }));
 
 app.get("/Home", (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/CollectorDashboard.html'));
+    res.sendFile(path.join(__dirname, 'views/CollectorDashboard.html'));
 });
-
-
-
-
 
 const connection = mysql.createConnection({
     host:'localhost',
@@ -151,6 +147,22 @@ app.use("/",Randomization);
 app.use("/",Randomization2);
 app.use("/",Randomization3);
 app.use("/",editProfile);
+app.use("/",empcountdata);
+app.get("/:htmlFile", (req, res) => {
+    const fileName = req.params.htmlFile;
+
+    // Ensure only .html files are allowed
+    if (!fileName.endsWith(".html")) {
+        return res.status(400).send("Only .html files are allowed.");
+    }
+
+    const filePath = path.join(__dirname, "views", fileName);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            res.status(404).send("Page not found.");
+        }
+    });
+});
 app.listen(port,(req,res)=>{
     console.log("server has been started");
 });

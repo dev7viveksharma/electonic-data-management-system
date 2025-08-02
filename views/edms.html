@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>welcome to EDM System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/style/edms.css">
+</head>
+<body>
+    <div class="pop-ups Popups">
+        <P class="popMessage ">Register Successfully</P>
+    </div>
+    <div class="logo">
+        <img src="./images/EDMS LOGO for main screen.png"class ="js_logo">
+    </div>
+    <div class="main">
+        <div class="img">
+            <img src="./images/edms image.png" alt="EDMS Illustration" class="image">
+            <img src="./images/head officer.png" class="head-officer js_head hidden">
+        </div>
+        <div class="dmLogin">
+            <div class="dmheading">
+                <h1>Welcome Admin</h1>
+                <img src="./images/back.png" alt="./images/arrow.png" class="dmbackbtn">
+            </div>
+   
+            <form class="dmlogin-form">
+                <div class="adminLogin_num margin">
+                    <label for="email_number" class="Login-details">Mobile Number or email</label>
+                    <input type="text" id="email_number" placeholder="Enter your Mobile no. or email" class="login-input js_dm_num_email">
+                </div>
+                <div class="dmpassword margin">
+                    <label for="dmpassword" class="Login-details">Password</label>
+                    <input type="password" id="dmpassword" class="login-input js_Dm_Password" placeholder="Enter Your Password">
+                </div> 
+                <div class="btncontainer">
+                    <button type="submit" class="login-btn js_dm_Login_Btn">Log in</button>
+                </div>
+            </form>
+        </div>
+        <div class="login">
+            <h1>Welcome Officers</h1>
+            <form class="login-form">
+                <div class="login-id-email margin">
+                <label for="Username" class="Login-details">Mobile or Gmail</label>
+                <input type="text" id="Username" name="FullName" placeholder="Enter your Mobile no. or email" class="login-input js_name_code">
+                </div>
+                <div class="login-password margin">
+                <label for="password" class="Login-details m">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your Password" class="login-input  js_login_password">
+                </div>
+                <div class="btns">
+                    <button type="submit" class="login-btn  js_login_btn">Log In</button>
+                    <button type="button" class="dmLoginbtn"><i class="fa-solid fa-user-tie"></i></button>
+                </div>
+                
+            </form>
+            <p>Don't have an account? <span id="showSignup" class="toggle">Create New Account</span></p>
+        </div>
+        <div class="Admin_signup hidden">               
+            <div class="Signup-welcome">
+                <div class="admin-welcome">
+                <div class="welcome">
+                    <h1>Create An Account</h1>
+                    <p>Join us Today To Empower Democracy</p>
+                </div>
+                </div>   
+            </div>
+            <form  class="Admin-Signup-form js_admins_form" >
+                <div class="Username">
+                    <label for="name" class="Admin-details"> Full Name</label>
+                    <input type="text" id="name" class="login-input js_signup_username" placeholder="Enter Full Name" required>
+                </div>
+                <div class="Email_Address">
+                    <label for="AdminEmail" class="Admin-details">Email Address</label>
+                    <input type="email" id="AdminEmail" class="login-input js_signup_email" placeholder="Enter Your Valid Email" required>
+                </div>
+                <div class="Admin_mobileNo">
+                    <label for="AdminEmail" class="Admin-details">Mobile No.</label>
+                    <input type="tel" id="AdminMobileNo" class="login-input js_signup_mobile" placeholder="+91" required>
+                </div>
+                <div class="Designation">
+                    <label for="AdminDesignation" class="Admin-details">Designation</label>
+                    <select name="Admindesignation" id="AdminDesignation" class="login-input js_designation" required>
+                    <option value="" disabled selected>Select Your Designation</option>
+                    <option value="Tribal and Scheduled Caste, Backward Class, and Minority Development">Tribal and Scheduled Caste, Backward Class, and Minority Development</option>
+                    <option value="Commissioner Land Records (Revenue and Disaster Management Department)">Commissioner Land Records (Revenue and Disaster Management Department)</option>
+                    <option value="Higher Education Department">Higher Education Department</option>
+                    <option value="Energy Department">Energy Department</option>
+                    <option value="S.E.C.L.(South Eastern Coalfields Limited)">S.E.C.L.(South Eastern Coalfields Limited)</option>
+                    <option value="Agricultural Produce Market">Agricultural Produce Market</option>
+                    <option value="Agriculture Department">Agriculture Department</option>
+                    <option value="Kendriya Vidyalaya Sangathan (Central Schools Organization)">Kendriya Vidyalaya Sangathan (Central Schools Organization)</option>
+                    <option value="Mineral Resources">Mineral Resources</option>
+                    <option value="Food, Civil Supplies and Consumer Protection Department">Food, Civil Supplies and Consumer Protection Department</option>
+                    <option value="Sports and Youth Welfare Department">Sports and Youth Welfare Department</option>
+                    <option value="Home Department">Home Department</option>
+                    <option value="Village Industries Department">Village Industries Department</option>
+                    <option value="Chhattisgarh State Cooperative Marketing Federation Ltd.">Chhattisgarh State Cooperative Marketing Federation Ltd.</option>
+                    <option value="Public Relations Department">Public Relations Department</option>
+                    <option value="Employment Planning">Employment Planning</option>
+                    <option value="Water Resources Department">Water Resources Department</option>
+                    <option value="District Administration (Revenue and Disaster Management Department)">District Administration (Revenue and Disaster Management Department)</option>
+                    <option value="Technical Education">Technical Education</option>
+                    <option value="Urban Administration">Urban Administration</option>
+                    <option value="Panchayat and Rural Development Department">Panchayat and Rural Development Department</option>
+                    <option value="Registrar of Cooperative Societies">Registrar of Cooperative Societies</option>
+                    <option value="Transport Department">Transport Department</option>
+                    <option value="Animal Husbandry Department">Animal Husbandry Department</option>
+                    <option value="Banks Public Sector">Banks Public Sector</option>
+                    <option value="Life Insurance Corporation of India">Life Insurance Corporation of India</option>
+                    <option value="Fisheries Department">Fisheries Department</option>
+                    <option value="Women and Child Development Department">Women and Child Development Department</option>
+                    <option value="Planning, Economic and Statistics Department">Planning, Economic and Statistics Department</option>
+                    <option value="Board of Revenue (Revenue and Disaster Management Department)">Board of Revenue (Revenue and Disaster Management Department)</option>
+                    <option value="Public Works Department">Public Works Department</option>
+                    <option value="Public Health and Family Welfare Department">Public Health and Family Welfare Department</option>
+                    <option value="Public Health Engineering Department">Public Health Engineering Department</option>
+                    <option value="Forest Department">Forest Department</option>
+                    <option value="Commerce and Industry Department, Public Enterprises">Commerce and Industry Department, Public Enterprises</option>
+                    <option value="Commercial Tax Department">Commercial Tax Department</option>
+                    <option value="Finance (Directorate of Treasury, Accounts, and Pension)">Finance (Directorate of Treasury, Accounts, and Pension)</option>
+                    <option value="Law and Legislative Affairs Department">Law and Legislative Affairs Department</option>
+                    <option value="Labour Department, Labour Commissioner Organization">Labour Department, Labour Commissioner Organization</option>
+                    <option value="Directorate of Health Services, Chhattisgarh">Directorate of Health Services, Chhattisgarh</option>
+                    <option value="General Administration Department">General Administration Department</option>
+                    <option value="C.S.E.B.(Chhattisgarh State Electricity Board)">C.S.E.B.(Chhattisgarh State Electricity Board)</option>
+                    <option value="School Education">School Education</option>
+                    </select>
+                </div>
+                <div class="AdminPassword">
+                    <label for="adminPassword" class="Admin-details"> Password</label>
+                    <div class="password-container">
+                    <input type="password" id="adminPassword" class="login-input js_signup_password" placeholder="Enter A Password" required>
+                    <span class="toggle-password" >
+                        <i class="fa-regular fa-eye toggle_eye"></i>
+                      </span>
+                   </div>
+                </div>
+                <div class="C_Password">
+                    <label for="ConfirmPassword" class="Admin-details"> Confirm Password</label>
+                    <div class="password-container">
+                    <input type="password" id="ConfirmPassword" class="login-input js_signup_ConfirmPassword" placeholder="Confirm Your Password" required>
+                    <span class="toggle-password" >
+                        <i class="fa-regular fa-eye toggle_eye"></i>
+                      </span>
+                    </div>
+                </div>
+                <button class="signup-btn js_signupbtn">Signup</button>
+            </form>
+            <p class="AlreadyAccount">Already have an account ?<span class="signin">Sign in</span></p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="edms.js"></script>
+</body>
+</html>

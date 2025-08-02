@@ -16,7 +16,10 @@ class TOPBAR{
         this.editBtn = this.editSection.querySelector(".admineditbtn");
         this.personalposts = document.querySelector(".PersonalChat i");
         this.privatechatcontainer = document.querySelector(".privatePosts");
-        this.personalchathead = document.querySelector(".personalchatting_heading")
+        this.personalchathead = document.querySelector(".personalchatting_heading");
+        this.aboutusbtn = document.querySelector(".About_us");
+        this.aboutusbody = document.querySelector(".AboutUsTab");
+        this.aboutusback = document.querySelector(".Aboutbar i");
         this.isedit = false;
         this.showname();
         this.init();
@@ -33,6 +36,12 @@ class TOPBAR{
         this.editBtn.addEventListener("click",()=>this.editProfile());
         this.personalposts.addEventListener("click",()=>{
             this.personalpostfunct();
+        });
+        this.aboutusbtn.addEventListener("click",()=>{
+            this.aboutusdatashow()
+        });
+        this.aboutusback.addEventListener("click",()=>{
+            this.backaboutus();
         })
     }
 
@@ -72,6 +81,16 @@ class TOPBAR{
 
     personalpostfunct(){
         this.privatechatcontainer.classList.toggle("slideback");
+    }
+
+    aboutusdatashow(){
+        this.aboutusbody.classList.add("slideback");
+        this.showdropmenu();
+    }
+
+    backaboutus(){
+        this.aboutusbody.classList.remove("slideback");
+        this.showdropmenu();
     }
 
     async adminProfile(){
@@ -170,6 +189,67 @@ class TOPBAR{
 
 }
 
+class WELCOMEPAGE {
+    constructor() {
+        this.name = document.querySelector(".welocomeMassageContainer h3 span");
+        this.imagesContainer = document.querySelector(".slidingimages");
+        this.images = document.querySelectorAll(".slidingimages img");
+        this.totalImages = this.images.length;
+        this.currentindex = 0;
+        this.interval = null;
+
+        this.nextBtn = document.querySelector(".NextImg");
+        this.prevBtn = document.querySelector(".prevImg");
+
+        this.init();
+    }
+
+    init() {
+        this.addname();
+        this.updateSlide();
+        this.startAutoSlide();
+
+        this.nextBtn.addEventListener("click", () => {
+            this.gotoNext();
+        });
+
+        this.prevBtn.addEventListener("click", () => {
+            this.gotoPrev();
+        });
+    }
+
+    addname(){
+
+        this.name.innerText = localStorage.getItem("username"); 
+    }
+
+    updateSlide() {
+        this.imagesContainer.style.transform = `translateX(-${this.currentindex * 100}%)`;
+    }
+
+    startAutoSlide() {
+        this.stopAutoSlide(); // Clear any existing interval
+        this.interval = setInterval(() => {
+            this.gotoNext();
+        }, 3000);
+    }
+
+    stopAutoSlide() {
+        if (this.interval) clearInterval(this.interval);
+    }
+
+    gotoNext() {
+        this.currentindex = (this.currentindex + 1) % this.totalImages;
+        this.updateSlide();
+        this.startAutoSlide();
+    }
+
+    gotoPrev() {
+        this.currentindex = (this.currentindex - 1 + this.totalImages) % this.totalImages;
+        this.updateSlide();
+        this.startAutoSlide();
+    }
+}
 
 class SIDENAV{
     constructor(){
@@ -554,13 +634,11 @@ class SIGNUP{
     checkgenders(){
         const selected = document.querySelector('input[name="gender"]:checked');
         this.gender = selected.value;
-        console.log(this.gender);
     }
     checkdisabled() {
     const selected = document.querySelector('input[name="disabled"]:checked');
 
     if (selected && selected.value === "yes") {
-        console.log("hit");
         document.querySelector(".disability").classList.remove("hidden");
         document.querySelector(".percentage_of_diability").classList.remove("hidden");
         document.querySelector(".certificate").classList.remove("hidden");
@@ -570,13 +648,12 @@ class SIGNUP{
         document.querySelector(".certificate").classList.add("hidden");
         }
         this.diffrentlyabled = selected.value;
-        console.log(this.diffrentlyabled);
     }
 
     checkexpvoting(){
         const selected = document.querySelector('input[name="exp_voting"]:checked');
         this.votingExp = selected.value;
-        console.log(this.votingExp);
+
     }
     
     checkexpcounting(){
@@ -1134,7 +1211,9 @@ class VIEWEMPLOYEE{
     editEmpProfile(editbtn){
         const code = editbtn.closest(".EmployeeList").querySelector(".empcode").textContent;
         localStorage.setItem("employeeCode" ,code);
-        window.location.href = `views/EmployeesEditForm.html`;
+        const secretKey = crypto.randomUUID();
+        sessionStorage.setItem("secretkey",secretKey);
+        window.location.replace(`EmployeesEditForm.html?token=${secretKey}`);
     }
 }
 
@@ -1186,7 +1265,9 @@ async loadPublicPosts() {
 
         if (data.success) {
         const posts = data.finalPosts;
-
+        if(posts === 0 ){
+            throw new Error("no data found");
+        }
         // Store in cache
         localStorage.setItem("cachedPublicPosts", JSON.stringify(posts));
         localStorage.setItem("cachedPublicPostsTime", Date.now());
@@ -1301,7 +1382,9 @@ async loadPublicPosts() {
 
         if (data.success) {
         const posts = data.finalPosts;
-
+        if(posts === 0 ){
+            throw new Error("no data found");
+        }
         // Store in cache
         localStorage.setItem("cachedPrivatePosts", JSON.stringify(posts));
         localStorage.setItem("cachedPrivatePostsTime", Date.now());
@@ -1367,6 +1450,7 @@ async loadPublicPosts() {
 }
 
 new TOPBAR();
+new WELCOMEPAGE();
 new SIDENAV()
 new SIGNUP();
 const viewempRelaod = new VIEWEMPLOYEE();

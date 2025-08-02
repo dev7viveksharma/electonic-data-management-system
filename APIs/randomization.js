@@ -26,16 +26,21 @@ try {
         });
     });
 
-    pollingstations = ((ids)=>{
-        return new Promise((resolve,reject)=>{
-            const url = `select PS from pollingstations where ElectionId In (?);`;
-            connection.query(url,[ids],(err,result)=>{
-                if(err)return reject(err);
-                const PS = result.map(ps => ps.PS);
-                resolve(PS);
-            })
+   pollingstations = ((ids) => {
+    return new Promise((resolve, reject) => {
+        // If ids array is empty, return an empty result early
+        if (!ids || ids.length === 0) {
+            return reject(new Error("No Data available.")); 
+        }
+
+        const url = `select PS from pollingstations where ElectionId In (?);`;
+        connection.query(url, [ids], (err, result) => {
+            if (err) return reject(err);
+            const PS = result.map(ps => ps.PS);
+            resolve(PS);
         });
     });
+});
 
      posthandlers = ((ET , tableName , designation)=>{
         return new Promise((resolve , reject)=>{
@@ -137,10 +142,11 @@ try {
 
     const extra5 = ((pstotal/100)*5);
     pstotal += extra5;
-
+    console.log(pstotal);
     let flag = true ;
-    for(let i of count){
-        if(i < pstotal){
+    let i = 0;
+    for(i of count){
+        if(i === pstotal){
             flag = false;
             break;
         }
@@ -148,6 +154,7 @@ try {
 
 
         if(flag){
+            console.log(flag);
             res.status(200).json({
                     success: true,
                     message: "Sufficient verified employees for all selected designations.",
@@ -158,6 +165,8 @@ try {
             res.status(404).json({
                 success: false,
                 message: "data is not matching",
+                requiredPosts: 0,
+                availableEmployees: 0,
         });
         }
     } catch (error) {
@@ -174,72 +183,79 @@ try {
 });
 
 router.get("/Randomisation1", async (req,res)=>{
-    const {ET,Block} = req.query;
+    const { ET, Block } = req.query;
     let EMPP0 = [], EMPP1 = [], EMPP2 = [], EMPP3 = [], EXTRA_EMP = [];
-try {
 
-    const blockfinder = ((ET,Block)=>{
-        return new Promise((resolve , reject)=>{
-            connection.query(`select id from electionbodydata where ElectionName = ? and ElectionBlocks = ?;`,[ET,Block],(err,result)=>{
-                if(err) return reject(err);
-
-                if (!result || result.length === 0) return resolve([]);
-
-                resolve(result);
+    try {
+        const blockfinder = ((ET, Block) => {
+            return new Promise((resolve, reject) => {
+                connection.query(`SELECT id FROM electionbodydata WHERE ElectionName = ? AND ElectionBlocks = ?;`, [ET, Block], (err, result) => {
+                    if (err) return reject(err);
+                    if (!result || result.length === 0) return resolve([]);
+                    resolve(result);
+                });
             });
         });
-    });
 
-    const blockPsFinder = ((BlockId)=>{
-       return new Promise((resolve , reject )=>{
-            connection.query(`select PS from pollingstations where ElectionId = ?;`,[BlockId],(err,result)=>{
-            if(err)return reject(err);
-            resolve(result.map(val => val.PS));    
+        const blockPsFinder = ((BlockId) => {
+            return new Promise((resolve, reject) => {
+                connection.query(`SELECT PS FROM pollingstations WHERE ElectionId = ?;`, [BlockId], (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result.map(val => val.PS));
+                });
             });
         });
-    });
 
+        const blockIdResult = await blockfinder(ET, Block);
+        const blockId = blockIdResult[0]?.id;
 
-    const blockIdResult = await blockfinder(ET,Block);
-    const blockId = blockIdResult[0]?.id;
+        const blockPs = await blockPsFinder(blockId);
+        const totalEmpRequired = blockPs.length;
 
-    const blockPs = await blockPsFinder(blockId);
-    const totalEmpRequired = blockPs.length;
+        EMPP0 = await FetchEmployees(totalEmpRequired, Block, ET, "P0", "p0", []);
+        EMPP1 = await FetchEmployees(totalEmpRequired, Block, ET, "P1", "p1", EMPP0);
+        EMPP2 = await FetchEmployees(totalEmpRequired, Block, ET, "P2", "p2", EMPP0.concat(EMPP1));
+        EMPP3 = await FetchEmployees(totalEmpRequired, Block, ET, "P3", "p3", EMPP0.concat(EMPP1, EMPP2));
 
+        // Build a list of employee codes from the current block:
+        const totalUsedCodes = EMPP0.concat(EMPP1, EMPP2, EMPP3)
+            .map(code => typeof code === 'object' ? code.Employee_code : code);
 
-      EMPP0 = await FetchEmployees(totalEmpRequired, Block, ET, "P0", "p0" , undefined);
-      EMPP1 = await FetchEmployees(totalEmpRequired, Block, ET, "P1", "p1" , EMPP0);
-      EMPP2 = await FetchEmployees(totalEmpRequired, Block, ET, "P2", "p2" , EMPP0.concat(EMPP1));
-      EMPP3 = await FetchEmployees(totalEmpRequired, Block, ET, "P3", "p3" , EMPP0.concat(EMPP1 , EMPP2));
+        // ---- Add these lines ----
+        // Get employee codes that are used in other blocks (or previously stored)
+        const previouslyUsed = await fetchPreviouslyUsedEmployeeCodes(ET, Block);
 
-console.log("Final randomised employees:", {
-  EMPP0, EMPP1, EMPP2, EMPP3
-});
+        // Create a combined set of all used codes:
+        const allUsedCodes = [...new Set([...totalUsedCodes, ...previouslyUsed])];
+        // --------------------------
 
-const totalUsed = EMPP0.concat(EMPP1, EMPP2, EMPP3).map(e => e);
-const totalCount = totalEmpRequired * 4; // total posts for P0–P3
-const extraCount = Math.ceil(totalCount * 0.05);
+        const totalCount = totalEmpRequired * 4;
+        const extraCount = Math.ceil(totalCount * 0.05);
 
-// collect all used designations (add your extra designation logic if needed)
-let usedDesignations = []; 
-usedDesignations = await getUsedDesignations(ET);
-console.log(usedDesignations);
-// fetch 5% extra
-EXTRA_EMP = await fetchExtraEmployees(usedDesignations, totalUsed, Block, extraCount);
-console.log("extra",EXTRA_EMP);
+        let usedDesignations = await getUsedDesignations(ET);
 
-res.status(200).json({
-    success : true ,
-    ps : blockPs,
-    EMPP0,
-    EMPP1,
-    EMPP2,
-    EMPP3,
-    EXTRA_EMP : EXTRA_EMP.map(val => val.Employee_code)
-});
+        // Use the combined allUsedCodes to filter out duplicates in extra employees:
+        EXTRA_EMP = await fetchExtraEmployees(usedDesignations, allUsedCodes, Block, extraCount);
+        const extraEmpCodes = EXTRA_EMP.map(val => val.Employee_code);
 
-} catch (error) {
-    console.error("Error in /Randomisation1:", error.message);
+        // Log if there's any overlap
+        const duplicates = totalUsedCodes.filter(code => extraEmpCodes.includes(code));
+        if (duplicates.length > 0) {
+            console.warn("⚠️ Duplicates found in EXTRA_EMP:", duplicates);
+        }
+
+        res.status(200).json({
+            success: true,
+            ps: blockPs,
+            EMPP0,
+            EMPP1,
+            EMPP2,
+            EMPP3,
+            EXTRA_EMP: extraEmpCodes
+        });
+
+    } catch (error) {
+        console.error("Error in /Randomisation1:", error.message);
         res.status(400).json({
             success: false,
             message: error.message,
@@ -247,10 +263,11 @@ res.status(200).json({
             EMPP1,
             EMPP2,
             EMPP3,
-            EXTRA_EMP :EXTRA_EMP.map(val => val.Employee_code)
+            EXTRA_EMP: EXTRA_EMP.map(val => val.Employee_code)
         });
-}
+    }
 });
+
 
 
 function FetchEmployees(total , block , ET , Post , tablename , previousCodes){
@@ -265,6 +282,11 @@ function FetchEmployees(total , block , ET , Post , tablename , previousCodes){
             let extra = false;
             let designations = await designationfetcher(ET,Post ,tablename , flag);
             let designationarray = designations.map(val => val[`${Post}`]);
+            if (designations.length === 0 && flag === true) {
+                console.warn(`Empty designation with flag = true. Switching flag to false and retrying...`);
+                flag = false;
+                continue;
+            }
             while (true) {
                 if (maxQueries <= 0) {
                     return reject(new Error(`Unable to fetch enough unique employees for ${Post}`));
@@ -275,19 +297,26 @@ function FetchEmployees(total , block , ET , Post , tablename , previousCodes){
 
                 let currentlyStoredValues = await fetchcurrentdataO(ET, Post , block);
                 currentlystoredarray = currentlyStoredValues.map(val => val[`${Post}`]);
-
                 if (extra) {
                     const extraFetched = await extradesignationfetch(Post, ET, block);
+
                     const filtered = extraFetched.filter(emp =>
                         !previousCodes?.includes(emp.Employee_code)
                     );
 
-                    extraarray = filtered.map(emp => emp.Employee_code);
+                    const filteredExtra = filtered
+                        .map(emp => emp.Employee_code)
+                        .filter(code =>
+                            !currentlystoredarray.includes(code) && // not used in this post across blocks
+                            !empcodearray.includes(code)            // not used in main fetch
+                        );
 
-                    if (extraarray.length === 0) {
-                        console.warn(`No valid extra employees after filtering. Attempts left: ${maxQueries}`);
+                    if (filteredExtra.length === 0) {
+                        console.warn(`No valid extra employees after filtering (duplicate safe). Attempts left: ${maxQueries}`);
                         continue; // retry
                     }
+
+                    extraarray = filteredExtra;
                 }
 
                 const empcodeResult = await fetch1Employees(designationarray, total, block);
@@ -366,6 +395,7 @@ async function extradesignationfetch(post, ET, block) {
                  AND varified = "Varified" 
                  AND Assembly_Constituency_of_Residence != ? 
                  AND Assembly_Constituency_of_Workplace != ? 
+                 and Gender = 'male'
                  ORDER BY RAND() 
                  LIMIT ?`,
                 [extradesignation, block, block, extrarequired],
@@ -468,6 +498,25 @@ async function fetchExtraEmployees(usedDesignations, usedEmpCodes, block, extraC
     }
 }
 
+async function fetchPreviouslyUsedEmployeeCodes(et, block) {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT P0, P1, P2, P3 FROM randomisation1 
+            WHERE ElectionName = ? AND ElectionBlock != ?
+        `;
+        connection.query(query, [et, block], (err, result) => {
+            if (err) return reject(err);
+            
+            const codes = [];
+            for (const row of result) {
+                codes.push(row.P0, row.P1, row.P2, row.P3);
+            }
+            resolve(codes.filter(Boolean)); // remove null/undefined
+        });
+    });
+}
+
+
 
 function noConflict(arr1, arr2) {
     const set = new Set(arr2);
@@ -565,17 +614,40 @@ const deleteblockR3EMP = ((ET,Block)=>{
     });
 });
 
-const insertblockEmp = ((ET , Block , EMP0 , EMP1 , EMP2 , EMP3)=>{
-    return new Promise((resolve , reject )=>{
-        const url = ` insert into randomisation1(ElectionName , ElectionBlock , P0 , P1 , P2 , P3) value (?,?,?,?,?,?);`;
-        
-        connection.query(url,[ET , Block , EMP0 , EMP1 , EMP2 , EMP3],(err,result)=>{
-            if(err) return reject(err);
+const insertblockEmp = (ET, Block, EMP0, EMP1, EMP2, EMP3) => {
+    return new Promise((resolve, reject) => {
+        if (
+            !Array.isArray(EMP0) || !Array.isArray(EMP1) ||
+            !Array.isArray(EMP2) || !Array.isArray(EMP3)
+        ) {
+            return reject(new Error("EMP0–EMP3 must be arrays"));
+        }
 
+        const rowCount = EMP0.length;
+
+        // Sanity check: All arrays must be same length
+        if (![EMP1, EMP2, EMP3].every(arr => arr.length === rowCount)) {
+            return reject(new Error("EMP0, EMP1, EMP2, EMP3 must have equal length"));
+        }
+
+        const values = [];
+
+        for (let i = 0; i < rowCount; i++) {
+            values.push([ET, Block, EMP0[i], EMP1[i], EMP2[i], EMP3[i]]);
+        }
+
+        const query = `
+            INSERT INTO randomisation1 (ElectionName, ElectionBlock, P0, P1, P2, P3)
+            VALUES ?
+        `;
+
+        connection.query(query, [values], (err, result) => {
+            if (err) return reject(err);
             resolve(true);
         });
     });
-});
+};
+
 
 const insertextra5Percent = ((ET , Block , EXTRA_EMP)=>{
     return new Promise((resolve , reject )=>{

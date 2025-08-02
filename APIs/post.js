@@ -103,6 +103,14 @@ router.get("/FetchPosts",async(req,res)=>{
     const {value , hodname} = req.query;
     try {
         const data = await dmid(value , hodname);
+        if(data.length === 0){
+            res.json({
+                success : true,
+                message: "Currently there are no Private posts for you",
+                finalPosts : 0,
+            });
+            return;
+        }
         const name = await dmname(data);
         const nameMap = new Map();
         name.forEach(([id, name]) => {
@@ -132,7 +140,7 @@ router.get("/FetchPosts",async(req,res)=>{
         });
     } catch (error) {
         console.error("Error in FetchPublicPosts:", error);
-        res.status(500).json({ error: "Server error" });
+        res.status(500).json({ error });
     }
 });
 

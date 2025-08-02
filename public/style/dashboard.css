@@ -26,6 +26,157 @@ body {
     z-index :11;
 }
 
+/* welcome page */
+.welcomepage{
+    height: calc(100% - 4rem);
+    width: calc(100% - 15rem);
+    display: flex;
+    justify-self: right;
+    position: fixed;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.welocomeMassageContainer{
+    width: 100%;
+    height: 4rem;
+    margin: 1rem;
+}
+
+.welocomeMassageContainer h3{
+    height: 100%;
+    width: 100%;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.welcomepageSlider{
+    width: 60%;
+    height: 30rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.welcomepageSlider .slider{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 1.2rem;
+    background-color: #333;
+    overflow: hidden;
+}
+
+.slider .slidingimages {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+    height: 90%;
+    padding: 1rem 0rem 0rem 0rem;
+}
+.slidingimages img {
+    width: 100%;
+    height: 100%;
+    flex: 0 0 100%;
+    object-fit: contain;
+}
+
+.slidingbtncontainer{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #333;
+    padding: 0.5rem 0rem;
+}
+
+.slidingbtncontainer button {
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  align-self: center;
+  justify-self: center;
+
+}
+
+.slidingbtncontainer .prevImg i , .slidingbtncontainer .NextImg i{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.welcomestats {
+  margin-top: 40px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.voters {
+  width: 90%;
+  max-width: 800px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  transition: transform 0.3s ease;
+}
+
+.voters:hover {
+  transform: translateY(-5px);
+}
+
+.VoterTitle h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.Cardcontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.NoofHeads,
+.headactive {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-left: 5px solid #007BFF;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.NoofHeads h3,
+.headactive h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.NoofHeads p,
+.headactive p {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #007BFF;
+}
+
+/* welcome page end */
+
 .usertools{
     display: flex;
     flex-direction: row;
@@ -136,6 +287,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 /* admin profile view */
 .admin_profile{
     position: absolute;
@@ -153,7 +305,7 @@ body {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-.profileBar{
+.profileBar , .Aboutbar{
     position: relative;
     width: 100%;
     height: 4rem;
@@ -279,9 +431,7 @@ body {
     overflow-y: auto;
 }
 
-.slideback{
-    right: 0rem;
-}
+
 /* private Posts end */
 /* Side navigation bar */
 
@@ -291,8 +441,8 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* spacing between items */
-    padding-bottom: 2rem;
+    gap: 2rem; /* spacing between items */
+    padding-bottom: 4rem;
   }
 .navs ul li{
     width: 12rem;
@@ -362,19 +512,25 @@ body {
     pointer-events: none;
     transition: opacity 0.5s ease;
     overflow-x: hidden;
+    background-color: #fff;
 }
 
+.View_Employee{
+    background-color: transparent;
+        backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+
+}
 
 
 
 .signup {
     display: flex;
     width: 100%;
+    height: 100%;
     flex-direction: column; /* Stack heading and form vertically */
     align-items: center;     /* Center horizontally */
-    background:#ffff;
-    height: 100%;
-    width: 100%;
+    
 }
 
 
@@ -533,10 +689,10 @@ body {
 }
 
 .gender p{
-    width: 8rem;
+    width: 100%;
     font-weight: 600;
     padding-left:0.5rem ;
-    padding: 0rem 0.5rem 0rem 0.5rem;
+    padding: 0rem 0.5rem 0.5rem 0.5rem;
 }
 
 
@@ -815,7 +971,7 @@ body {
 .publicpostHeading{
     width : 100%;
     height: 10%;
-    background-color: #00000030;
+    background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -827,14 +983,15 @@ body {
     font-weight: 700;
 }
 .publicpostBody{
-    width: calc(100% - 4rem);
+    width:100%;
     height: 90%;
+    background-color: rgba(0,0,0,0.3);
+    padding-left: 1rem;
 }
 .pubpost{
     width: 100%;
     min-height: 8rem;
     height: 90%;
-    margin: 1rem 2rem;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border-radius: 0.8rem;
@@ -846,7 +1003,7 @@ body {
 .invert {
   transform: rotate(180deg);
 }
-
+/* private texts */
 .chat-message-box {
   display: flex;
   align-items: flex-start;
@@ -937,12 +1094,76 @@ body {
 .chat-message-box:hover {
   transform: scale(1.01);
 }
+/* private texts end */
+.AboutUsTab {
+    position: absolute;
+    right: -40rem;
+    top: -10px;
+    width: 40rem;
+    height: 100%;
+    z-index: 17;
+    border-left: 2px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: right 0.5s ease-in-out;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
 
-/* media propeties of page */
-.ShowEmployeeSignupPage{
+.Aboutbar {
+    position: relative;
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+.Aboutbar .fa-arrow-left {
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.Aboutbar .adminprofile {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.DetailsAboutus {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.DetailsAboutus p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #1a73e8;
+    text-align: justify;
+    margin: 0;
+}
+
+/* Media state */
+.ShowEmployeeSignupPage {
     opacity: 1;
     pointer-events: all;
 }
+
+.slideback {
+    right: 0rem;
+}
+
 @media screen and (max-width: 768px) {
     .detail-container {
         grid-template-columns: 1fr; /* Stack the labels and inputs vertically */
@@ -961,6 +1182,30 @@ body {
     }
 }
 
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Invisible track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.6); /* Transparent white */
+  border-radius: 20px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.6); /* More visible on hover */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.7) transparent;
+}
 
 .hidden{
     display: none;

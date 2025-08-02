@@ -56,10 +56,11 @@ router.get(`/checkrandomise2data`, async (req,res)=>{
             const randomisationdata = await checkrandomiseData(ET , block);
 
             console.log(block , randomisationdata);
-            const electionBlocks = randomisationdata.map(val => val.ElectionBlock); // ✅ CORRECT
+            const electionBlocks = [...new Set(randomisationdata.map(val => val.ElectionBlock))]; // ✅ Distinct values only
             const allBlocksAvailable = block.every(b => electionBlocks.includes(b));
             
             if(allBlocksAvailable){
+                console.log(electionBlocks);
                 res.status(200).json({
                     success : true,
                     message : "all block data is available for Randomisation 3",

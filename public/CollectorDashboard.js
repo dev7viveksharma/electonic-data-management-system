@@ -15,6 +15,7 @@ class NAVBAR{
     this.District = this.editSection.querySelector(".DM_District");
     this.editBtn = this.editSection.querySelector(".DMeditbtn");
     this.companylogo = document.querySelector(".companyLogoContainer .CompanyLogo");
+    this.welcomeBarname = document.querySelector(".welcomebar h3 span");
     this.Init();
     this.active = null;
     this.activeNav = null;
@@ -22,8 +23,10 @@ class NAVBAR{
 
     Init(){
         this.DMProfile();
+        this.DMWelcome();
         this.Tabs.forEach((tabs)=>{
             tabs.addEventListener("click",()=>{
+            this.home.classList.remove("ShowEmployeeSignupPage");
             const activetab = tabs.getAttribute("data-tab");
             this.showpages(tabs,activetab);
             });
@@ -81,6 +84,12 @@ class NAVBAR{
     hideAdminEdit(){
         this.editSection.style.right = "-20rem";
         this.showdropmenu();
+    }
+
+    DMWelcome(){
+        const name = localStorage.getItem("dmname");
+        this.welcomeBarname.innerText = `${name}`;
+        
     }
 
     async DMProfile(){
@@ -188,6 +197,37 @@ class NAVBAR{
                     console.log("Error:", error.message); // other errors (network etc.)
                 }
             } 
+        }
+    }
+}
+
+class HOME {
+    constructor(){
+        this.heads = document.querySelector(".headsactivedata");
+        this.empcount = document.querySelector(".empactivedata");
+        this.elections = document.querySelector(".NoofManagedelections");
+        this.callanalyticdata();
+    }
+
+    async callanalyticdata(){
+        try {
+            const url = `/totalcountingdata`;
+            const response = await axios.get(url);
+
+            const data = response.data;
+            if(data.success){
+                console.log(data)
+                this.heads.textContent = data.hodcount;
+                this.empcount.textContent = data.empcount;
+                this.elections.textContent = data.electoncount;
+            }
+        } catch (error) {
+               if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+                
+            }
         }
     }
 }
@@ -659,6 +699,7 @@ class ELECTIONPLACEMENT{
             },
 
             page2completion : () =>{
+                this.actiontype = "resetNone";
                 this.cleanpage2();
                 this.backpage();
 
@@ -1195,6 +1236,8 @@ async page1(){
     backpage(){
         this.pages[this.currentpage].classList.remove("phase");
         this.currentpage--;
+        console.log(this.currentpage);
+        console.log(this.actiontype);
         this.pages[this.currentpage].classList.add("phase");
         this.backbtn.classList.add("hidden")
         if(this.currentpage > this.pages.length){
@@ -1869,6 +1912,7 @@ async randmizor1check(){
             const data = error.response.data;
             console.log("Error:", error.response.data.message); // server responded with error
             this.showRandomixorAlert(data.success,data.message,data.requiredPosts,data.availableEmployees);
+            console.log("err hits");
         } else {
             console.log("Error:", error.message); // other errors (network etc.)
         } 
@@ -1889,6 +1933,7 @@ async randmizor1check(){
                                         <p>Do you want to continue?</p>
                                         `;
             this.actiontype = "startRandomization1";
+            console.log("hit success");
         }else{
             this.alertboxheading.innerText = "Required Randomization Data";
             this.alertmsg.innerHTML=`<p><strong>⚠️${message}?</strong></p>
@@ -1899,8 +1944,10 @@ async randmizor1check(){
                                         `;
             this.randomizordropdown.disabled = true;
             this.actiontype = "ResetNone";
+            console.log("hit failure");
         }
         this.alertbg.classList.remove("hidden");
+        console.log("hit none");
     }
 
 async checkdynamicrandomisation1data(){
@@ -1925,46 +1972,73 @@ async checkdynamicrandomisation1data(){
         }
     }
 
-    insertdynamicrandomdata(data){
-        if (this.savedcontainerparentR1.querySelector(".randomizedatacontainer")) {
-            this.savedcontainerparentR1.innerHTML = "";
+insertdynamicrandomdata(data) {
+    if (this.savedcontainerparentR1.querySelector(".randomizedatacontainer")) {
+        this.savedcontainerparentR1.innerHTML = "";
+    }
+
+    const grouped = {};
+
+    data.forEach(item => {
+        const block = item.ElectionBlock;
+
+        if (!grouped[block]) {
+            grouped[block] = {
+                psSet: new Set(),
+                extraSet: new Set(),
+                dataRows: []
+            };
         }
 
+        // ✅ Safely handle PS splitting
+        if (item.PS) {
+            const psString = String(item.PS); // convert any type to string
+            psString.split(",").forEach(ps => {
+                const trimmed = ps.trim();
+                if (trimmed) {
+                    grouped[block].psSet.add(trimmed);
+                }
+            });
+        }
 
-        data.forEach((data)=>{
-            this.savedcontainerparentR1.innerHTML +=
-                        `
-                         <div class = "randomizedatacontainer">
-                            <div class = "blockName">
-                                <div class = "blockNameHeading">
-                                    Block Name 
-                                </div>
-                                <div class = "blockNamecontent">
-                                ${data.ElectionBlock}
-                                </div>
-                            </div>
-                            <div class = "psName">
-                                <div class = "psNameHeading">
-                                    Polling Station
-                                </div>
-                                <div class = "psNamecontent">
-                                ${data.PS}
-                                </div>
-                            </div>
-                            <div class = "AllDataContainer">
-                                <div class = "AllDataHeading">
-                                    All Data
-                                </div>
-                                <div class = "AllDatacontent">
-                                ${data.P0} , ${data.P1} , ${data.P2} , ${data.P3} , ${data.Extra5Percent}
-                                </div>
-                            </div>
-                        </div>
-                        `;
-            this.RANDOMISATIONRESET.disabled = false;
-            this.savedcontainermainR1.classList.remove("hidden");
-        });
-    }
+        // ✅ Handle Extra5Percent safely
+        if (item.Extra5Percent !== undefined && item.Extra5Percent !== null) {
+            grouped[block].extraSet.add(item.Extra5Percent);
+        }
+
+        grouped[block].dataRows.push(item);
+    });
+
+    // Render
+    Object.entries(grouped).forEach(([blockName, group]) => {
+        const psList = Array.from(group.psSet).join(", ");
+        const extraList = Array.from(group.extraSet).join(", ");
+        const allData = group.dataRows
+            .map(item => `<div>${item.P0}, ${item.P1}, ${item.P2}, ${item.P3}</div>`)
+            .join("");
+
+        this.savedcontainerparentR1.innerHTML += `
+            <div class="randomizedatacontainer">
+                <div class="blockName">
+                    <div class="blockNameHeading">Block Name</div>
+                    <div class="blockNamecontent">${blockName}</div>
+                </div>
+                <div class="psName">
+                    <div class="psNameHeading">Polling Station</div>
+                    <div class="psNamecontent">${psList}</div>
+                </div>
+                <div class="AllDataContainer">
+                    <div class="AllDataHeading">All Data</div>
+                    <div class="AllDatacontent">${allData}${extraList}</div>
+                </div>
+            </div>
+        `;
+
+        this.RANDOMISATIONRESET.disabled = false;
+        this.savedcontainermainR1.classList.remove("hidden");
+    });
+}
+
 
     randomizationpage1(){
         this.rnpages.forEach((page)=>{
@@ -2280,6 +2354,7 @@ class RANDOMISATION2{
     this.randomisation2resetbtn = document.querySelector(".resetbtncontainerR2 button");
     this.pop = document.querySelector(".PopUPMessageContainer");
     this.downloadR2 = document.querySelector(".downloadR2");
+    this.wariningmaessage = document.querySelector(".warningmessage");
     this.init();
     this.currentpageR2 = null;
     this.actiontype = null ;
@@ -2393,6 +2468,7 @@ async checkpreExistingDataR2() {
     const data = response.data;
 
     if (data.success) {
+      this.wariningmaessage.textContent = `Warining All Polling Station Shown Below are Not Associated With Any Employees In Randomisation 2 `;
       const flatData = data.group;
       this.dynamicrandomiseData2 = data.group;
 
@@ -2500,6 +2576,7 @@ async showdynamiclist(){
         const data = response.data;
 
         if (data.success) {
+            
             this.dynamicblocklist.innerHTML = "";
             data.result.forEach((data, index) => {
                 const div = document.createElement("div");
@@ -2540,7 +2617,8 @@ async startRandomisation2(){
         const data = response.data;
 
         if(data.success){
-            this.dataGroup = data.groups
+            this.dataGroup = data.groups;
+            this.wariningmaessage.textContent = `Warining All Polling Station Shown Below are Not Associated With Any Employees In Randomisation 2 `;
             this.showdatalist(data.groups ,  data.extra , this.BlockinputR2.value ,  data.PS);
             this.randomisation2Savebtn.disabled = false;
         }
@@ -2731,6 +2809,7 @@ async resetRandomisation2(){
             });
             const data = response.data;
             if(data.success){
+                this.wariningmaessage.textContent = "";
                 this.dynamicrandomiseData2 = [];
                 this.saveddatacontainer.innerHTML = "";
                 this.randomisebodyR2.innerHTML = ""; 
@@ -2914,6 +2993,7 @@ class RANDOMISATION3{
 
     async checkpreExistingDataR3(){
         try {
+            console.log("hit ?");
             const response = await axios.get(`/checkdataR3`,{
                 params : {
                     ET : this.ET.value,
@@ -2926,7 +3006,7 @@ class RANDOMISATION3{
             const grouped = {};
 
             if(this.saveddatacontainerR3.querySelector(".dynamicDataListR3")){
-              return;  
+              this.saveddatacontainerR3.innerHTML = "";
             } 
                 
             flatData.forEach(item => {
@@ -3506,8 +3586,10 @@ async postAinfo(){
                     this.pop.style.opacity = "0";
                 }, 2000);
                 this.postmessage.value = "";
-                this.imginput.value = "";  
-                this.previewimage.removeAttribute("href");  
+                this.imginput.value = "";
+                this.previewimage.innerHTML = "";            // Clear image/PDF preview
+                this.fileLocation = null;
+                this.previewimage.classList.add("hidden");   // Hide preview container
             }
         } catch (error) {
             
@@ -3541,6 +3623,7 @@ async RouteFile(route){
 
 }
 new HOD();
+new HOME();
 new VIEWEMPLOYEE();
 new NAVBAR();
 new ELECTIONPLACEMENT();
