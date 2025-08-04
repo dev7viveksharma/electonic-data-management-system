@@ -26,6 +26,7 @@ const Randomization2 = require("./APIs/Randomisation2");
 const Randomization3 = require("./APIs/Randomisation3.js");
 const editProfile = require("./APIs/EditEmployee.js");
 const empcountdata = require("./APIs/homepagedata.js");
+const resetpassword = require("./APIs/Resetpassword.js");
 const { Certificate } = require("crypto");
 app.use('/profile', express.static(path.join(__dirname, 'data/profile')));
 app.use('/documents',express.static(path.join(__dirname,'data/documents')));
@@ -148,6 +149,7 @@ app.use("/",Randomization2);
 app.use("/",Randomization3);
 app.use("/",editProfile);
 app.use("/",empcountdata);
+app.use("/",resetpassword);
 app.get("/:htmlFile", (req, res) => {
     const fileName = req.params.htmlFile;
 

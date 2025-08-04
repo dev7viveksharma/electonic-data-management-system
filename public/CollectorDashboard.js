@@ -2164,6 +2164,7 @@ async  randomisationEmployees(){
             this.actiontype = "ResetNone";
             this.randomBlock.value = "";
             this.randomizordropdown.disabled = true;
+            this.RANDOMISATIONSAVEBtn.disabled = true;
             this.alertbg.classList.remove("hidden");
         }
     }
@@ -2470,10 +2471,11 @@ async checkpreExistingDataR2() {
     if (data.success) {
       this.wariningmaessage.textContent = `Warining All Polling Station Shown Below are Not Associated With Any Employees In Randomisation 2 `;
       const flatData = data.group;
+      console.log(data.group);
       this.dynamicrandomiseData2 = data.group;
 
       if (this.saveddatacontainer.querySelector(".dynamicDataListR2")){ 
-        return;
+        this.saveddatacontainer.innerHTML = "";
       }
 
       // Group by ElectionBlock
@@ -2525,29 +2527,36 @@ async checkpreExistingDataR2() {
         const P3div = newblock.querySelector(".P3R2");
 
         records.forEach(val => {
-          const divPS = document.createElement("div");
           const divP0 = document.createElement("div");
           const divP1 = document.createElement("div");
           const divP2 = document.createElement("div");
           const divP3 = document.createElement("div");
 
-          divPS.className = `PSR2`;
           divP0.className = `P0R2inner`;
           divP1.className = `P1R2inner`;
           divP2.className = `P2R2inner`;
           divP3.className = `P3R2inner`;
 
-          divPS.textContent = val.PS;
           divP0.textContent = val.P0;
           divP1.textContent = val.P1;
           divP2.textContent = val.P2;
           divP3.textContent = val.P3;
 
-          psdiv.appendChild(divPS);
           P0div.appendChild(divP0);
           P1div.appendChild(divP1);
           P2div.appendChild(divP2);
           P3div.appendChild(divP3);
+        });
+
+        const uniquePS = new Set();
+        records.forEach(r => r.PS.forEach(ps => uniquePS.add(ps)));
+
+        psdiv.innerHTML = "";
+        [...uniquePS].forEach(singlePS => {
+        const div = document.createElement("div");
+        div.className = "PSR2";
+        div.textContent = singlePS;
+        psdiv.appendChild(div);
         });
 
         newblock.classList.remove("hidden");
@@ -2836,6 +2845,11 @@ async resetRandomisation2(){
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
 
+        const excludingdivs = this.saveddatacontainer.querySelectorAll(".PSR2");
+        excludingdivs.forEach((ps)=>{
+            ps.style.display = 'none';
+        }); 
+
             html2pdf()
             .set(opt)
             .from(this.saveddatacontainer)
@@ -2864,7 +2878,12 @@ async resetRandomisation2(){
                 const textWidth = pdf.getTextWidth(footerText);
                 pdf.text(footerText, pageWidth - textWidth - 0.5, pageHeight - 0.5);  // 0.5 inch from bottom-right
             })
-            .save();
+            .save()
+            .finally(()=>{
+                excludingdivs.forEach((ps)=>{
+                    ps.style.display = 'flex';
+                });
+            });
     }
 }
 

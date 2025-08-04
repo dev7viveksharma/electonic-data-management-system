@@ -319,6 +319,39 @@
     color: #fff;
   }
 
+ .dmLoginbtn span {
+  position: absolute;
+  bottom: 120%; /* Above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 3px 8px;
+  font-size: 0.65rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.dmLoginbtn:hover span {
+  opacity: 1;
+}
+
+.dmLoginbtn span::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* Triangle below tooltip */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
   .dmLoginbtn:hover{
     background-color: #007BFF90;
     transition: background-color 0.1s ease-in-out;
@@ -329,6 +362,19 @@
     transition:color 0.1s ease-in-out;
   }
 
+/* forget password link */
+  .forgetpasswordlink{
+    width: 100%;
+    text-align: right;
+    padding: 0.5rem;
+    color: #007BFF;
+    cursor: pointer;
+  }
+
+  .forgetpasswordlink:hover{
+    opacity: 0.8;
+    text-decoration: underline;
+  }
   .signup-btn{
     display:flex;
     margin-top: 2rem;

@@ -92,14 +92,15 @@ class LOGIN {
         this.loginBtn = document.querySelector(".js_login_btn");
         this.email = document.querySelector(".js_signup_email");
         this.pop = document.querySelector(".Popups .popMessage");
-        this.popupbody = document.querySelector(".Popups")
+        this.popupbody = document.querySelector(".Popups");
+        this.forgetpassword = document.querySelector(".forgetpasswordlink");
         this.init();
     }
 
     init(){
         this.noAccount.addEventListener("click", (event) => this.signuppage(event));
         this.loginBtn.addEventListener("click", async (event) => this.signupcheck(event));
-        
+        this.forgetpassword.addEventListener("click",()=>this.openresetpasswordpage()); 
     }
 
     signuppage(){
@@ -176,6 +177,12 @@ class LOGIN {
             }
             
         }
+    }
+
+    openresetpasswordpage(){
+        const key = crypto.randomUUID();
+        sessionStorage.setItem("forgetpasswordToken",key);
+        window.open(`/Resetpassword?token=${key}`,"_blank");
     }
 
 }

@@ -297,6 +297,9 @@ function FetchEmployees(total , block , ET , Post , tablename , previousCodes){
 
                 let currentlyStoredValues = await fetchcurrentdataO(ET, Post , block);
                 currentlystoredarray = currentlyStoredValues.map(val => val[`${Post}`]);
+
+                let currently5percentextraemp = await fetchextra5stored(ET , block);
+
                 if (extra) {
                     const extraFetched = await extradesignationfetch(Post, ET, block);
 
@@ -308,7 +311,8 @@ function FetchEmployees(total , block , ET , Post , tablename , previousCodes){
                         .map(emp => emp.Employee_code)
                         .filter(code =>
                             !currentlystoredarray.includes(code) && // not used in this post across blocks
-                            !empcodearray.includes(code)            // not used in main fetch
+                            !empcodearray.includes(code)&&
+                            !currently5percentextraemp.includes(code)            // not used in main fetch
                         );
 
                     if (filteredExtra.length === 0) {
@@ -325,13 +329,15 @@ function FetchEmployees(total , block , ET , Post , tablename , previousCodes){
                 const combined = empcodearray.concat(extraarray);
 
                 if (noConflict(combined, currentlystoredarray)) {
+                    if(noConflict(combined , currently5percentextraemp)){
                     // Check if we fulfilled the required number
-                    if (combined.length === total) {
-                        resolve(combined);
-                        break;
-                    } else {
-                        console.warn(`Not enough employees from main + extra. Trying extra...`);
-                        extra = true; // try extra in next loop
+                        if (combined.length === total) {
+                            resolve(combined);
+                            break;
+                        } else {
+                            console.warn(`Not enough employees from main + extra. Trying extra...`);
+                            extra = true; // try extra in next loop
+                        }
                     }
                 }
             }
@@ -512,6 +518,21 @@ async function fetchPreviouslyUsedEmployeeCodes(et, block) {
                 codes.push(row.P0, row.P1, row.P2, row.P3);
             }
             resolve(codes.filter(Boolean)); // remove null/undefined
+        });
+    });
+}
+
+async function fetchextra5stored(et , block) {
+     return new Promise((resolve, reject) => {
+        const query = `
+            SELECT Extra5Percent FROM randomisation5percentextra1 
+            WHERE ElectionName = ? AND ElectionBlock != ?
+        `;
+        connection.query(query, [et, block], (err, result) => {
+            if (err) return reject(err);
+
+            const extracodes = result.map(val => val.Extra5Percent);
+            resolve(extracodes);
         });
     });
 }
