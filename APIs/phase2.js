@@ -298,22 +298,46 @@ router.delete("/deletepostsdetails", async (req, res) => {
         });
     });
 
+    const deletedAllTables = new Promise((resolve, reject) => {
+        const sql1 = `DELETE FROM randomisation1 WHERE ElectionName = ?`;
+        const sql2 = `DELETE FROM randomisation5percentextra1 WHERE ElectionName = ?`;
+        const sql3 = `DELETE FROM randomisation2 WHERE ElectionName = ?`;
+        const sql4 = `DELETE FROM randomisation3 WHERE ElectionName = ?`;
+
+        connection.query(sql1, [ET], (err, result1) => {
+            if (err) return reject(err);
+            connection.query(sql2, [ET], (err, result2) => {
+                if (err) return reject(err);
+                connection.query(sql3, [ET], (err, result3) => {
+                    if (err) return reject(err);
+                    connection.query(sql4, [ET], (err, result4) => {
+                        if (err) return reject(err);
+                        resolve("All related data deleted successfully.");
+                    });
+                });
+            });
+        });
+    });
+
+
     try {
-        const [updateResults, deleteResult] = await Promise.all([
+        const [updateResults, deleteResult , deleteRandomdata] = await Promise.all([
             Promise.all([
                 actionhandlers("pollingofficersp0"),
                 actionhandlers("pollingofficersp1"),
                 actionhandlers("pollingofficersp2"),
                 actionhandlers("pollingofficersp3"),
             ]),
-            deleteExtras
+            deleteExtras,
+            deletedAllTables
         ]);
 
         res.json({
             success: true,
             message: 'All updates and deletes successful',
             updateResults,
-            deleteResult
+            deleteResult,
+            deleteRandomdata
         });
     } catch (error) {
         console.error("API error:", error.message);

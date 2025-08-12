@@ -111,7 +111,6 @@ router.delete("/DeletePSdata",(req,res)=>{
             console.error("Database error:", err.message);
             return res.status(500).json({ success: false, message: "Database error" });
         }
-
         res.json({
             success : true,
         });

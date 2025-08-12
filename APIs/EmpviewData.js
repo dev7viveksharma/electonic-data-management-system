@@ -27,7 +27,7 @@ router.get("/headVarifiedEmployee",(req,res)=>{
 });
 
 router.get("/headNonVarifiedEmployee",(req,res)=>{
-    const q = 'SELECT Employee_Image , Employee_code , Employee_FName , Employee_LName , Mobile_Number , Department , varified from employee_data where varified = "Not Varified"; '
+    const q = 'SELECT Employee_Image , Employee_code , Employee_FName , Employee_LName , Mobile_Number , Department , varified from employee_data where varified = "Not Varified"; ';
      connection.query(q,(err,result)=>{
         if (err) {
             console.error("Database error:", err.message);
@@ -57,6 +57,4 @@ router.get("/Hods",(req,res)=>{
     });
 });
 
-
 module.exports = router;
-

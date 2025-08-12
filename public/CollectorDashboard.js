@@ -645,6 +645,11 @@ class ELECTIONPLACEMENT{
         this.postserr = document.querySelector(".postserror");
         this.postserr2 = document.querySelector(".postserror2");
         this.dmid = localStorage.getItem("dmId");
+        this.randomisationMenu = document.querySelector(".randomizationlist");
+        this.line3 = document.querySelector(".line3");
+        this.positionbox = document.querySelector(".EmpSelectionBox");
+        this.line4 = document.querySelector(".line4");
+        this.endcircle = document.querySelector(".circleend");
         this.psList = [];
         this.init();
         this.documents();
@@ -691,6 +696,7 @@ class ELECTIONPLACEMENT{
 
             pagechange : ()=>{
                 this.changepage();
+                this.actiontype = "resetNone";
             },
             
             resetAllPosts : async ()=>{
@@ -792,6 +798,7 @@ class ELECTIONPLACEMENT{
             this.backpage();
             this.cleanpage2();
             this.savebtn.disabled = false;
+            this.randomisationMenu.disabled = false;
         });
 
         this.clearAllPosts.addEventListener("click",()=>{
@@ -1134,7 +1141,7 @@ async showtotalBooth(){
                 this.actiontype = "resetNone";
                 return ;
                 }
-            
+            this.randomisationMenu.disabled = true;
             this.alertboxheading.innerText = "Continue With Existing Data";
             this.alertboxmsg.innerHTML=`<p><strong>⚠️ Are you sure you want to Proceed further ?</strong></p>
                                         <p>This action will:</p>
@@ -1157,7 +1164,7 @@ async showtotalBooth(){
             this.actiontype = "resetNone";
             return ;
             }
-            
+            this.randomisationMenu.disabled = false;
             this.alertboxheading.innerText = "Continue With Existing Post Data";
             this.alertboxmsg.innerHTML=`<p><strong>⚠️ Are you sure you want to Proceed further ?</strong></p>
                                         <p>This action will:</p>
@@ -1171,7 +1178,7 @@ async showtotalBooth(){
 
 async reset1(){
         try {
-            const url = `http://localhost:8080/DeletePSdata`;
+            const url = `/DeletePSdata`;
             const response = await axios.delete(url,{
                 data:{
                     id :this.dmid,
@@ -1230,6 +1237,10 @@ async page1(){
         if(this.currentpage < this.pages.length){
             this.pages[this.currentpage].classList.add("phase");
         }
+        this.line3.style.borderBottom = "4px solid #007BFF"
+        this.positionbox.style.border = "4px solid #007BFF";
+        this.line4.style.borderBottom = "4px solid #007BFF";
+        this.endcircle.style.border = "4px solid #007BFF"
         this.alertbg.classList.add("hidden");
     }
 
@@ -1243,6 +1254,10 @@ async page1(){
         if(this.currentpage > this.pages.length){
             this.pages[this.currentpage].classList.add("phase");
         }
+       this.line3.style.borderBottom = "2px solid #007BFF"
+        this.positionbox.style.border = "2px solid #007BFF";
+        this.line4.style.borderBottom = "2px solid #007BFF";
+        this.endcircle.style.border = "2px solid #007BFF"
         this.alertbg.classList.add("hidden");
     }
 
@@ -1517,7 +1532,7 @@ cleanpage2() {
 
                 const data = response.data;
                 if(data.success){
-                    
+                    let flag = false;
                     this.checkCountPost ={
                                 P0: data.count.P0.map(obj => obj.P0),
                                 P1: data.count.P1.map(obj => obj.P1),
@@ -1525,10 +1540,10 @@ cleanpage2() {
                                 P3: data.count.P3.map(obj => obj.P3),
                                 }
                     this.checkExtraCountPost = {
-                                P1 : data.EXCOUNT.P1.map(obj => obj.P1),
-                                P2 : data.EXCOUNT.P2.map(obj => obj.P2),
-                                P3 : data.EXCOUNT.P3.map(obj => obj.P3),
-                    }
+                    P1 : data.EXCOUNT.P1.map(obj => obj.desigantionsRequired),
+                    P2 : data.EXCOUNT.P2.map(obj => obj.desigantionsRequired),
+                    P3 : data.EXCOUNT.P3.map(obj => obj.desigantionsRequired),
+                                }
                     for(let i = 0 ; i < 4 ; i++){
                         const FrontArray1 = [...this[`p${i}array`]].sort();
                         const BackArray2 = [...this.checkCountPost[`P${i}`]].sort();
@@ -1542,13 +1557,18 @@ cleanpage2() {
                                     backendTotal = backex.length;
                                 }
                             }
+                           
                             const totalvalue = postEmprequirement + backendTotal;
-                            if(Number(this[`P${i}Totalseats`].textContent) <= totalvalue){
-                                return true;
+                             console.log((this[`currentCheckedP${i}`]+this[`extravalueP${i}`]) , totalvalue)
+                            if((this[`currentCheckedP${i}`]+this[`extravalueP${i}`]) <= totalvalue){
+                                flag = true;
+                                continue;
                             }
+                            flag = false;
+                            break;
                         }
                     }
-                    return false;
+                    return flag;
                 }
 
             } catch (error) {

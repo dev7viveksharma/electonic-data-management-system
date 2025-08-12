@@ -1,5 +1,5 @@
 const express = require("express");
-const sql = require("mysql2")
+const sql = require("mysql2");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 
@@ -30,7 +30,7 @@ router.delete("/deleteProfile",async (req, res) => {
 
     try {
         if (!code && !password && !userid) {
-            return res.status(400).json({ success: false, message: "Missing employee code or password." });
+            return res.status(400).json({ success: false, message: " Missing employee code or password." });
         }
 
         const approved = await matchpassword(password , userid);

@@ -44,4 +44,3 @@ router.get("/NonVarifiedEmployee",(req,res)=>{
 });
 
 module.exports = router;
-
