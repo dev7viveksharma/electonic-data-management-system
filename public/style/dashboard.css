@@ -431,6 +431,7 @@ body {
     width: 100%;
     height: calc(100% - 4rem);
     overflow-y: auto;
+    padding: 4rem;
 }
 
 
@@ -727,10 +728,13 @@ body {
     cursor: pointer;
 }
 
+#allError{
+    text-align: center;
+}
+
 .officeDropDown{
     display : none;
 }
-
 .signup-input:hover,.signup-selection:hover{
     border: 0.5px solid #007BFF;
     cursor: pointer;
@@ -958,7 +962,7 @@ body {
 }
 /* View Employee Data End*/
 /* public posts */
-.postsAll{ 
+.postsAll , .ChangeEmpPosts{ 
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -970,7 +974,7 @@ body {
     transition: opacity 0.5s ease;
     overflow: hidden;
 }
-.publicpostHeading{
+.publicpostHeading , .EDHeadingContainer{
     width : 100%;
     height: 10%;
     background-color: #fff;
@@ -979,12 +983,12 @@ body {
     align-items: center;
 }
 
-.publicpostHeading h3 {
+.publicpostHeading h3 , .EDHeadingContainer h3{
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
 }
-.publicpostBody{
+.publicpostBody , .EDBody{
     width:100%;
     height: 90%;
     background-color: rgba(0,0,0,0.3);
@@ -1005,6 +1009,238 @@ body {
 .invert {
   transform: rotate(180deg);
 }
+
+/* change election duty */
+.EDBody {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding: 0; 
+}
+
+/* parent row container */
+.ElectionDataPanel {
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* nice spacing */
+  align-items: flex-end; /* align everything on the same bottom line */
+  padding: 0.5rem;
+  gap: 1rem; /* uniform spacing between columns */
+}
+
+.showElectionDutiesPanel{
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+  
+}
+/* container for each input/label/button */
+.electiontype, 
+.blocknamecontainer, 
+.empcode, 
+.searchbtncontainer {
+  flex: 1; /* all columns equal width */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* labels & inputs left aligned */
+}
+
+/* labels */
+.EDLabels {
+  margin-bottom: 0.3rem; /* small gap between label & input */
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* input boxes */
+.ED-input {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  outline: none;
+}
+
+.searchbtncontainer{
+    justify-content: center;
+    align-items: center;
+}
+
+/* search button styled like input */
+.EmpSearchbtn {
+  width: 60%;
+  height: 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.EmpSearchbtn i{
+    margin-right: 0.5rem;
+}
+
+.tablecontainer{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    height: 8rem;
+    border: 1px solid black;
+    border-radius: 0.8rem;
+    background-color: #fafafa;
+}
+
+.electiontablecontainer , .blocktablecontainer , .pstablecontainer , .Designationtablecontainer , .codetablecontainer{
+    display: flex;
+    flex-direction: column;
+    width: calc(100% / 5);
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+.electiontablecontainer{
+    border-right:0.5px solid black;
+}
+.codetablecontainer{
+    border-left: 0.5px solid black;
+}
+
+.blocktablecontainer , .pstablecontainer , .Designationtablecontainer{
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+}
+
+.electionheading , .blockheading , .psheading ,.Designationheading, .codeheading{
+    display: flex;
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.electioncontentcontainer , .blockcontentcontainer , .pscontentcontainer , .Designationcontentcontainer , .codecontentcontainer{
+    display: flex;
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.codecontentcontainer{
+    position: relative;
+}
+.editcodebtn{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    margin-left: 1rem;
+}
+
+.editcodebtn .innereditbtn{
+    
+    color: #007BFF;
+    font-size: 1.5rem;
+}
+
+.buttoncontainer{
+    width: 90%;
+    height: 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.clearlistbtn , .savechangebtn{
+    width: 6rem;
+    height: 2rem;
+    margin: 0rem 1rem;
+    border-radius: 0.8rem;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+}
+
+.clearlistbtn:active , .savechangebtn:active , .EmpSearchbtn:active{
+    border: 1px solid black;
+}
+
+.clearlistbtn{
+    background-color: #1a73e8;
+}
+.savechangebtn{
+    background-color: #45a049;
+}
+
+.dynamicuniqecodeparent{
+    width: 100%;
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    background-color: #fafafa;
+    border-top: 0.5px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 0.5px solid black;
+    margin-top: 4rem;
+}
+
+.codescontainerchild{
+    width: 100%;
+    height : 2rem;
+    border: 0.5px solid black;
+    cursor: pointer;
+}
+
+.crossmarking{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    background-color: #fd5858;
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.codescontainerchild:hover{
+    background-color: #007BFF;
+}
+.nodatafoundmsg{
+    width: 100%;
+    height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #444;
+    font-size: 4rem;
+}
+.EmpSearchbtn:hover {
+  background-color: #45a049;
+}
+
+/* change election duty ends */
 /* private texts */
 .chat-message-box {
   display: flex;
@@ -1164,6 +1400,143 @@ body {
 
 .slideback {
     right: 0rem;
+}
+
+.alertbg{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Dimmed overlay background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Alert Box */
+.alert-box {
+  position: relative;
+  background-color: #fff;
+  width: 35rem;
+  max-width: 90%;
+  height: 20rem;
+  padding: 30px 20px 60px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  font-family: 'Segoe UI', sans-serif;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Close button */
+.close_btn {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 20px;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close_btn:hover {
+  color: #333;
+}
+
+/* Heading */
+.alert_heading {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+/* Message content */
+.alert_message {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.alert_password{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto 0rem auto;
+    width: 20rem;
+    height: 2rem;
+    border-bottom: 1px solid black;
+    outline: none;
+    background-color: transparent;
+}
+
+#alertError{
+    text-align: center;
+    width: 100%;
+    height: 1rem;
+}
+
+/* Confirm button */
+.confirm_btn {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 25px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.Popups{
+    position: absolute;
+    top: 0;
+    left: 60%; /* Center from left */
+    transform: translateX(-50%); /* Adjust back by 50% of its width */
+    min-width: 20rem;
+    width: auto;
+    height: 4rem;
+    background-color: #4CAF50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    color: #fff;
+    font-size: 1.5rem;
+    text-align: center;
+    border: 0.5px solid black;
+    z-index: 11;
+}
+
+.confirm_btn:hover {
+  background-color: #0056b3;
 }
 
 @media screen and (max-width: 768px) {

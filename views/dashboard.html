@@ -121,6 +121,7 @@
                 <li class="Create_EmployeeBtn" data-tab="createEmployee"><i class="fa-solid fa-user"></i>Create Employee Account</li>
                 <li class="View_EmployeeBtn" data-tab="View_Employee"><i class="fa-solid fa-users-viewfinder"></i>View Employee Data</li>
                 <li class="View_EmployeeBtn" data-tab="postsAll"><i class="fa-solid fa-paper-plane"></i>Public Posts</li>
+                <li class="change_EmployeePostBtn" data-tab="ChangeEmpPosts"><i class="fa-solid fa-check-to-slot"></i>Change Election Duties</li>
             </ul>
         </nav>
         </div> 
@@ -1042,9 +1043,61 @@
                     </div>
                 </div>
             </div>
+            <div class="ChangeEmpPosts">
+                <div class="EDHeadingContainer">
+                    <h3>Election duty Panel</h3>
+                </div>
+                <div class="EDBody">
+                    <div class="ElectionDataPanel">
+                        <div class="electiontype">
+                        <label for="electiontypename" class="signup-details EDLabels"> Election Type </label>
+                        <select name="electionname" id="electiontypename" class="electionnameinput ED-input">
+                            <option value="" disabled selected>Select Election Type</option>
+                            <option value="Vidhan Sabha Elections">Vidhan Sabha Elections</option>
+                            <option value="Lok Sabha Elections">Lok Sabha Elections</option>
+                            <option value="Local Body Elections">Local Body Elections</option>
+                        </select>
+                        </div>
+                        <div class="blocknamecontainer">
+                            <label for="blockname" class="signup-details EDLabels">Area Block</label>
+                            <select name=" BlocknameList" id="blockname" class="blockinput ED-input" disabled>
+                                <option value="" disabled selected>Select Area Block</option>
+                            </select>
+                        </div>
+                        <div class="empcode">
+                            <label for="Employeecode" class="signup-details EDLabels">Enter Employee Code</label>
+                            <input type="number" id="Employeecode" class="employeecodeinput ED-input" placeholder="Enter Employee Code" disabled>
+                        </div>
+                        <div class="searchbtncontainer">
+                            <label for="empCodeSearch" class="signup-details EDLabels">&nbsp;</label>
+                            <button class="EmpSearchbtn" id="empCodeSearch" disabled><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+                        </div>
+                    </div>
+                    <div class="showElectionDutiesPanel">
+                    
+                    </div>
+                </div>
+            </div>
+
        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <div class="Popups">
+    </div>
+    <div class="alertbg hidden">
+        <!-- Alert Box Wrapper -->
+        <div class="overlay" id="customAlert" >
+            <div class="alert-box">
+                <button class="close_btn" >×</button>
+                <div class="alert_heading">Alert Title</div>
+                    <div class="alert_message">
+                        This is your alert message. It can be informative, a warning, or confirmation prompt.
+                    </div>
+                    <input type="password" class="alert_password" placeholder="enter Your password">
+                <button class="confirm_btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
    <script type="module" src="dashboard.js"></script>
 </body>
 </html>

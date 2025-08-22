@@ -16,6 +16,9 @@ class NAVBAR{
     this.editBtn = this.editSection.querySelector(".DMeditbtn");
     this.companylogo = document.querySelector(".companyLogoContainer .CompanyLogo");
     this.welcomeBarname = document.querySelector(".welcomebar h3 span");
+    this.aboutusbtn = document.querySelector(".About_us");
+    this.aboutusbody = document.querySelector(".AboutUsTab");
+    this.aboutusback = document.querySelector(".Aboutbar i");
     this.Init();
     this.active = null;
     this.activeNav = null;
@@ -38,6 +41,12 @@ class NAVBAR{
         this.editBtn.addEventListener("click",()=>this.editProfile());
         this.companylogo.addEventListener("click",()=>{
             window.location.href = "/Home";
+        });
+        this.aboutusbtn.addEventListener("click",()=>{
+            this.aboutusdatashow()
+        });
+        this.aboutusback.addEventListener("click",()=>{
+            this.backaboutus();
         });
 
 
@@ -83,6 +92,16 @@ class NAVBAR{
     }
     hideAdminEdit(){
         this.editSection.style.right = "-20rem";
+        this.showdropmenu();
+    }
+
+    aboutusdatashow(){
+        this.aboutusbody.classList.add("slideback");
+        this.showdropmenu();
+    }
+
+    backaboutus(){
+        this.aboutusbody.classList.remove("slideback");
         this.showdropmenu();
     }
 
@@ -3106,11 +3125,11 @@ class RANDOMISATION3{
           divP2.className = `P2R3inner`;
           divP3.className = `P3R3inner`;
 
-          divPS.textContent = val.PS;
-          divP0.textContent = val.P0;
-          divP1.textContent = val.P1;
-          divP2.textContent = val.P2;
-          divP3.textContent = val.P3;
+        divPS.textContent = val.PS;
+        divP0.textContent = val.P0 + "("+ val.P0Name + ")";
+        divP1.textContent = val.P1 + "("+ val.P1Name + ")";
+        divP2.textContent = val.P2 + "("+ val.P2Name + ")";
+        divP3.textContent = val.P3 + "("+ val.P3Name + ")";
 
           psdiv.appendChild(divPS);
           P0div.appendChild(divP0);
@@ -3123,7 +3142,7 @@ class RANDOMISATION3{
         const extra = document.createElement("div");
         extra.className = `EXTRA5R3`;
         if(newblock.querySelector('.blocknameR3').textContent.trim() === ex.ElectionBlock){
-            extra.textContent = ex.Extra5Percent;
+            extra.textContent = ex.Extra5Percent + "("+ ex.extraDetails[0].EmployeeName + ")";
             extras.appendChild(extra);
         }
         });
@@ -3191,6 +3210,8 @@ async  startRandomisation3(){
                         container.remove();
                     }
                 });
+
+                console.log(data.block , data.randomisedata);
                 this.unsavedatacontainerR3.innerHTML += `
                      <div class="dynamicDataListR3 hidden">
                         <div class="R3ListHeadingContainer">
@@ -3263,10 +3284,10 @@ async  startRandomisation3(){
                     divP3.className = `P3R3inner`;
     
                     divPS.textContent = data.pollingStation;
-                    divP0.textContent = data.P0;
-                    divP1.textContent = data.P1;
-                    divP2.textContent = data.P2;
-                    divP3.textContent = data.P3;
+                    divP0.textContent = data.P0 + "("+ data.P0Name + ")";
+                    divP1.textContent = data.P1 + "("+ data.P1Name + ")";
+                    divP2.textContent = data.P2 + "("+ data.P2Name + ")";
+                    divP3.textContent = data.P3 + "("+ data.P3Name + ")";
     
                     psdiv.appendChild(divPS);
                     P0div.appendChild(divP0);
@@ -3274,11 +3295,11 @@ async  startRandomisation3(){
                     P2div.appendChild(divP2);
                     P3div.appendChild(divP3);
                 }); 
-                
+                console.log(data.extra);
                 data.extra.forEach((ex)=>{
                     const extra = document.createElement("div");
                     extra.className = `EXTRA5R3`;
-                    extra.textContent = ex;
+                    extra.textContent = ex.Extra5Percent + "("+ ex.extraDetails[0].EmployeeName + ")";
                     extra5percent.appendChild(extra);
                 });
                 this.saveddata = [{

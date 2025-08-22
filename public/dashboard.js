@@ -42,7 +42,7 @@ class TOPBAR{
         });
         this.aboutusback.addEventListener("click",()=>{
             this.backaboutus();
-        })
+        });
     }
 
     showdropmenu(){
@@ -294,7 +294,7 @@ class SIDENAV{
 }
 
 
-class SIGNUP{
+class CREATEEMPACCOUNT{
     constructor(){
         this.form = document.querySelector(".js_signup_form");
         this.pop = document.querySelector(".js_pop");
@@ -433,6 +433,16 @@ class SIGNUP{
         }
     }
 
+    ErrorMessage(errorid , adjacent , errormessage , color , position){
+            const error = document.createElement("p");
+            error.style.color = color;
+            error.style.margin = "0";
+            error.style.fontSize = "0.8rem";
+            error.id = errorid;
+            error.textContent = errormessage;
+            adjacent.insertAdjacentElement( position , error);
+    }
+
     validateSignupPassword() {
         let input = this.signupPassword.value;
         const conditions = [
@@ -450,18 +460,11 @@ class SIGNUP{
         if (input === ""){
             return;
         }
-
         const container = document.querySelector(".errorp")
         const failedCondition = conditions.find(cond => !cond.test);
         if (failedCondition && container) {
             // If there's a failed condition, display the error message
-            const error = document.createElement("p");
-            error.id = "signupError";
-            error.textContent = failedCondition.message;
-            error.style.color = "red";
-            error.style.margin = "0";
-            error.style.fontSize = "0.8rem";
-            container.insertAdjacentElement("afterend", error);
+            this.ErrorMessage("signupError" , container ,failedCondition.message , "red" , "afterend");
         }else{
         // password valid, so remove any old error message
         const existingError = document.querySelector("#signupError");
@@ -480,22 +483,20 @@ class SIGNUP{
         }
     
         const compare = document.querySelector(".compare");
-        const message = document.createElement("span");
-        message.id = "compareError";
-        message.style.margin = "0";
-        message.style.fontSize = "0.8rem";
+        let message = "";
+        let color = "";
+        
         if(cpass === ""){
             return;
         }
         if (value !== cpass) {
-            message.innerText = "Passwords do not match";
-            message.style.color = "red";
+            message = "Passwords do not match";
+            color = "red";
         } else {
-            message.innerText = "Passwords match ✓";
-            message.style.color = "green";
+            message = "Passwords match ✓";
+            color = "green";
         }
-    
-        compare.insertAdjacentElement("afterend", message);
+        this.ErrorMessage("compareError" , compare , message , color , "afterend" );
     }
 
     correctMobileNumber(num){
@@ -504,18 +505,16 @@ class SIGNUP{
         if(exist){
             exist.remove();
         }
-        const message = document.createElement("p");
-        message.id = "numberLength";
-        message.style.margin = "0";
-        message.style.fontSize = "0.8rem";
+        let message = "";
+        let color = "";
         if(number.length !== 10){
-            message.innerText = "mobile Number is not valid";
-            message.style.color = "red";
+            message = "mobile Number is not valid";
+            color = "red";
         }else{
-            message.innerText = "valid number ✓";
-            message.style.color = "green"
+            message = "valid number ✓";
+            color = "green"
         }
-        this.mobileNum.insertAdjacentElement("afterend",message);
+        this.ErrorMessage("numberLength" , this.mobileNum , message , color ,"afterend");
     }
     
     agelimit(age){
@@ -536,20 +535,17 @@ class SIGNUP{
 
             const oldError = document.querySelector("#error");
             if(oldError) oldError.remove();
-
-            const m = document.createElement("p");
-            m.id = "error";
-            m.style.margin = "0";
-            m.style.fontSize = "0.8rem";            
+            let m = "";
+            let color = "";        
             const container = document.querySelector(".js_dob");
             if(selectedyear > maxYear || selectedday >31 || selectedmonth > 11 || selectedyear < minYear || selectedday < 1 || selectedmonth < 0){
-                m.innerText = "sorry , your age is not valid";
-                m.style.color = "red";
+                m = "sorry , your age is not valid";
+                color = "red";
             }else{
-                m.innerText ="age is valid ✓";
-                m.style.color ="green";
+                m ="age is valid ✓";
+                color ="green";
             }
-            container.insertAdjacentElement("afterend",m);
+            this.ErrorMessage("error" , container , m , color ,"afterend");
         });
     }
 
@@ -557,20 +553,15 @@ class SIGNUP{
         const value = percentage.value;
         const existing = document.querySelector("#errorpercentage");
         if(existing)existing.remove(); 
-        const message = document.createElement("span");
-        message.id = "errorpercentage";
-        message.style.margin = 0;
-        message.style.fontSize = "0.8rem";
+        let message = "";
+        let color = "";
 
         if(value == ""){
-            message.remove();
         }else if(value <1 || value > 100){
-            message.innerText = "percentage(%) is not valid ";
-            message.style.color = "red";   
-        }else{
-             message.remove();
+            message = "percentage(%) is not valid ";
+            color = "red";   
         }
-        percentage.insertAdjacentElement("afterend",message);
+        this.ErrorMessage("errorpercentage" , percentage , message , color ,"afterend");
     }
 
 
@@ -578,21 +569,15 @@ class SIGNUP{
         const salary = pay.value;
         const existing = document.querySelector("#errorAmount");
         if(existing)existing.remove(); 
-        const message = document.createElement("span");
-        message.id = "errorAmount";
-        message.style.display = "flex";
-        message.style.margin = 0;
-        message.style.fontSize = "0.8rem";
+        let message = "";
+        let color = "";
 
         if(salary === ""){
-            message.remove();
         }else if(salary < 10000 || salary > 100000){
-            message.innerText = "not a valid salary";
-            message.style.color = "red";
-        }else{
-            message.remove();
+            message = "not a valid salary";
+            color = "red";
         }
-        pay.insertAdjacentElement("afterend", message);
+        this.ErrorMessage("errorAmount" , pay , message , color ,"afterend");
     }
 
     dorlimit(period){
@@ -611,24 +596,22 @@ class SIGNUP{
             const selectedmonth = new Date(selectedage).getMonth();
             const selectedday = new Date(selectedage).getDate()
 
-            const oldError = document.querySelector("#error");
+            const oldError = document.querySelector("#dorerror");
             if(oldError) oldError.remove();
 
-            const m = document.createElement("p");
-            m.id = "error";
-            m.style.margin = "0";
-            m.style.fontSize = "0.8rem";
+            let m = "";
+            let color = "";
 
             if(period.value === ""){
-                m.remove();
+
             }else if(selectedyear > maxYear || selectedday >31 || selectedmonth > 11 || selectedyear < minYear || selectedday < 1 || selectedmonth < 0){
-                m.innerText = "Retirement date is not Valid";
-                m.style.color = "red";
+                m = "Retirement date is not Valid";
+                color = "red";
             }else{
-                m.innerText ="date is valid ✓";
-                m.style.color ="green";
+                m ="date is valid ✓";
+                color ="green";
             }
-            period.insertAdjacentElement("afterend",m);
+             this.ErrorMessage("dorerror" , period , m , color ,"afterend");
         });
     }
     checkgenders(){
@@ -742,13 +725,7 @@ officelist(){
         if (oldError) oldError.remove();
 
         if (!isValid && userInput !== "") {
-            const error = document.createElement("span");
-            error.id = "officeError";
-            error.textContent = "Invalid Office, Please Select From Dropdown Below";
-            error.style.color = "red";
-            error.style.margin = "0";
-            error.style.fontSize = "0.8rem";
-            this.officeinput.insertAdjacentElement("afterend", error);
+            this.ErrorMessage("officeError" , this.officeinput , "Invalid Office, Please Select From Dropdown Below" , "red" ,"afterend");
             }
         } 
     });
@@ -760,27 +737,23 @@ ifsclimit(){
     if(excist){
         excist.remove();
     }
-    const message = document.createElement("span");
-    message.id = "ifscerror";
-    message.style.margin = "0";
-    message.style.fontSize = "0.8rem";
+    let message = "";
+    let color = "";
     if(this.ifsc.value === ""){
         this.signupBtn.disabled = true;
         return;
     }
     if(ifscLength.length !== 11){
         this.signupBtn.disabled = true;
-        message.innerText = "invalid IFSC Code";
-        message.style.color = "red";
+        message = "invalid IFSC Code";
+        color = "red";
     }else{
         this.signupBtn.disabled = false;
-        message.innerText = "valid IFSC Code ✓";
-        message.style.color = "green"
+        message= "valid IFSC Code ✓";
+        color = "green"
     }
-  
-    this.ifsc.insertAdjacentElement("afterend",message);
+    this.ErrorMessage("ifscerror" , this.ifsc , message , color ,"afterend");
 
-    
 }
 
 empDepartment(){
@@ -808,13 +781,7 @@ async disabilitycertificates(){
             const data =  response.data;
             if(data.success){
                 const container = document.querySelector(".certificate");
-                const error = document.createElement("span");
-                error.id = "officeError";
-                error.textContent = data.message;
-                error.style.color = "green";
-                error.style.margin = "0";
-                error.style.fontSize = "0.8rem";
-                container.insertAdjacentElement("beforeend", error);
+                this.ErrorMessage("officeError" , container , data.message , "green" ,"beforeend");
                 console.log(this.documentpath);
             }
         }catch(error){
@@ -830,7 +797,7 @@ async disabilitycertificates(){
 }
 
 async CreateEmpAccount(){
-      const oldErrors = document.querySelectorAll("#Error");
+      const oldErrors = document.querySelectorAll("#allError");
       oldErrors.forEach(e => e.remove());
       let isError = false;
       this.empform.forEach(field =>{
@@ -840,14 +807,7 @@ async CreateEmpAccount(){
         }
       });
       if(isError){
-         const error = document.createElement("span");
-            error.id = "Error";
-            error.textContent = `Please Fill All Of The Credentials`;
-            error.style.color = "red";
-            error.style.margin = "0";
-            error.style.fontSize = "1rem";
-            error.style.textAlign = "center";
-            this.signupBtn.insertAdjacentElement("beforebegin", error);
+            this.ErrorMessage("allError" , this.signupBtn , `Please Fill All Of The Credentials` , "red" ,"beforebegin");
         }else{
             try{
                 const userid = localStorage.getItem("userid");
@@ -1318,21 +1278,339 @@ async loadPublicPosts() {
         });
     }
 
-    renderFile(file) { 
-        if (file.endsWith(".pdf")) {
-            return `<a href="${file}"  target="_blank" class="attached-file">📄 View PDF</a>`;
-        }else if(file.endsWith(".jpeg") || file.endsWith(".jpg")){
-            return `<img src="${file}" class="attached-image" >`;
-        }else{
-            const frame = document.querySelector(".message-file");
-            frame.classList.add("hidden");
-        }
+renderFile(file) { 
+    if (file.endsWith(".pdf")) {
+        return `<a href="${file}" target="_blank" class="attached-file">📄 View PDF</a>`;
+    } else if (file.endsWith(".jpeg") || file.endsWith(".jpg") || file.endsWith(".png")) {
+        return `<img src="${file}" class="attached-image">`;
+    } else {
+        const frame = document.querySelector(".message-file");
+        frame.classList.add("hidden");
     }
+}
+
 
 
 }
 
-class PrivatePosts{
+class CHANGEDUTY{
+    constructor(){
+        this.ET = document.querySelector(".electionnameinput");
+        this.block = document.querySelector(".blockinput");
+        this.empcode = document.querySelector(".employeecodeinput");
+        this.searchbtn = document.querySelector(".EmpSearchbtn");
+        this.tableparent = document.querySelector(".showElectionDutiesPanel");
+        this.alertbg = document.querySelector(".alertbg");
+        this.closebtn = document.querySelector(".close_btn");
+        this.confirmbtn = document.querySelector(".confirm_btn");
+        this.alertmessage = document.querySelector(".alert_message");
+        this.alertheading = document.querySelector(".alert_heading");
+        this.alertpassword = document.querySelector(".alert_password");
+        this.pop = document.querySelector(".Popups");
+        this.actiontype = null;
+        this.actionhandlers = {
+            save : async () => {
+              await this.SaveNewCodeValue(this.newcode);
+            },
+            close : () =>{
+                this.alertbg.classList.add("hidden");
+                this.alertpassword.value = "";
+            }
+
+        }
+        this.init();
+    }
+
+    init(){
+        this.ET.addEventListener("change",()=>{
+            this.SelectElection(this.ET.value);
+            this.tableparent.innerHTML = "";
+            if(!this.searchbtn.disabled){
+                this.searchbtn.disabled = true;
+            }
+        });
+        this.block.addEventListener("change",()=>{
+                this.empcode.disabled = false;
+                this.empcode.value = "";
+        });
+        this.empcode.addEventListener("change",()=>{
+            this.searchbtn.disabled = false;
+            this.tableparent.innerHTML = "";
+        })
+        this.searchbtn.addEventListener('click',()=>this.showdynamicElectionList());
+        this.tableparent.addEventListener('click',async (event)=>{
+            if(event.target.classList.contains("innereditbtn")){
+                this.codeparent = this.tableparent.querySelector(".codecontentcontainer");
+                await this.showleftoverlist(this.codeparent);
+            }
+
+            if(event.target.classList.contains("crossmarking")){
+                const codecontainer = document.querySelector(".codecontentcontainer");
+                const dynamiccodelist = this.codeparent.querySelector(".dynamicuniqecodeparent");
+                const cross = codecontainer.querySelector(".crossmarking");
+                cross.remove();
+                dynamiccodelist.remove();
+                this.codeparent.innerHTML = `${this.empcode.value}<button class="editcodebtn"><i class="fa-solid fa-pen-to-square innereditbtn"></i></button>`
+            }
+
+            if (event.target.classList.contains("codescontainerchild")) {
+                this.newcode = event.target.textContent;
+                const codecontainer = document.querySelector(".codecontentcontainer");
+                const dynamiccodelist = this.codeparent.querySelector(".dynamicuniqecodeparent");
+                const cross = codecontainer.querySelector(".crossmarking");
+                const savebtn = this.tableparent.querySelector(".savechangebtn");
+                savebtn.disabled = false;
+                cross.remove();
+                dynamiccodelist.remove();
+                this.codeparent.innerHTML = `${this.newcode}<button class="editcodebtn"><i class="fa-solid fa-pen-to-square innereditbtn"></i></button>`
+            }
+
+            if(event.target.classList.contains("clearlistbtn")){
+                this.tableparent.innerHTML = "";
+                this.empcode.value = "";
+                this.ET.value = "";
+                this.block.value = "";
+                this.empcode.disabled = true;
+                this.block.disabled = true;
+                this.searchbtn.disabled = true;
+            }
+
+            if(event.target.classList.contains("savechangebtn")){
+                this.alertheading.innerText = ` Save Employee Profile Changes ?`;
+                this.alertmessage.innerText = `Are you sure you want to permanently Change Employee Code ? This action cannot be undone`;
+                this.actiontype = "save";
+                this.alertbg.classList.remove("hidden");
+                
+            }
+
+        });
+
+        this.closebtn.addEventListener("click",()=>{
+            this.alertpassword.value = "";
+            const err = document.querySelector("#alertError");
+            if(err){
+                err.remove();
+            }
+            this.alertbg.classList.add("hidden");
+        })
+        this.confirmbtn.addEventListener("click",()=>{
+            if(this.alertpassword.value === ""){
+                const err = document.querySelector("#alertError");
+                if(err){
+                    err.remove();
+                }
+                const error = document.createElement("p");
+                error.id = "alertError";
+                error.textContent = "First Please enter you Password";
+                error.style.color = "red";
+                error.style.margin = "0";
+                error.style.fontSize = "0.8rem";
+                error.style.width = "100%";
+                error.style.textAlign = "centre";
+                this.alertpassword.insertAdjacentElement("afterend",error);
+            }else{
+                const err = document.querySelector("#alertError");
+                if(err){
+                    err.remove();
+                }
+                this.callactionhandler(this.actiontype);
+            }
+        });
+    }
+
+    callactionhandler(action){
+        if(this.actionhandlers[action] && action !== null){
+            this.actionhandlers[action]();
+        }
+    }
+
+async SelectElection(election){
+        try {
+            this.block.innerHTML = `<option value="" disabled selected>Select Area Block</option>`;
+            const response = await axios.get("/blockList",{
+                params : {Election : election}
+            });
+            const data = response.data;
+            if(data.success){
+                this.empcode.disabled = true;
+                this.searchbtn.disabled = true;
+                const blockresult = data.result.map(val => val.ElectionBlocks);
+                blockresult.forEach((block)=>{
+                    this.block.innerHTML += `
+                    <option value="${block}">${block}</option>
+                    `
+                });
+                this.block.disabled = false; 
+            }
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+            }
+        }
+    }
+
+    async showdynamicElectionList(){
+        try {
+            const response = await axios.get("/getRandomizeEmpDetails",{
+                params : {
+                    ET : this.ET.value,
+                    block : this.block.value,
+                    code : this.empcode.value,
+                }
+            });
+
+            const data = response.data;
+            if(data.success){
+                this.post = data.result[0].MatchedColumn;  // this is your P0/P1/P2/P3
+                if(this.empcode.value !== ""){
+                    this.tableparent.innerHTML = "";
+
+                      if(data.result.length === 0){
+                        this.tableparent.innerHTML =`
+                        <h1 class = "nodatafoundmsg">No Data Found</h1>`;
+                        return;
+                        }
+                    data.result.forEach((data)=>{
+                        this.tableparent.innerHTML = `
+                            <div class="tablecontainer">
+                            <div class="electiontablecontainer">
+                                <div class="electionheading">
+                                    Election Name
+                                </div>
+                                <div class="electioncontentcontainer">
+                                ${data.ElectionName}
+                                </div>
+                            </div>
+                            <div class="blocktablecontainer">
+                                <div class="blockheading">
+                                    Block Name
+                                </div>
+                                <div class="blockcontentcontainer">
+                                ${data.ElectionBlock}
+                                </div>
+                            </div>
+                            <div class="pstablecontainer">
+                                <div class="psheading">
+                                    Polling Station Name
+                                </div>
+                                <div class="pscontentcontainer">
+                                ${data.PS}</div>
+                            </div>
+                            <div class="Designationtablecontainer">
+                                <div class="Designationheading">
+                                    Designation Name
+                                </div>
+                                <div class="Designationcontentcontainer">
+                                ${data.MatchedColumn}
+                                </div>
+                            </div>
+                            <div class="codetablecontainer">
+                                <div class="codeheading">
+                                    Employee Code
+                                </div>
+                                <div class="codecontentcontainer">
+                                    ${this.empcode.value}
+                                    <button class="editcodebtn"><i class="fa-solid fa-pen-to-square innereditbtn"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buttoncontainer">
+                            <button class="clearlistbtn">Clear</button>
+                            <button class="savechangebtn" disabled>Save</button>
+                        </div>
+                        `;
+                    });
+                }else{
+                    this.tableparent.innerHTML = "";
+                }
+              
+            }
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+                this.tableparent.innerHTML =`<h1 class = "nodatafoundmsg">No Data Found</h1>`;
+            }
+        }
+    }
+
+    async showleftoverlist(parent){
+        try {
+            const response = await axios.get("/getNonSelectedEmp",{
+                params : {
+                    ET : this.ET.value,
+                    block : this.block.value,
+                    p : this.post
+                }
+            });
+
+            const data = response.data;
+            if(data.success){
+                parent.innerHTML = "";
+                parent.innerHTML = `<div class = "dynamicuniqecodeparent"></div>`
+                const child = parent.querySelector(".dynamicuniqecodeparent");
+                data.codes.forEach((code)=>{
+                    child.innerHTML += `<span class = "codescontainerchild">${code}</span>`
+                });
+                const codecontainer = document.querySelector(".codecontentcontainer");
+                codecontainer.innerHTML += `${this.empcode.value}<button class="editcodebtn"><i class="fa-solid fa-xmark crossmarking"></i></button>`
+                parent.classList.remove("hidden");
+
+            }
+        } catch (error) {
+            if (error.response) {
+                console.log("Error:", error.response.data.message); // server responded with error
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+            }
+        }
+    }
+    
+    async SaveNewCodeValue(code){
+        try {
+            const id = localStorage.getItem("userid");
+            const response = await axios.post("/InsertManualEmpCode",{
+                ET : this.ET.value,
+                Block : this.block.value,
+                designation : this.post,
+                password : this.alertpassword.value,
+                id : id,
+                prevcode : this.empcode.value,
+                code
+            });
+
+            const data = response.data;
+            if(data.success){
+                this.empcode.value = data.code;
+                this.pop.textContent = data.message;
+                this.alertpassword.value = "";
+                this.alertbg.classList.add("hidden");
+                this.pop.style.opacity = "1";
+                setTimeout(() => {
+                    this.pop.style.opacity = "0";
+                }, 3000);
+            }
+        } catch (error) {
+            if (error.response) {
+                        console.log("Error:", error.response.data.message); // server responded with error
+                        const data = error.response?.data || { message: "Unknown error occurred." };
+                        console.log(data);
+                        this.alertheading.innerText = "Error Occurred";
+                        this.alertmessage.innerText = `${data.message}`;
+                        this.actiontype = "close";
+            } else {
+                console.log("Error:", error.message); // other errors (network etc.)
+                
+            }
+        }
+    }
+}
+
+
+class PRIVATEPOSTS{
     constructor(){
         this.parent = document.querySelector(".privatePosts .privatechats");
         this.actioncolor = null;
@@ -1435,24 +1713,24 @@ async loadPublicPosts() {
         });
     }
 
-    renderFile(file) { 
-        if (file.endsWith(".pdf")) {
-            return `<a href="${file}"  target="_blank" class="attached-file">📄 View PDF</a>`;
-        }else if(file.endsWith(".jpeg") || file.endsWith(".jpg")){
-            return `<img src="${file}" class="attached-image" >`;
-        }else{
-            const frame = document.querySelector(".message-file");
-            frame.classList.add("hidden");
-        }
+renderFile(file) { 
+    if (file.endsWith(".pdf")) {
+        return `<a href="${file}" target="_blank" class="attached-file">📄 View PDF</a>`;
+    } else if (file.endsWith(".jpeg") || file.endsWith(".jpg") || file.endsWith(".png")) {
+        return `<img src="${file}" class="attached-image">`;
+    } else {
+        const frame = document.querySelector(".message-file");
+        frame.classList.add("hidden");
     }
-
+}
 
 }
 
 new TOPBAR();
 new WELCOMEPAGE();
 new SIDENAV()
-new SIGNUP();
+new CREATEEMPACCOUNT();
 const viewempRelaod = new VIEWEMPLOYEE();
 new PublicPosts();
-new PrivatePosts();
+new CHANGEDUTY();
+new PRIVATEPOSTS();

@@ -146,6 +146,10 @@ class EDITPROFILE{
         });
         this.confirmbtn.addEventListener("click",()=>{
             if(this.alertpassword.value === ""){
+                const err = document.querySelector("#alertError");
+                if(err){
+                    err.remove();
+                }
                 const error = document.createElement("p");
                 error.id = "alertError";
                 error.textContent = "First Please enter you Password";
@@ -708,7 +712,6 @@ async deleteProfile(){
             });
                 try{
                 console.log(this)
-                console.log("hit try block");
                 const [firstName, ...rest] = this.fullName.value.split(" ");
                 const lastName = rest.join(" ");
                 const userid = localStorage.getItem("userid");

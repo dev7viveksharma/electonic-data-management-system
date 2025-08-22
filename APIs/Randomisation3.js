@@ -139,19 +139,53 @@ const randomisation2group = (ET, block , blockps ) =>{
     });
 }
 
-const extrapost = (ET , block) =>{
-     return new Promise((resolve , reject)=>{
-        connection.query(`select Extra5Percent from randomisation5percentextra1 where ElectionName = ? and ElectionBlock = ? ;`,[ET , block],(err,result)=>{
-            if(err)return reject(err);
+const extrapost = async (et , block) =>{
+     try {
+    const [rows] = await connection.promise().query(
+      `SELECT ElectionBlock, Extra5Percent 
+       FROM randomisation5percentextra1 
+       WHERE ElectionName = ? AND ElectionBlock = ?`,
+      [et , block]
+    );
 
-            const extra = result.map(val => val.Extra5Percent);
-            resolve(extra);
-        })
-    });
+    for (const row of rows) {
+      if (row.Extra5Percent) {
+        // Handle both single value and comma-separated multiple values
+        let codes = row.Extra5Percent;
+
+        if (typeof codes === "string") {
+          // If it's a string, split by comma into array
+          codes = codes.split(",").map(c => c.trim()).filter(Boolean);
+        } else if (!Array.isArray(codes)) {
+          // If it's a single non-string value, wrap in array
+          codes = [codes];
+        }
+
+        if (codes.length > 0) {
+          const [extraRows] = await connection.promise().query(
+            `SELECT Employee_code, CONCAT(Employee_FName, ' ', Employee_LName) AS EmployeeName
+             FROM employee_data
+             WHERE Employee_code IN (?)`,
+            [codes]
+          );
+          row.extraDetails = extraRows;
+        } else {
+          row.extraDetails = [];
+        }
+      } else {
+        row.extraDetails = [];
+      }
+    }
+
+    return rows;
+  } catch (err) {
+    console.error("Error in fetchextra:", err.message);
+    return [];
+  }
 }
 
-const startrandmisation3 = (ps , id , ET) =>{
-    return new Promise((resolve , reject)=>{
+const startrandmisation3 = (ps, id, ET) => {
+    return new Promise((resolve, reject) => {
         const shuffle = (arr) => {
             for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -160,31 +194,44 @@ const startrandmisation3 = (ps , id , ET) =>{
             return arr;
         };
 
-        const shuffledId  = shuffle([...id]);
-        const shuffledPs  = shuffle([...ps]);
+        const shuffledId = shuffle([...id]);
+        const shuffledPs = shuffle([...ps]);
 
-        connection.query(`select id , P0 , P1 , P2 , P3 from randomisation2 where ElectionName = ? and id In (?)`,[ET , shuffledId],(err,result)=>{
-            if(err) return reject(err);
+        // Join employee_data for names
+        const sql = `
+            SELECT r.id,
+                   r.P0, CONCAT(e0.Employee_FName, ' ', e0.Employee_LName) AS P0Name,
+                   r.P1, CONCAT(e1.Employee_FName, ' ', e1.Employee_LName) AS P1Name,
+                   r.P2, CONCAT(e2.Employee_FName, ' ', e2.Employee_LName) AS P2Name,
+                   r.P3, CONCAT(e3.Employee_FName, ' ', e3.Employee_LName) AS P3Name
+            FROM randomisation2 r
+            LEFT JOIN employee_data e0 ON r.P0 = e0.Employee_code
+            LEFT JOIN employee_data e1 ON r.P1 = e1.Employee_code
+            LEFT JOIN employee_data e2 ON r.P2 = e2.Employee_code
+            LEFT JOIN employee_data e3 ON r.P3 = e3.Employee_code
+            WHERE r.ElectionName = ? AND r.id IN (?)`;
 
-            const resultMap =  {};
+        connection.query(sql, [ET, shuffledId], (err, result) => {
+            if (err) return reject(err);
+
+            const resultMap = {};
             result.forEach(row => {
-                    resultMap[row.id] = row;
-                });
-
-            const Combined = shuffledId.map((id , index)=>{
-                const row = resultMap[id] || {};
-                    return {
-                        ...row,
-                        pollingStation: shuffledPs[index]
-                    };
+                resultMap[row.id] = row;
             });
 
+            const Combined = shuffledId.map((id, index) => {
+                const row = resultMap[id] || {};
+                return {
+                    ...row,
+                    pollingStation: shuffledPs[index]
+                };
+            });
+            
             resolve(Combined);
-           
         });
     });
-  
-}
+};
+
 
 
 
@@ -312,20 +359,31 @@ const getallids = (ET) =>{
 
 const getallgroupdata = async (ids, et) => {
   try {
-    const idList = ids.map(i => i.R2id); // extract list of IDs: ['101', '100', '99']
+    const idList = ids.map(i => i.R2id); // extract list of IDs
 
+    // Query with employee joins
     const [rows] = await connection.promise().query(
-      `SELECT id, P0, P1, P2, P3, ElectionBlock FROM randomisation2 WHERE ElectionName = ? AND id IN (?)`,
+      `SELECT r.id, r.ElectionBlock,
+              r.P0, CONCAT(e0.Employee_FName, ' ', e0.Employee_LName) AS P0Name,
+              r.P1, CONCAT(e1.Employee_FName, ' ', e1.Employee_LName) AS P1Name,
+              r.P2, CONCAT(e2.Employee_FName, ' ', e2.Employee_LName) AS P2Name,
+              r.P3, CONCAT(e3.Employee_FName, ' ', e3.Employee_LName) AS P3Name
+       FROM randomisation2 r
+       LEFT JOIN employee_data e0 ON r.P0 = e0.Employee_code
+       LEFT JOIN employee_data e1 ON r.P1 = e1.Employee_code
+       LEFT JOIN employee_data e2 ON r.P2 = e2.Employee_code
+       LEFT JOIN employee_data e3 ON r.P3 = e3.Employee_code
+       WHERE r.ElectionName = ? AND r.id IN (?)`,
       [et, idList]
     );
 
-    // Create a map from R2id to PS
+    // Create a map from R2id → PS
     const psMap = {};
     ids.forEach(item => {
       psMap[item.R2id] = item.PS;
     });
 
-    // Merge each matched row with the correct PS
+    // Merge PS into each row
     const mergedResults = rows.map(row => ({
       ...row,
       PS: psMap[row.id] || null
@@ -341,14 +399,49 @@ const getallgroupdata = async (ids, et) => {
 
 
 
-const fetchextra = (et) =>{
-    return new Promise((resolve , reject)=>{
-        connection.query(`select ElectionBlock , Extra5Percent from randomisation5percentextra1 where ElectionName = ? `,[et],(err , result)=>{
-            if(err) return reject(err);
+const fetchextra = async (et) => {
+  try {
+    const [rows] = await connection.promise().query(
+      `SELECT ElectionBlock, Extra5Percent 
+       FROM randomisation5percentextra1 
+       WHERE ElectionName = ?`,
+      [et]
+    );
 
-            resolve(result);
-        });
-    });
-}
+    for (const row of rows) {
+      if (row.Extra5Percent) {
+        // Handle both single value and comma-separated multiple values
+        let codes = row.Extra5Percent;
+
+        if (typeof codes === "string") {
+          // If it's a string, split by comma into array
+          codes = codes.split(",").map(c => c.trim()).filter(Boolean);
+        } else if (!Array.isArray(codes)) {
+          // If it's a single non-string value, wrap in array
+          codes = [codes];
+        }
+
+        if (codes.length > 0) {
+          const [extraRows] = await connection.promise().query(
+            `SELECT Employee_code, CONCAT(Employee_FName, ' ', Employee_LName) AS EmployeeName
+             FROM employee_data
+             WHERE Employee_code IN (?)`,
+            [codes]
+          );
+          row.extraDetails = extraRows;
+        } else {
+          row.extraDetails = [];
+        }
+      } else {
+        row.extraDetails = [];
+      }
+    }
+
+    return rows;
+  } catch (err) {
+    console.error("Error in fetchextra:", err.message);
+    return [];
+  }
+};
 
 module.exports = router;
